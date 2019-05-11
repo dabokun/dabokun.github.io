@@ -458,6 +458,9 @@ pre .deletion {
 #nav-search-btn:before {
   content: "\f002";
 }
+#nav-twitter-icon:before {
+  content: "tw.png";
+}
 #search-form-wrap {
   display: none;
   position: absolute;
