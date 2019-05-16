@@ -13,11 +13,13 @@
 <meta property="og:site_name" content="ほしよみ大学生のブログ">
 <meta property="og:description" content="注意: この記事は過去の記事を移行したものです． あいさつ　こんにちは．　今年前半は遊び呆けて，後半は研究と天体観測に行ったりしていたらもう年末ということで，2018年もあっという間に過ぎ去ってしまいますね．さて，今年ラストということで，自分の中で1年間溜め込んでいたことを，軽く書いておこうと思います．　9月と12月にはそれぞれ関東天文部勉強会や天体写真勉強会なるものがあり，そちらで発表したことで">
 <meta property="og:locale" content="ja">
-<meta property="og:updated_time" content="2019-05-15T17:05:58.059Z">
+<meta property="og:image" content="http://dabokun.github.io/images/favicon.png">
+<meta property="og:updated_time" content="2019-05-16T14:31:17.865Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="天体写真とその処理過程について【前編】">
 <meta name="twitter:description" content="注意: この記事は過去の記事を移行したものです． あいさつ　こんにちは．　今年前半は遊び呆けて，後半は研究と天体観測に行ったりしていたらもう年末ということで，2018年もあっという間に過ぎ去ってしまいますね．さて，今年ラストということで，自分の中で1年間溜め込んでいたことを，軽く書いておこうと思います．　9月と12月にはそれぞれ関東天文部勉強会や天体写真勉強会なるものがあり，そちらで発表したことで">
-<meta name="twitter:creator" content="@&#x2F;images&#x2F;favicon.png">
+<meta name="twitter:image" content="http://dabokun.github.io/images/favicon.png">
+<meta name="twitter:creator" content="@astr0dab0">
   
     <link rel="alternative" href="/atom.xml" title="ほしよみ大学生のブログ" type="application/atom+xml">
   
@@ -77,7 +79,7 @@
 	</header>
 	<div class="entry-content">
 		
-    	<p>注意: この記事は過去の記事を移行したものです．</p>
+    	<p><strong>注意: この記事は過去の記事を移行したものです．</strong><br><br><br></p>
 <h2 id="あいさつ"><a href="#あいさつ" class="headerlink" title="あいさつ"></a>あいさつ</h2><p>　こんにちは．<br>　今年前半は遊び呆けて，後半は研究と天体観測に行ったりしていたらもう年末ということで，2018年もあっという間に過ぎ去ってしまいますね．<br>さて，今年ラストということで，自分の中で1年間溜め込んでいたことを，軽く書いておこうと思います．<br>　9月と12月にはそれぞれ関東天文部勉強会や天体写真勉強会なるものがあり，そちらで発表したことです．これらの勉強会は非常に有意義なもので，他の人がなにを考えながら天体写真を撮影し，現像しているのかを垣間見ることができて良かったと思います．それと同様に，私が一年間何を考えていたのかを書き留めておくことは，悪いことではないと考えるのです．</p>
 <a id="more"></a>
 <h2 id="大学でのことについて"><a href="#大学でのことについて" class="headerlink" title="大学でのことについて"></a>大学でのことについて</h2><p>　本題に入る前にですが，前回の記事で私が大学で何を学んでいるのかを書き忘れてしまったのでそちらの方に触れておこうと思います．<br>私は大学では所謂コンピュータ可視化（Computer Visualization）やコンピュータグラフィックス（Computer Graphics）の諸技術について，そしてそれらを工学的にどのように活かすのかということを学んでいます．メインは前者の可視化の方です．可視化というのは，簡単に言えば数値的なデータをいかに見やすく提示するかということで，天体写真を撮っている方なら，<a href="https://www.windy.com/" target="_blank" rel="noopener">Windy.com</a>や<a href="http://weather-gpv.info/" target="_blank" rel="noopener">GPV</a>みたいなものを想像していただければわかりやすいかなと思います．あのようなツールでは，気圧等の観測データの数値をもとに風が流線で表示されたり，気温をもとにヒートマップで色がついていたりしますよね．ああいうものが可視化です．<br>その中で，「これは天体写真にも活かせる」というものを今年一年かけて気づいたので，その話を2回に分けてしたいと思います．</p>
@@ -92,6 +94,7 @@
 <h2 id="解決しようと思う人はいる"><a href="#解決しようと思う人はいる" class="headerlink" title="解決しようと思う人はいる"></a>解決しようと思う人はいる</h2><p>　これを解決しようという動きはあります．ステライメージを見てみると，7から，「ワークフロー」の機能が追加されています．自分がかけた処理の記録を見たり，順番を変えてその違いを確認したりすることができます．ですが，この機能はあくまで「1ライン」上でしか動きません．順番を変えられると書かれているということは，つまりはそういうことで，処理過程は一本の直線とみなされています．天体写真の編集は一本の直線でしょうか？たとえばRGBに分解して，Rにだけ処理をかけて，もとの画像と合成するなどという処理があった場合，それを一本の直線で記述することは適切でしょうか？Hαのフレームを別に用意して，あるチャンネルと合成するという処理を，一本の直線でふつう記述しますか？しませんよね？<br>したがって，私は，ステライメージのワークフロー機能はかなり評価できるとは思いますが，完全ではないと考えています．</p>
 <p>　次回，どうすれば解決できるのかという私なりの考えを示します．</p>
 <p>なにか，コメントやご意見のあるかたはここでもTwitterでもいいので，お願いします．震えて待ちます．</p>
+<p>追記:後半は<a href="/2019/03/15/00000005-astrophoto-and-processing-2/">こちら</a>になります</p>
 
     
 	</div>
@@ -115,11 +118,11 @@
     
 <nav id="article-nav">
   
-    <a href="/2019/05/11/hello/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/12/31/00000002-review-outing-2018/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          ブログを移行します &amp; はじめまして
+          2018年の遠征を振り返る【前編】
         
       </div>
     </a>
