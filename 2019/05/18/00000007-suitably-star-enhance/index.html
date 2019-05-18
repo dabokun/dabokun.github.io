@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>よしなにスターエンハンスしてみる | ほしよみ大学生のブログ</title>
+  <meta name="viewport" content="width=device-width">
+  <meta name="description" content="あいさつこんにちは．先日行ったあいあい岬で撮影したアンタレス付近を編集していて，こんなことをやってみましたので，その紹介記事です．">
+<meta name="keywords" content="天体写真,OpenCV,画像処理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="よしなにスターエンハンスしてみる">
+<meta property="og:url" content="http://dabokun.github.io/2019/05/18/00000007-suitably-star-enhance/index.html">
+<meta property="og:site_name" content="ほしよみ大学生のブログ">
+<meta property="og:description" content="あいさつこんにちは．先日行ったあいあい岬で撮影したアンタレス付近を編集していて，こんなことをやってみましたので，その紹介記事です．">
+<meta property="og:locale" content="ja">
+<meta property="og:image" content="http://dabokun.github.io/images/favicon.png">
+<meta property="og:updated_time" content="2019-05-18T11:07:37.036Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="よしなにスターエンハンスしてみる">
+<meta name="twitter:description" content="あいさつこんにちは．先日行ったあいあい岬で撮影したアンタレス付近を編集していて，こんなことをやってみましたので，その紹介記事です．">
+<meta name="twitter:image" content="http://dabokun.github.io/images/favicon.png">
+<meta name="twitter:creator" content="@astr0dab0">
+  
+    <link rel="alternative" href="/atom.xml" title="ほしよみ大学生のブログ" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+</head></html>
+<body>
+  <div id="container">
+    <div class="mobile-nav-panel">
+	<i class="icon-reorder icon-large"></i>
+</div>
+<header id="header">
+	<h1 class="blog-title">
+		<a href="/">ほしよみ大学生のブログ</a>
+	</h1>
+	<nav class="nav">
+		<ul>
+			<li><a href="/">Home</a></li><li><a href="/categories">Categories</a></li><li><a href="/tags">Tags</a></li><li><a href="/archives">Archives</a></li><li><a href="/about">About</a></li><li><a href="/work">Work</a></li>
+			<li><a id="nav-search-btn" class="nav-icon" title="Search"></a></li>
+			<li><a href="https://github.com/dabokun"><img src="https://dabokun.github.io/images/GitHub-Mark-120px-plus.png" width="18" height="18"></a></li>
+			<li><a href="https://twitter.com/astr0dab0"><img src="https://dabokun.github.io/images/tw.png" width="18" height="18"></a></li>
+			<li><a href="/atom.xml" id="nav-rss-link" class="nav-icon" title="RSS Feed"></a></li>
+		</ul>
+	</nav>
+	<div id="search-form-wrap">
+		<form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://dabokun.github.io"></form>
+	</div>
+</header>
+    <div id="main">
+      <article id="post-00000007-suitably-star-enhance" class="post">
+	<footer class="entry-meta-header">
+		<span class="meta-elements date">
+			<a href="/2019/05/18/00000007-suitably-star-enhance/" class="article-date">
+  <time datetime="2019-05-18T10:18:56.000Z" itemprop="datePublished">2019-05-18</time>
+</a>
+		</span>
+		<span class="meta-elements author">astr0dab0</span>
+		<div class="commentscount">
+			
+				<a href="http://dabokun.github.io/2019/05/18/00000007-suitably-star-enhance/#disqus_thread" class="article-comment-link">Comments</a>
+			
+		</div>
+	</footer>
+	
+	<header class="entry-header">
+		
+  
+    <h1 class="article-title entry-title" itemprop="name">
+      よしなにスターエンハンスしてみる
+    </h1>
+  
+
+	</header>
+	<div class="entry-content">
+		
+    	<h3 id="あいさつ"><a href="#あいさつ" class="headerlink" title="あいさつ"></a>あいさつ</h3><p>こんにちは．先日行ったあいあい岬で撮影したアンタレス付近を編集していて，こんなことをやってみましたので，その紹介記事です．<br><div class="twitter-wrapper"><blockquote class="twitter-tweet"><a href="https://twitter.com/astr0dab0/status/1125091343800254464" target="_blank" rel="noopener"></a></blockquote></div><script async defer src="//platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+<a id="more"></a>
+<h3 id="モチベーション"><a href="#モチベーション" class="headerlink" title="モチベーション"></a>モチベーション</h3><p>Twitterでフォローしている<a href="https://twitter.com/pochomskii" target="_blank" rel="noopener">nagahiro</a>さんの<a href="http://snct-astro.hatenadiary.jp/entry/2019/05/16/083952" target="_blank" rel="noopener">こちら</a>の記事を見て，初めて”Ringing”という名前がついていることを知ったのですが，これは天体写真を編集しているとよくある現象です．例えば，Ps，Lrの「明るさの最小値」やSI8の「スターシャープ」をかけて星雲を強調しているとよく起こるのですが，微光星の周りが暗く落ち込んでしまうということが起きます．画面上で見たり小さい写真用紙に印刷する時はあまり気になりませんが，A4写真用紙等に印刷すると主に星雲の中でかなり気になるレベルで影響が出てきます（僕の場合だけかもしれませんが笑）．</p>
+<h3 id="手法"><a href="#手法" class="headerlink" title="手法"></a>手法</h3><p>nagahiroさんはこれをハイパスを使って，かなりうまく補正していますね．私はそういった前提知識がなかったので，別の方法を考えてみました．具体的には以下の通りです．</p>
+<ul>
+<li>星雲の中の微光星を見た時，その輝度や彩度は内側から「微光星（めっちゃ明るい，彩度低）」→「Ringing（暗い，彩度低）」→「星雲（微光星ほどではないが明るく，かつ彩度が高い）」のようになっている，という仮定をおきます．</li>
+<li>よって，テキトーなフィルタを使って周辺のピクセルを使って埋めてやる（何回か繰り返す）．</li>
+<li>具体的にはRingingが起こっているピクセルを中心とした5×5のフィルタで，彩度が高いピクセルトップ9くらいを選んで，その平均をとってやる．</li>
+</ul>
+<p>とまあこんな感じになります．それでは実装していきます．</p>
+<h3 id="プログラム"><a href="#プログラム" class="headerlink" title="プログラム"></a>プログラム</h3><p>実装にはC++（Visual Studio 2017に入ってるコンパイラ）とOpenCVを使います．OpenCVの導入については「<a href="https://qiita.com/h-adachi/items/aad3401b8900438b2acd" target="_blank" rel="noopener">OpenCV 4.1.0をVisual Studio 2019から使用する時の手順</a>」あたりを参考にどうぞ．</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"stdafx.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;opencv2/opencv.hpp&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sstream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> cv;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> INF 10000000</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>* argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">string</span> filename = <span class="string">"input.tif"</span>;</span><br><span class="line">    Mat image = imread(filename, <span class="number">2</span> | <span class="number">4</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//画像読込み</span></span><br><span class="line">    <span class="keyword">if</span> (image.data == <span class="literal">NULL</span>) &#123; </span><br><span class="line">        <span class="built_in">cerr</span> &lt;&lt; <span class="string">"Error: Couldn't read file "</span> &lt;&lt; filename &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">	</span><br><span class="line">    <span class="keyword">int</span> xsize = image.cols;</span><br><span class="line">    <span class="keyword">int</span> ysize = image.rows;</span><br><span class="line">    <span class="keyword">int</span> th = <span class="number">10000</span>; <span class="comment">//輝度のスレッショルド</span></span><br><span class="line"></span><br><span class="line">    Mat output = Mat::zeros(ysize, xsize, CV_16UC3); <span class="comment">//16bit tifの場合こう</span></span><br><span class="line">    <span class="keyword">double</span> sat[<span class="number">5</span>][<span class="number">5</span>] = &#123; <span class="number">0.0</span> &#125;; <span class="comment">//彩度</span></span><br><span class="line">    <span class="keyword">int</span> rank[<span class="number">5</span>][<span class="number">5</span>] = &#123; <span class="number">0</span> &#125;; <span class="comment">//彩度のランク(大きいほど明るい)</span></span><br><span class="line">    ushort maxc, minc;</span><br><span class="line">    maxc = -INF, minc = INF;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> t = <span class="number">0</span>; t &lt; <span class="number">30</span>; t++) &#123; <span class="comment">//30回操作</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; ysize; j++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; xsize; i++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (image.at&lt;Vec3w&gt;(j, i)[<span class="number">0</span>] &lt; th  &amp;&amp; image.at&lt;Vec3w&gt;(j, i)[<span class="number">1</span>] &lt; th &amp;&amp; image.at&lt;Vec3w&gt;(j, i)[<span class="number">2</span>] &lt; th &amp;&amp; j &gt; <span class="number">2</span> &amp;&amp; i &gt; <span class="number">2</span> &amp;&amp; j &lt; ysize - <span class="number">2</span> &amp;&amp; i &lt; xsize - <span class="number">2</span>) &#123; <span class="comment">//Ringingが起きているなら</span></span><br><span class="line">                    <span class="keyword">int</span> lc, mc;</span><br><span class="line">                    <span class="keyword">for</span> (lc = <span class="number">0</span>; lc &lt; <span class="number">5</span>; lc++) &#123;</span><br><span class="line">                        <span class="keyword">for</span> (mc = <span class="number">0</span>; mc &lt; <span class="number">5</span>; mc++) &#123;</span><br><span class="line">                            rank[lc][mc] = <span class="number">0</span>;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                    lc = mc = <span class="number">0</span>;</span><br><span class="line">                    <span class="comment">// 周辺画素の彩度を計算</span></span><br><span class="line">                    <span class="keyword">for</span> (<span class="keyword">int</span> l = j - <span class="number">2</span>; l &lt;= j + <span class="number">2</span>; l++) &#123;</span><br><span class="line">                        <span class="keyword">for</span> (<span class="keyword">int</span> m = i - <span class="number">2</span>; m &lt;= i + <span class="number">2</span>; m++) &#123;</span><br><span class="line">                            maxc = max(image.at&lt;Vec3w&gt;(l, m)[<span class="number">0</span>], image.at&lt;Vec3w&gt;(l, m)[<span class="number">1</span>]);</span><br><span class="line">                            minc = min(image.at&lt;Vec3w&gt;(l, m)[<span class="number">0</span>], image.at&lt;Vec3w&gt;(l, m)[<span class="number">1</span>]);</span><br><span class="line">                            maxc = max(maxc, image.at&lt;Vec3w&gt;(l, m)[<span class="number">2</span>]);</span><br><span class="line">                            minc = min(minc, image.at&lt;Vec3w&gt;(l, m)[<span class="number">2</span>]);</span><br><span class="line">                            sat[lc][mc] = maxc == <span class="number">0</span> ? <span class="number">0</span> : ((<span class="keyword">double</span>)(maxc - minc) / (<span class="keyword">double</span>)maxc);</span><br><span class="line">                            mc++;</span><br><span class="line">                        &#125;</span><br><span class="line">                        lc++;</span><br><span class="line">                        mc = <span class="number">0</span>;</span><br><span class="line">                        maxc = -INF, minc = INF;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="comment">// 彩度でランキング</span></span><br><span class="line">                    <span class="keyword">for</span> (lc = <span class="number">0</span>; lc &lt; <span class="number">5</span>; lc++) &#123;</span><br><span class="line">                        <span class="keyword">for</span> (mc = <span class="number">0</span>; mc &lt; <span class="number">5</span>; mc++) &#123;</span><br><span class="line">                            <span class="keyword">for</span> (<span class="keyword">int</span> lcc = <span class="number">0</span>; lcc &lt; <span class="number">5</span>; lcc++) &#123;</span><br><span class="line">                                <span class="keyword">for</span> (<span class="keyword">int</span> mcc = <span class="number">0</span>; mcc &lt; <span class="number">5</span>; mcc++) &#123;</span><br><span class="line">                                    <span class="keyword">if</span> (!(lc == lcc &amp;&amp; mc == mcc) &amp;&amp; sat[lc][mc] &gt; sat[lcc][mcc]) &#123;</span><br><span class="line">                                        rank[lc][mc]++;</span><br><span class="line">                                    &#125;</span><br><span class="line">                                &#125;</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    lc = mc = <span class="number">0</span>;</span><br><span class="line">                    <span class="comment">// フィルタを使って，周辺画素から置換</span></span><br><span class="line">                    <span class="keyword">for</span> (<span class="keyword">int</span> l = j - <span class="number">2</span>; l &lt;= j + <span class="number">2</span>; l++) &#123;</span><br><span class="line">                        <span class="keyword">for</span> (<span class="keyword">int</span> m = i - <span class="number">2</span>; m &lt;= i + <span class="number">2</span>; m++) &#123;</span><br><span class="line">                            <span class="keyword">if</span> (rank[lc][mc] &gt;= <span class="number">16</span>) &#123;</span><br><span class="line">                                <span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; <span class="number">3</span>; k++) &#123;</span><br><span class="line">                                    output.at&lt;Vec3w&gt;(j, i)[k] += image.at&lt;Vec3w&gt;(l, m)[k] / <span class="number">9</span>;</span><br><span class="line">                                &#125;</span><br><span class="line">                            &#125;</span><br><span class="line">                            mc++;</span><br><span class="line">                        &#125;</span><br><span class="line">                        mc = <span class="number">0</span>;</span><br><span class="line">                        lc++;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;<span class="keyword">else</span> &#123; <span class="comment">//Ringingが起きていなければ無視</span></span><br><span class="line">                    output.at&lt;Vec3w&gt;(j, i)[<span class="number">0</span>] = image.at&lt;Vec3w&gt;(j, i)[<span class="number">0</span>];</span><br><span class="line">                    output.at&lt;Vec3w&gt;(j, i)[<span class="number">1</span>] = image.at&lt;Vec3w&gt;(j, i)[<span class="number">1</span>];</span><br><span class="line">                    output.at&lt;Vec3w&gt;(j, i)[<span class="number">2</span>] = image.at&lt;Vec3w&gt;(j, i)[<span class="number">2</span>];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    imwrite(<span class="string">"output.tif"</span>, output);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="結果"><a href="#結果" class="headerlink" title="結果"></a>結果</h3><p>結果は冒頭のツイートの通りで，落込みの完全解消までには至りませんでしたが，SI8のスターエンハンスに比べ，微光星の主張が激しすぎず，かつ周辺の彩度を保ったまま落込みを補完することができたんじゃないかなあと思います．画面上ではあまり違いが分かりませんが，この後少し微調整して印刷したところ，かなり有効だということがわかりました．</p>
+<h3 id="得られた知見と感想"><a href="#得られた知見と感想" class="headerlink" title="得られた知見と感想"></a>得られた知見と感想</h3><p>プログラムについてですが，16bit tiff形式を読書きするやり方がわからず少し時間を使いました．imreadの引数や行列の定義はプログラムの通りですし，画素へのアクセスはimage.at<vec3w>(y, x)[k]でいけるっぽいです．<br>上記のプログラムで何回か(30回)フィルタをかませていますが，繰り返してもあまり意味がありませんでした．それと，今回は輝度だけでRingingが起きている画素かを判断していて，これはよくないですね．例えば暗黒星雲をRingingが起きている画素と判断し，暗黒星雲のある部分だけ明るくなってしまうということが起きました．ハイパスを使ったやり方も楽しそうなので，原理を勉強しつつ今後実装したいと考えています．</vec3w></p>
+
+    
+	</div>
+	<footer class="entry-footer">
+		<div class="entry-meta-footer">
+			<span class="category">
+				
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/processing/">画像処理</a>
+  </div>
+
+			</span>
+			<span class="tags">
+				
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/opencv/">OpenCV</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/astrophotography/">天体写真</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/processing/">画像処理</a></li></ul>
+
+			</span>
+		</div>
+	</footer>
+	
+    
+<nav id="article-nav">
+  
+    <a href="/2999/12/31/99999999-notice/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          お知らせ
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/05/11/hello/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">
+        
+          ブログを移行します &amp; はじめまして
+        
+      </div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+    </div>
+    <div class="mb-search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="q" value="site:dabokun.github.io">
+  </form>
+</div>
+<footer id="footer">
+	<h1 class="footer-blog-title">
+		<a href="/">ほしよみ大学生のブログ</a>
+	</h1>
+	<span class="copyright">
+		&copy; 2019 astr0dab0<br>
+		Modify from <a href="http://sanographix.github.io/tumblr/apollo/" target="_blank">Apollo</a> theme, designed by <a href="http://www.sanographix.net/" target="_blank">SANOGRAPHIX.NET</a><br>
+		Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+	</span>
+</footer>
+    
+<script>
+  var disqus_shortname = 'astr0dab0';
+  
+  var disqus_url = 'http://dabokun.github.io/2019/05/18/00000007-suitably-star-enhance/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div>
+</body>
+</html>
