@@ -14,7 +14,7 @@
 <meta property="og:description" content="あいさつこんにちは．先日行ったあいあい岬で撮影したアンタレス付近を編集していて，こんなことをやってみましたので，その紹介記事です．">
 <meta property="og:locale" content="ja">
 <meta property="og:image" content="http://dabokun.github.io/images/favicon.png">
-<meta property="og:updated_time" content="2019-05-18T14:48:09.373Z">
+<meta property="og:updated_time" content="2019-05-18T14:52:05.121Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="よしなにスターエンハンスしてみる">
 <meta name="twitter:description" content="あいさつこんにちは．先日行ったあいあい岬で撮影したアンタレス付近を編集していて，こんなことをやってみましたので，その紹介記事です．">
@@ -95,7 +95,7 @@
 <p>処理前<br><img src="beforeprocess.jpg" alt></p>
 <p>処理後<br><img src="afterprocess.jpg" alt></p>
 <p>いかがでしょうか，黒く落ちすぎている部分が，周りの星雲の色でもって塗られていることがわかりますね．</p>
-<h3 id="得られた知見と感想"><a href="#得られた知見と感想" class="headerlink" title="得られた知見と感想"></a>得られた知見と感想</h3><p>プログラムについてですが，16bit tiff形式を読書きするやり方がわからず少し時間を使いました．imreadの引数や行列の定義はプログラムの通りですし，画素へのアクセスはimage.at<vec3w>(y, x)[k]でいけるっぽいです．<br>上記のプログラムで何回か(30回)フィルタをかませていますが，繰り返してもあまり意味がありませんでした．それと，今回は輝度だけでRingingが起きている画素かを判断していて，これはよくないですね．例えば暗黒星雲をRingingが起きている画素と判断し，暗黒星雲のある部分だけ明るくなってしまうということが起きました（以下画像参照）．<br><img src="effect_to_dark_nebula.jpg" alt></vec3w></p>
+<h3 id="得られた知見と感想"><a href="#得られた知見と感想" class="headerlink" title="得られた知見と感想"></a>得られた知見と感想</h3><p>プログラムについてですが，16bit tiff形式を読書きするやり方がわからず少し時間を使いました．imreadの引数や行列の定義はプログラムの通りですし，画素へのアクセスはimage.at&lt;Vec3w&gt;(y, x)[k]でいけるっぽいです．<br>上記のプログラムで何回か(30回)フィルタをかませていますが，繰り返してもあまり意味がありませんでした．それと，今回は輝度だけでRingingが起きている画素かを判断していて，これはよくないですね．例えば暗黒星雲をRingingが起きている画素と判断し，暗黒星雲のある部分だけ明るくなってしまうということが起きました（以下画像参照）．<br><img src="effect_to_dark_nebula.jpg" alt></p>
 <p>ハイパスを使ったやり方も楽しそうなので，原理を勉強しつつ今後実装したいと考えています．</p>
 
     
