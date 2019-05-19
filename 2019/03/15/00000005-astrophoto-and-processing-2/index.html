@@ -14,7 +14,7 @@
 <meta property="og:description" content="注意: この記事は過去の記事を移行したものです． あいさつこんにちは．先程日本天文学会での発表を終えてきましたので，その内容を簡単にまとめておきたいと思います．そして，だいぶ前の記事天体写真とその処理過程について【前編】の伏線をここで回収したいと思います．なぜこのタイミングなのか？それは読み進めて行けばわかります笑">
 <meta property="og:locale" content="ja">
 <meta property="og:image" content="http://dabokun.github.io/images/favicon.png">
-<meta property="og:updated_time" content="2019-05-16T14:09:47.681Z">
+<meta property="og:updated_time" content="2019-05-19T06:42:32.698Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="天体写真とその処理過程について【後編】">
 <meta name="twitter:description" content="注意: この記事は過去の記事を移行したものです． あいさつこんにちは．先程日本天文学会での発表を終えてきましたので，その内容を簡単にまとめておきたいと思います．そして，だいぶ前の記事天体写真とその処理過程について【前編】の伏線をここで回収したいと思います．なぜこのタイミングなのか？それは読み進めて行けばわかります笑">
@@ -79,6 +79,12 @@
 	</header>
 	<div class="entry-content">
 		
+	
+		<div id="toc" class="toc-article">
+			<p class="toc-title">目次</p>
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#あいさつ"><span class="toc-number">1.</span> <span class="toc-text">あいさつ</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#発表内容"><span class="toc-number">2.</span> <span class="toc-text">発表内容</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#背景"><span class="toc-number">2.1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#提案手法（AFLAK）"><span class="toc-number">2.2.</span> <span class="toc-text">提案手法（AFLAK）</span></a></li></ol></li></ol>
+		</div>
+	
     	<p><strong>注意: この記事は過去の記事を移行したものです．</strong><br><br><br></p>
 <h3 id="あいさつ"><a href="#あいさつ" class="headerlink" title="あいさつ"></a>あいさつ</h3><p>こんにちは．先程日本天文学会での発表を終えてきましたので，その内容を簡単にまとめておきたいと思います．そして，だいぶ前の記事<br><a href="/2018/12/28/00000001-astrophoto-and-processing/"><strong>天体写真とその処理過程について【前編】</strong></a><br>の伏線をここで回収したいと思います．なぜこのタイミングなのか？それは読み進めて行けばわかります笑</p>
 <a id="more"></a>
@@ -96,7 +102,9 @@
 <p>ここで，例えばslice_one_frameノードの中のパラメタを変更すると，フレームの画像はすぐに更新されます．これがユーザに対する迅速なフィードバックです．<font color="red"><strong>また，解析自体の内容はこのグラフの構造自体が持っています．このようなグラフ構造をデータとして保存するのはさほど難しくはないです．</strong></font></p>
 <p>…さて，発表ではこのあと私が実装した少し複雑な解析例を提示し，天文学者が解析したものと同様の結果が出ましたということを言って，その他の解析例や課題を示して終わったわけです．</p>
 <p>で，この研究に携わり始めた頃から，ずっと自分の中で考えていたことがあるんです．<br><br><br><br><br></p>
-<h1 id="……これ，天体写真の画像処理にもめちゃくちゃ使えるのでは？"><a href="#……これ，天体写真の画像処理にもめちゃくちゃ使えるのでは？" class="headerlink" title=" ……これ，天体写真の画像処理にもめちゃくちゃ使えるのでは？"></a><font color="red"> ……これ，天体写真の画像処理にもめちゃくちゃ使えるのでは？</font></h1><p>重要なのは，私が先程から赤で書いている部分，<br>「<font color="red"><strong>解析そのものの内容の管理が容易となる．</strong></font>」という部分です．これの「<font color="red"><strong>解析</strong></font>」を「<font color="red"><strong>現像</strong></font>」と読み替えると，理解していただけるのではないでしょうか．私が<a href="/2018/12/28/00000001-astrophoto-and-processing/">前回の記事</a>で指摘した内容を簡単にまとめるとこうです．</p>
+<font color="red"> ……これ，天体写真の画像処理にもめちゃくちゃ使えるのでは？</font>
+
+<p>重要なのは，私が先程から赤で書いている部分，<br>「<font color="red"><strong>解析そのものの内容の管理が容易となる．</strong></font>」という部分です．これの「<font color="red"><strong>解析</strong></font>」を「<font color="red"><strong>現像</strong></font>」と読み替えると，理解していただけるのではないでしょうか．私が<a href="/2018/12/28/00000001-astrophoto-and-processing/">前回の記事</a>で指摘した内容を簡単にまとめるとこうです．</p>
 <ul>
 <li>編集過程は天体写真において，それが科学であろうと芸術であろうと重要ではないか．</li>
 <li>にも関わらず，編集過程を管理している人は限りなく少ない．</li>
