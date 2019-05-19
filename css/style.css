@@ -793,8 +793,17 @@ pre .deletion {
   float: left;
   margin-right: 10px;
 }
-.article-tag-list-item:before {
-  content: "#";
+.toc {
+  font-size: 1rem;
+  border: solid 2px #808080;
+  line-height: 2;
+}
+.toc li {
+  background: #efefef;
+  list-style: none;
+}
+.toc li:before {
+  content: "";
 }
 .article-gallery {
   background: #000;

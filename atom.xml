@@ -61,9 +61,9 @@
     
       <category term="天体写真" scheme="http://dabokun.github.io/tags/astrophotography/"/>
     
-      <category term="OpenCV" scheme="http://dabokun.github.io/tags/opencv/"/>
-    
       <category term="画像処理" scheme="http://dabokun.github.io/tags/processing/"/>
+    
+      <category term="OpenCV" scheme="http://dabokun.github.io/tags/opencv/"/>
     
   </entry>
   
