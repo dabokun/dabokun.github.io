@@ -42,32 +42,6 @@
   </entry>
   
   <entry>
-    <title>hoge</title>
-    <link href="http://dabokun.github.io/2019/05/21/hoge/"/>
-    <id>http://dabokun.github.io/2019/05/21/hoge/</id>
-    <published>2019-05-21T08:55:10.000Z</published>
-    <updated>2019-05-21T08:56:07.501Z</updated>
-    
-    <content type="html"><![CDATA[<p>test</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;test&lt;/p&gt;
-
-      
-    
-    </summary>
-    
-      <category term="遠征記" scheme="http://dabokun.github.io/categories/expedition/"/>
-    
-    
-      <category term="その他" scheme="http://dabokun.github.io/tags/others/"/>
-    
-  </entry>
-  
-  <entry>
     <title>よしなにスターエンハンスしてみる</title>
     <link href="http://dabokun.github.io/2019/05/18/00000007-suitably-star-enhance/"/>
     <id>http://dabokun.github.io/2019/05/18/00000007-suitably-star-enhance/</id>
@@ -90,28 +64,6 @@
       <category term="画像処理" scheme="http://dabokun.github.io/tags/processing/"/>
     
       <category term="OpenCV" scheme="http://dabokun.github.io/tags/opencv/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>PixInsight Reference Documentationを読む</title>
-    <link href="http://dabokun.github.io/2019/05/18/00000006-read-pi-docs/"/>
-    <id>http://dabokun.github.io/2019/05/18/00000006-read-pi-docs/</id>
-    <published>2019-05-17T15:21:16.000Z</published>
-    <updated>2019-05-17T15:24:29.797Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
-    
-      <category term="画像処理" scheme="http://dabokun.github.io/categories/processing/"/>
-    
-    
-      <category term="写真" scheme="http://dabokun.github.io/tags/photography/"/>
-    
-      <category term="天体写真" scheme="http://dabokun.github.io/tags/astrophotography/"/>
-    
-      <category term="画像処理" scheme="http://dabokun.github.io/tags/processing/"/>
     
   </entry>
   
