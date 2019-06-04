@@ -42,6 +42,34 @@
   </entry>
   
   <entry>
+    <title>Rustのrawloader Crateを使ってみる</title>
+    <link href="http://dabokun.github.io/2019/06/04/00000009-rust-raw-loader-crate/"/>
+    <id>http://dabokun.github.io/2019/06/04/00000009-rust-raw-loader-crate/</id>
+    <published>2019-06-04T10:06:01.000Z</published>
+    <updated>2019-06-04T10:06:39.073Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="あいさつ"><a href="#あいさつ" class="headerlink" title="あいさつ"></a>あいさつ</h3><p>こんにちは．最近の新月期の土日はなかなかぱっとしない天気ですね．こんな時は遠征記でも書きたいのですが，タイミング的にまだ違うと思ったので，代わりの記事になります．今流行り（？）のRustを使った小ネタです．</p><a id="more"></a><h3 id="Rustとは"><a href="#Rustとは" class="headerlink" title="Rustとは"></a>Rustとは</h3><p>Rustについて言及するのはこのブログでは初めてですが，<a href="https://www.rust-lang.org/" target="_blank" rel="noopener">Rust</a>とは，FireFox等を開発するMozillaによる比較的新しいプログラミング言語です．メモリ安全性，C,C++等の言語が吐くバイナリに匹敵する速度，安全性によってもたらされる並行性などに焦点をあてながら開発されており，現在人気の高いプログラミング言語の一つになっています．実は私の研究で開発に携わっているフレームワークはこの言語で開発されています．</p><h3 id="rawloader-Crateとは"><a href="#rawloader-Crateとは" class="headerlink" title="rawloader Crateとは"></a>rawloader Crateとは</h3><p>Crateというのは他の言語でいうところのライブラリのようなものです．crates.ioというページで公開されていて，このCrateがあることで，プログラムの依存ライブラリの管理が容易になっています．その中で，rawloader crateはその名の通り，様々なカメラ製品から出力されるRaw画像や，付随するメタデータを読み込むためのライブラリです．著作権は<a href="https://github.com/pedrocr" target="_blank" rel="noopener">pedrocr氏</a>にあります．Python等でも同様のライブラリはあるようですが，Rustではこれくらいしかなさそうなので，実際に読み込んで遊んでみたいと思います．</p><h3 id="実際にRawを読んでみる"><a href="#実際にRawを読んでみる" class="headerlink" title="実際にRawを読んでみる"></a>実際にRawを読んでみる</h3><p>githubにあるサンプルプログラム通りに書いてみますが，自分の場合Canon EOS 6Dから出力されるRaw画像を扱うので，ほんのちょっと工夫が必要です．<br>以下がプログラムです．</p><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// main.rs</span></span><br><span class="line"><span class="comment">// c.f. https://github.com/pedrocr/rawloader</span></span><br><span class="line"><span class="keyword">use</span> std::env;</span><br><span class="line"><span class="keyword">use</span> std::fs::File;</span><br><span class="line"><span class="keyword">use</span> std::io::prelude::*;</span><br><span class="line"><span class="keyword">use</span> std::io::BufWriter;</span><br><span class="line"></span><br><span class="line"><span class="keyword">extern</span> <span class="keyword">crate</span> rawloader;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fn</span> <span class="title">main</span></span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> args: <span class="built_in">Vec</span>&lt;_&gt; = env::args().collect();</span><br><span class="line">    <span class="keyword">if</span> args.len() != <span class="number">2</span> &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">"Usage: &#123;&#125; [file]"</span>, args[<span class="number">0</span>]);</span><br><span class="line">        std::process::exit(<span class="number">2</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> file = &amp;args[<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">let</span> image = rawloader::decode_file(file).unwrap();</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">"&#123;&#125;"</span>, image.make);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">"&#123;&#125;"</span>, image.model);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">"&#123;&#125;, &#123;&#125;"</span>, image.width, image.height);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">"&#123;&#125;"</span>, image.cpp);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut</span> f = BufWriter::new(File::create(<span class="built_in">format!</span>(<span class="string">"&#123;&#125;.ppm"</span>, file)).unwrap());</span><br><span class="line">    <span class="keyword">let</span> preamble = <span class="built_in">format!</span>(<span class="string">"P3\n&#123;&#125; &#123;&#125;\n&#123;&#125;\n"</span>, image.width, image.height, <span class="number">16383</span>).into_bytes(); <span class="comment">//.CR2 -&gt; 14bit</span></span><br><span class="line">    f.write_all(&amp;preamble).unwrap();</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut</span> counter = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">let</span> rawloader::RawImageData::Integer(data) = image.data &#123;</span><br><span class="line">        <span class="keyword">for</span> pix <span class="keyword">in</span> data &#123;</span><br><span class="line">            <span class="comment">// interpret data as RG/GB Bayer Array</span></span><br><span class="line">            <span class="keyword">if</span> (counter / image.width) % <span class="number">2</span> == <span class="number">0</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (counter - (counter / image.width) * image.width) % <span class="number">2</span> == <span class="number">0</span> &#123;</span><br><span class="line">                    <span class="keyword">let</span> d = <span class="built_in">format!</span>(<span class="string">"&#123;&#125; 0 0\n"</span>, pix).into_bytes();</span><br><span class="line">                    f.write_all(&amp;d).unwrap();</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="keyword">let</span> d = <span class="built_in">format!</span>(<span class="string">"0 &#123;&#125; 0\n"</span>, pix).into_bytes();</span><br><span class="line">                    f.write_all(&amp;d).unwrap();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (counter - (counter / image.width) * image.width) % <span class="number">2</span> == <span class="number">0</span> &#123;</span><br><span class="line">                    <span class="keyword">let</span> d = <span class="built_in">format!</span>(<span class="string">"0 &#123;&#125; 0\n"</span>, pix).into_bytes();</span><br><span class="line">                    f.write_all(&amp;d).unwrap();</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="keyword">let</span> d = <span class="built_in">format!</span>(<span class="string">"0 0 &#123;&#125;\n"</span>, pix).into_bytes();</span><br><span class="line">                    f.write_all(&amp;d).unwrap();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            counter += <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        eprintln!(<span class="string">"Don't know how to process non-integer raw files"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>if let rawloader::RawImageData::Integer(data) = image.data<br>で画像データ(image.data)を新しいデータ(data)に束縛しています．image.dataの型はrawloader::RawImageDataで，これをInteger(Vec&lt;u16&gt;)と解釈します．なのでInteger(data)のdataの型はVec&lt;u16&gt;ですね．他にも，ドキュメンテーションを見るとRawImageDataはFloat(Vec&lt;f32&gt;)もサポートしているっぽいです．<br>6Dのデータは14bitなので，1画素あたり0～16383までの値が16bitのメモリ領域に収まっています．あとはこれをベイヤー配列の色(RG/GB)に変換して，書き出しています．もしこれを単に値として書き出して，プリアンブル部をP3からP2(グレースケール)とすれば単に輝度のモノクロベイヤー配列が得られるでしょう．出力形式は今のところ理解しやすいようにテキスト(PNMフォーマット)なので容量はめっちゃ増えます(20MB→100MBくらい)．</p><h3 id="使い方"><a href="#使い方" class="headerlink" title="使い方"></a>使い方</h3><p>ビルドして，<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ [binary file] [raw file]</span><br></pre></td></tr></table></figure></p><p>しばらく待つと[raw file].ppmができます．</p><h3 id="結果"><a href="#結果" class="headerlink" title="結果"></a>結果</h3><p>テキトーなRawを突っ込んでGIMPで開いてみました．いい感じですね．</p><p>GIMP（上記プログラムから吐かれた.ppmファイル）<br><img src="gimp.jpg" alt="gimp"><br>一つわからないのが，画像左と上に謎の暗部ができてしまっていることです．どうやら上記プログラムでサイズ（image.widthとimage.height）が正しく読めていないっぽいのですが，理由がよくわかりません．</p><p>SI8（元の.CR2ファイル）<br><img src="si8.jpg" alt="si8"></p><p>ベイヤー(GIMPで開いた画像を拡大)<br><img src="bayer.jpg" alt="bayer"></p><p>ちゃんとベイヤー配列も得られていることがわかりますね．</p><h3 id="TODO-デモザイクもしてみる"><a href="#TODO-デモザイクもしてみる" class="headerlink" title="TODO! デモザイクもしてみる"></a>TODO! デモザイクもしてみる</h3><p>ベイヤーデータが得られたのでデモザイキングをすればカラー画像に変換できそうです．今後やってみたいと思います．</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;あいさつ&quot;&gt;&lt;a href=&quot;#あいさつ&quot; class=&quot;headerlink&quot; title=&quot;あいさつ&quot;&gt;&lt;/a&gt;あいさつ&lt;/h3&gt;&lt;p&gt;こんにちは．最近の新月期の土日はなかなかぱっとしない天気ですね．こんな時は遠征記でも書きたいのですが，タイミング的にまだ違うと思ったので，代わりの記事になります．今流行り（？）のRustを使った小ネタです．&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="画像処理" scheme="http://dabokun.github.io/categories/processing/"/>
+    
+    
+      <category term="写真" scheme="http://dabokun.github.io/tags/photography/"/>
+    
+      <category term="カメラ" scheme="http://dabokun.github.io/tags/camera/"/>
+    
+      <category term="画像処理" scheme="http://dabokun.github.io/tags/processing/"/>
+    
+      <category term="Rust" scheme="http://dabokun.github.io/tags/rust/"/>
+    
+  </entry>
+  
+  <entry>
     <title>よしなに画像の四隅を切り出してみる</title>
     <link href="http://dabokun.github.io/2019/05/28/00000008-suitably-corner-make/"/>
     <id>http://dabokun.github.io/2019/05/28/00000008-suitably-corner-make/</id>
@@ -60,9 +88,9 @@
       <category term="画像処理" scheme="http://dabokun.github.io/categories/processing/"/>
     
     
-      <category term="天体写真" scheme="http://dabokun.github.io/tags/astrophotography/"/>
-    
       <category term="画像処理" scheme="http://dabokun.github.io/tags/processing/"/>
+    
+      <category term="天体写真" scheme="http://dabokun.github.io/tags/astrophotography/"/>
     
       <category term="OpenCV" scheme="http://dabokun.github.io/tags/opencv/"/>
     
@@ -86,9 +114,9 @@
       <category term="画像処理" scheme="http://dabokun.github.io/categories/processing/"/>
     
     
-      <category term="天体写真" scheme="http://dabokun.github.io/tags/astrophotography/"/>
-    
       <category term="画像処理" scheme="http://dabokun.github.io/tags/processing/"/>
+    
+      <category term="天体写真" scheme="http://dabokun.github.io/tags/astrophotography/"/>
     
       <category term="OpenCV" scheme="http://dabokun.github.io/tags/opencv/"/>
     
@@ -140,9 +168,9 @@
     
       <category term="写真" scheme="http://dabokun.github.io/tags/photography/"/>
     
-      <category term="天体写真" scheme="http://dabokun.github.io/tags/astrophotography/"/>
-    
       <category term="画像処理" scheme="http://dabokun.github.io/tags/processing/"/>
+    
+      <category term="天体写真" scheme="http://dabokun.github.io/tags/astrophotography/"/>
     
       <category term="SI8" scheme="http://dabokun.github.io/tags/si8/"/>
     
@@ -257,9 +285,9 @@
     
       <category term="写真" scheme="http://dabokun.github.io/tags/photography/"/>
     
-      <category term="天体写真" scheme="http://dabokun.github.io/tags/astrophotography/"/>
-    
       <category term="画像処理" scheme="http://dabokun.github.io/tags/processing/"/>
+    
+      <category term="天体写真" scheme="http://dabokun.github.io/tags/astrophotography/"/>
     
       <category term="SI8" scheme="http://dabokun.github.io/tags/si8/"/>
     

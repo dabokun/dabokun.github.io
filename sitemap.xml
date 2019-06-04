@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://dabokun.github.io/2019/06/04/00000009-rust-raw-loader-crate/</loc>
+    
+    <lastmod>2019-06-04T10:06:39.073Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dabokun.github.io/tags/index.html</loc>
+    
+    <lastmod>2019-06-04T10:04:38.523Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://dabokun.github.io/2019/05/28/00000008-suitably-corner-make/</loc>
     
     <lastmod>2019-05-28T13:44:28.913Z</lastmod>
@@ -19,13 +33,6 @@
     <loc>http://dabokun.github.io/2019/05/18/00000007-suitably-star-enhance/</loc>
     
     <lastmod>2019-05-19T04:54:12.266Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://dabokun.github.io/tags/index.html</loc>
-    
-    <lastmod>2019-05-18T11:09:26.508Z</lastmod>
     
   </url>
   
