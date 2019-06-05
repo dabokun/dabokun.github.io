@@ -63,7 +63,7 @@
 		<span class="meta-elements author">astr0dab0</span>
 		<div class="commentscount">
 			
-				<a href="http://dabokun.github.io/2019/06/04/00000009-rust-raw-loader-crate/#disqus_thread" class="article-comment-link">Comments</a>
+			<a href="http://dabokun.github.io/2019/06/04/00000009-rust-raw-loader-crate/#disqus_thread" class="article-comment-link">Comments</a>
 			
 		</div>
 	</footer>
@@ -79,13 +79,13 @@
 	</header>
 	<div class="entry-content">
 		
-	
+		
 		<div id="toc" class="toc-article">
 			<p class="toc-title">目次</p>
 			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#あいさつ"><span class="toc-number">1.</span> <span class="toc-text">あいさつ</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Rustとは"><span class="toc-number">2.</span> <span class="toc-text">Rustとは</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#rawloader-Crateとは"><span class="toc-number">3.</span> <span class="toc-text">rawloader Crateとは</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#実際にRawを読んでみる"><span class="toc-number">4.</span> <span class="toc-text">実際にRawを読んでみる</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使い方"><span class="toc-number">5.</span> <span class="toc-text">使い方</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#結果"><span class="toc-number">6.</span> <span class="toc-text">結果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TODO-デモザイクもしてみる"><span class="toc-number">7.</span> <span class="toc-text">TODO! デモザイクもしてみる</span></a></li></ol>
 		</div>
-	
-    	<h3 id="あいさつ"><a href="#あいさつ" class="headerlink" title="あいさつ"></a>あいさつ</h3><p>こんにちは．最近の新月期の土日はなかなかぱっとしない天気ですね．こんな時は遠征記でも書きたいのですが，タイミング的にまだ違うと思ったので，代わりの記事になります．今流行り（？）のRustを使った小ネタです．</p>
+		
+		<h3 id="あいさつ"><a href="#あいさつ" class="headerlink" title="あいさつ"></a>あいさつ</h3><p>こんにちは．最近の新月期の土日はなかなかぱっとしない天気ですね．こんな時は遠征記でも書きたいのですが，タイミング的にまだ違うと思ったので，代わりの記事になります．今流行り（？）のRustを使った小ネタです．</p>
 <a id="more"></a>
 <h3 id="Rustとは"><a href="#Rustとは" class="headerlink" title="Rustとは"></a>Rustとは</h3><p>Rustについて言及するのはこのブログでは初めてですが，<a href="https://www.rust-lang.org/" target="_blank" rel="noopener">Rust</a>とは，FireFox等を開発するMozillaによる比較的新しいプログラミング言語です．メモリ安全性，C,C++等の言語が吐くバイナリに匹敵する速度，安全性によってもたらされる並行性などに焦点をあてながら開発されており，現在人気の高いプログラミング言語の一つになっています．実は私の研究で開発に携わっているフレームワークはこの言語で開発されています．</p>
 <h3 id="rawloader-Crateとは"><a href="#rawloader-Crateとは" class="headerlink" title="rawloader Crateとは"></a>rawloader Crateとは</h3><p>Crateというのは他の言語でいうところのライブラリのようなものです．crates.ioというページで公開されていて，このCrateがあることで，プログラムの依存ライブラリの管理が容易になっています．その中で，rawloader crateはその名の通り，様々なカメラ製品から出力されるRaw画像や，付随するメタデータを読み込むためのライブラリです．著作権は<a href="https://github.com/pedrocr" target="_blank" rel="noopener">pedrocr氏</a>にあります．Python等でも同様のライブラリはあるようですが，Rustではこれくらいしかなさそうなので，実際に読み込んで遊んでみたいと思います．</p>
@@ -101,8 +101,12 @@
 <p>ちゃんとベイヤー配列も得られていることがわかりますね．</p>
 <h3 id="TODO-デモザイクもしてみる"><a href="#TODO-デモザイクもしてみる" class="headerlink" title="TODO! デモザイクもしてみる"></a>TODO! デモザイクもしてみる</h3><p>ベイヤーデータが得られたのでデモザイキングをすればカラー画像に変換できそうです．今後やってみたいと思います．</p>
 
-    
+		
 	</div>
+	<footer class="article-footer">
+		<a href="https://twitter.com/intent/tweet?text=Rust%E3%81%AErawloader%20Crate%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E3%81%BF%E3%82%8B｜%E3%81%BB%E3%81%97%E3%82%88%E3%81%BF%E5%A4%A7%E5%AD%A6%E7%94%9F%E3%81%AE%E3%83%96%E3%83%AD%E3%82%B0&url=http://dabokun.github.io/2019/06/04/00000009-rust-raw-loader-crate/" class="twitter-share-button" target="_blank" title="Twitter"></a>
+		<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+	</footer>
 	<footer class="entry-footer">
 		<div class="entry-meta-footer">
 			<span class="category">
@@ -112,7 +116,7 @@
   </div>
 
 			</span>
-			<span class="tags">
+			<span class=" tags">
 				
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/rust/">Rust</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/camera/">カメラ</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/photography/">写真</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/processing/">画像処理</a></li></ul>
 
@@ -120,7 +124,7 @@
 		</div>
 	</footer>
 	
-    
+	
 <nav id="article-nav">
   
     <a href="/2019/06/05/00000010-hoshinavi-2019-07/" id="article-nav-newer" class="article-nav-link-wrap">
@@ -144,16 +148,17 @@
   
 </nav>
 
-  
+	
 </article>
 
 
 
 
 <section id="comments">
-  <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-  </div>
+	<div id="disqus_thread">
+		<noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by
+				Disqus.</a></noscript>
+	</div>
 </section>
 
     </div>
