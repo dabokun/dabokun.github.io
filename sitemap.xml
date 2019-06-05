@@ -2,16 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://dabokun.github.io/2019/06/04/00000009-rust-raw-loader-crate/</loc>
+    <loc>http://dabokun.github.io/2019/06/05/00000010-hoshinavi-2019-07/</loc>
     
-    <lastmod>2019-06-04T10:06:39.073Z</lastmod>
+    <lastmod>2019-06-05T05:14:02.616Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://dabokun.github.io/tags/index.html</loc>
     
-    <lastmod>2019-06-04T10:04:38.523Z</lastmod>
+    <lastmod>2019-06-05T05:13:51.496Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dabokun.github.io/2019/06/04/00000009-rust-raw-loader-crate/</loc>
+    
+    <lastmod>2019-06-04T10:06:39.073Z</lastmod>
     
   </url>
   
