@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://dabokun.github.io/2019/05/11/hello/</loc>
+    
+    <lastmod>2019-07-05T04:17:00.271Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://dabokun.github.io/others/index.html</loc>
     
-    <lastmod>2019-06-23T15:21:26.039Z</lastmod>
+    <lastmod>2019-07-05T04:16:17.888Z</lastmod>
     
   </url>
   
@@ -12,13 +19,6 @@
     <loc>http://dabokun.github.io/2019/06/23/00000014-abc-131/</loc>
     
     <lastmod>2019-06-23T03:57:06.693Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://dabokun.github.io/2019/06/20/13/</loc>
-    
-    <lastmod>2019-06-20T10:49:19.985Z</lastmod>
     
   </url>
   
@@ -117,13 +117,6 @@
     <loc>http://dabokun.github.io/categories/index.html</loc>
     
     <lastmod>2019-05-16T13:37:39.919Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://dabokun.github.io/2019/05/11/hello/</loc>
-    
-    <lastmod>2019-05-12T12:53:13.525Z</lastmod>
     
   </url>
   
