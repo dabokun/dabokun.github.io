@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://dabokun.github.io/others/index.html</loc>
+    
+    <lastmod>2019-08-21T11:36:55.597Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://dabokun.github.io/2019/08/05/00000018-2019-08-03-amagi/</loc>
     
     <lastmod>2019-08-05T04:53:54.736Z</lastmod>
@@ -12,13 +19,6 @@
     <loc>http://dabokun.github.io/2019/08/02/00000017-starnet-first-impression/</loc>
     
     <lastmod>2019-08-05T03:30:18.997Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://dabokun.github.io/others/index.html</loc>
-    
-    <lastmod>2019-07-12T04:34:27.355Z</lastmod>
     
   </url>
   
