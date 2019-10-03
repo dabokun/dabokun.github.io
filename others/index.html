@@ -14,7 +14,7 @@
 <meta property="og:description" content="読了論文リスト天文+可視化 Spherical Panoramas for Astrophysical Data Visualization- 著者: Brian R. Kent- 発表年: 2017- Publications of the Astronomical Society of the Pacific, Volume 129, Number 975- doi: https://doi.">
 <meta property="og:locale" content="ja">
 <meta property="og:image" content="http://dabokun.github.io/others/card.jpg">
-<meta property="og:updated_time" content="2019-08-21T11:36:55.597Z">
+<meta property="og:updated_time" content="2019-10-03T06:08:17.785Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="others（個人的メモ）">
 <meta name="twitter:description" content="読了論文リスト天文+可視化 Spherical Panoramas for Astrophysical Data Visualization- 著者: Brian R. Kent- 発表年: 2017- Publications of the Astronomical Society of the Pacific, Volume 129, Number 975- doi: https://doi.">
@@ -112,9 +112,16 @@
 
 <details><summary>Representations of World Cordinates in FITS</summary><br>- 著者: E. W. Greisen, M. R. Calabretta<br>- doi: <a href="https://doi.org/10.1051/0004-6361:20021326" target="_blank" rel="noopener">https://doi.org/10.1051/0004-6361:20021326</a><br>- 内容: 天文学で広く使用される規約に基づいたFITSデータの世界座標を記述するための拡張の提案．球面座標→2次元平面の投影やこれを周波数，波長，速度座標に適用する．<br>- 新規性:<br>- メイン:<br>- 有効性の検証:<br>- 課題:<br>- what’s next?-&gt;Paper II, III, IV<br></details>
 
-<h5 id="イメージ系"><a href="#イメージ系" class="headerlink" title="イメージ系"></a>イメージ系</h5><h3 id="C"><a href="#C" class="headerlink" title="C++"></a>C++</h3><h3 id="Rust"><a href="#Rust" class="headerlink" title="Rust"></a>Rust</h3><ul>
+<h5 id="イメージ系"><a href="#イメージ系" class="headerlink" title="イメージ系"></a>イメージ系</h5><h5 id="ボリューム系"><a href="#ボリューム系" class="headerlink" title="ボリューム系"></a>ボリューム系</h5><details><summary>Volume Catcher</summary><br>- 著者: Shigeru Owada, Frank Nielsen, Takeo Igarashi<br>- 発表年: 2005<br>- 掲載誌: Proceeding I3D ‘05 Proceedings of the 2005 symposium on Interactive 3D graphics and games, Pages 111-116<br>- doi: <a href="https://doi.org./10.1145/1053427.1053445" target="_blank" rel="noopener">https://doi.org./10.1145/1053427.1053445</a><br>- 内容: ボリュームデータの特定の領域(ROI)の，ユーザのシルエット指定による取得．<br>- 新規性: ボリュームデータセグメントに対する情報提供の軽減(ユーザ負担の軽減)．具体的には，ユーザはシルエット指定(一部だけでもよい)だけで基本的に済む．<br>- メイン: 主にアルゴリズムについて(4章)．まず，シルエットからビュー方向にスイープサーフェスを生成する．これをxy平面(xはビュー方向，yはストロークに平行な方向)にパラメタライズし，いくつかのサンプリングポイントL_ijを設定する．このL_ijに対し，どれだけシルエットっぽく見えるかという係数S_ij=N_ij*G_ijを計算．Nは法線，Gは体積勾配を表す．xy平面において，y=1からy=Y_maxまで，このシルエット係数の合計を最大化するような点のパスを生成する．パスはy=f(x)と表され，なるべく連続性が高まるような条件が科されている．この問題を解くにはDPを利用する．ストロークが閉じている場合は，y=1における連続条件も科されるので少し遅くなる．<br>- 有効性の検証: 高ポテンシャル鉄タンパク質データセットとチョコレートのデータセットに本システムを適用．3人の被験者にそれぞれのデータセットに対して20回，セグメンテーションの課題を与えて評価．なおここにはセグメンテーションの時間は含まれていない(あくまで三次元パスを生成するまでの段階ということかな)．選択するセグメンテーションアルゴリズムによって色々変わるっぽいが，[Nock and Nielsen 2004a]のアルゴリズムではデータサイズや制約に応じて0.5-10秒とのこと．<br>- 課題: 視点からの輪郭がほぼ同じ2つ以上のオブジェクトを切り出せない(1つしか無理)．ROIが薄すぎる場合や，位置情報を考慮すると失敗する可能性がある(後者は現在のセグメンテーションアルゴリズムが色情報しか考慮していないため)．選択範囲を考慮した伝達関数の自動調整．snake[Pfister et al. 2001]のような他のセグメンテーションアルゴリズムで試してみる．<br>- what’s next?-&gt; 上述したセグメンテーションアルゴリズムとかかな．<br></details>
+
+<details><summary>Interactive Volume Segmentation with Threshold Field Painting</summary><br>- 著者: Takeo Igarashi, Naoyuki Shono, Taichi Kin, Toki Saito<br>- 発表年:<br>- 掲載誌:<br>- doi:<br>- 内容:<br>- 新規性:<br>- メイン:<br>- 有効性の検証:<br>- 課題:<br>- 関連ツール:<br>- what’s next?-&gt;<br></details>
+
+<h3 id="C"><a href="#C" class="headerlink" title="C++"></a>C++</h3><h3 id="Rust"><a href="#Rust" class="headerlink" title="Rust"></a>Rust</h3><ul>
 <li><a href="https://qiita.com/lo48576/items/34887794c146042aebf1" target="_blank" rel="noopener">Rustのイテレータの網羅的かつ大雑把な紹介(Qiita)</a></li>
-<li><a href="http://nercury.github.io/rust/opengl/tutorial/2018/02/08/opengl-in-rust-from-scratch-00-setup.html" target="_blank" rel="noopener">Rust and OpenGL from scratch</a><h3 id="Hexo"><a href="#Hexo" class="headerlink" title="Hexo"></a>Hexo</h3><h3 id="アルゴリズム"><a href="#アルゴリズム" class="headerlink" title="アルゴリズム"></a>アルゴリズム</h3><h3 id="XPS-13-関係"><a href="#XPS-13-関係" class="headerlink" title="XPS 13 関係"></a>XPS 13 関係</h3>XPS 13 9350において，スリープへ移行からぴったり3時間後に勝手にスリープから復帰し，カバンの中で発熱したりといった問題に定期的に悩まされてる．こうなるとスリープしたり休止状態にしたり，果てにはシャットダウンしても勝手に起動して非常に厄介．毎回調べるのは面倒なので，使えそうな見つけたWebサイトを以下に列挙しておく．</li>
+<li><a href="http://nercury.github.io/rust/opengl/tutorial/2018/02/08/opengl-in-rust-from-scratch-00-setup.html" target="_blank" rel="noopener">Rust and OpenGL from scratch</a></li>
+</ul>
+<h3 id="Hexo"><a href="#Hexo" class="headerlink" title="Hexo"></a>Hexo</h3><h3 id="アルゴリズム"><a href="#アルゴリズム" class="headerlink" title="アルゴリズム"></a>アルゴリズム</h3><h3 id="XPS-13-関係"><a href="#XPS-13-関係" class="headerlink" title="XPS 13 関係"></a>XPS 13 関係</h3><p>XPS 13 9350において，スリープへ移行からぴったり3時間後に勝手にスリープから復帰し，カバンの中で発熱したりといった問題に定期的に悩まされてる．こうなるとスリープしたり休止状態にしたり，果てにはシャットダウンしても勝手に起動して非常に厄介．毎回調べるのは面倒なので，使えそうな見つけたWebサイトを以下に列挙しておく．</p>
+<ul>
 <li><a href="http://siriuth.blogspot.com/2015/10/blog-post.html" target="_blank" rel="noopener">システムは低電力状態から再開しました。(Siriuth’s Diary)</a></li>
 <li><a href="https://taiyakisun.hatenablog.com/entry/20140815/1408072937" target="_blank" rel="noopener">Windowsでスリープ・休止状態・スタンバイなどの状態が勝手に解除されてしまう現象の回避方法(結果だけでなく過程も見てください)</a></li>
 <li><a href="http://reviews.f-tools.net/Trouble/Del-Reboot.html" target="_blank" rel="noopener">タスクスケジューラのRebootを削除・無効する方法</a></li>
