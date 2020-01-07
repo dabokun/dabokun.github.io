@@ -496,9 +496,9 @@
     
       <category term="写真" scheme="http://dabokun.github.io/tags/photography/"/>
     
-      <category term="カメラ" scheme="http://dabokun.github.io/tags/camera/"/>
-    
       <category term="画像処理" scheme="http://dabokun.github.io/tags/processing/"/>
+    
+      <category term="カメラ" scheme="http://dabokun.github.io/tags/camera/"/>
     
       <category term="Rust" scheme="http://dabokun.github.io/tags/rust/"/>
     
