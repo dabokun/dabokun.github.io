@@ -42,11 +42,39 @@
   </entry>
   
   <entry>
+    <title>天体画像処理研究会第一回オンラインミーティング</title>
+    <link href="http://dabokun.github.io/2020/12/06/00000043-asimproc-2020-12/"/>
+    <id>http://dabokun.github.io/2020/12/06/00000043-asimproc-2020-12/</id>
+    <published>2020-12-06T11:19:03.000Z</published>
+    <updated>2020-12-06T12:02:16.677Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="あいさつ"><a href="#あいさつ" class="headerlink" title="あいさつ"></a>あいさつ</h3><p>こんにちは．最初にタイトルとは関係ないですが，冬観測用にブーツを導入してみました．</p><div class="twitter-wrapper"><blockquote class="twitter-tweet"><a href="https://twitter.com/dabo_pic/status/1335554481115648000" target="_blank" rel="noopener"></a></blockquote></div><script async defer src="//platform.twitter.com/widgets.js" charset="utf-8"></script><p>これまではずっとサイズぴったしな普通の靴にカイロを貼ってギチギチの状態で観測をしていたのですが，これでかなり暖かくなるかなと信じています（というか，導入するのが遅すぎた）．<br>それから，近々（個人的に）嬉しいお知らせを投稿できると思います．お楽しみに(？)．</p><a id="more"></a><h3 id="天体画像処理研究会第一回オンラインミーティングをやってみた"><a href="#天体画像処理研究会第一回オンラインミーティングをやってみた" class="headerlink" title="天体画像処理研究会第一回オンラインミーティングをやってみた"></a>天体画像処理研究会第一回オンラインミーティングをやってみた</h3><p>さて，タイトルの通り，先日土曜日の夜の時間を使って Zoom でオンラインミーティングを開催してみました．若輩者の私の提案にも関わらず，私を除いて10名ほどの方にご参加いただきました．ありがとうございました．<br>初回ということもあって，まずは言い出しっぺの私が，自分がやっている研究についてと，その研究を天体画像処理に活かすことはできないかという提案のお話をさせていただきました．この話は今年中止になってしまった CANP という天体写真を撮っている方のオフラインの集いがもし開催されていたら話したかった内容で，私と同年代の学生の方々相手には話したことがあった内容ですが，それ以上の年代の方々にはあまり話したことがなかった内容でした．私の研究などについてここに事細かく書くということはしませんが，結果として，多くの貴重な意見をいただくことができました．<br>私が開発に携わっているフレームワークはプロセスの管理が容易なビジュアルプログラミング環境なのですが，ソフトウェアのエンジニアの <a href="https://twitter.com/jaialkdanel" target="_blank" rel="noopener">Iwai さん</a>からは，ビジュアルプログラムだと diff（変更点）をとるのがちょっと面倒であるとか，皆さんご存知 <a href="http://hoshizolove.blog.jp/" target="_blank" rel="noopener">Sam さん</a>からは（天体写真は）芸術思考であるとみなしているアマチュアの人からすると科学的な出自管理をウリにするのはあまりウケないのでは，とか，<a href="http://bokujin555.cocolog-nifty.com/" target="_blank" rel="noopener">木人さん</a>からは，結局素材のクオリティによって処理は異なってくるので，あまり同じ処理を別の画像に施すということはあまりないのでは，むしろ，素材からどこまでの画像ができるのかをコンピュータがサジェストできるといいよね，だとか，これまで私が考えてきたもの，あまり深く考えてこなかったものを含め，「たしかになあ」と思わせられるツッコミをたくさん頂戴いたしました．一方で，一つの試みとしてそういったソフトウェアを作っていくのはコミュニティを活発にしていけるという意味では悪くはないと思っていただけているのかなとも思われ，個人的には励みになりました．<br>現在流行りのPixInsight（私もそろそろ導入を検討しているところであります）や，Adobe 製品との棲分けなども話題として上がりまして，多くの議論ができたかと思っています．<br>録画するのをすっかり忘れてしまったため，議事録をしっかり残すことができずもったいないことをしてしまったという気持ちですが，改めてご参加頂いた方々にはお礼を申し上げます．来月の満月期もまた何か企画してみたいと思います．</p><p>それでは．</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;あいさつ&quot;&gt;&lt;a href=&quot;#あいさつ&quot; class=&quot;headerlink&quot; title=&quot;あいさつ&quot;&gt;&lt;/a&gt;あいさつ&lt;/h3&gt;&lt;p&gt;こんにちは．最初にタイトルとは関係ないですが，冬観測用にブーツを導入してみました．&lt;/p&gt;
+&lt;div class=&quot;twitter-wrapper&quot;&gt;&lt;blockquote class=&quot;twitter-tweet&quot;&gt;&lt;a href=&quot;https://twitter.com/dabo_pic/status/1335554481115648000&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;&lt;/a&gt;&lt;/blockquote&gt;&lt;/div&gt;&lt;script async defer src=&quot;//platform.twitter.com/widgets.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;
+&lt;p&gt;これまではずっとサイズぴったしな普通の靴にカイロを貼ってギチギチの状態で観測をしていたのですが，これでかなり暖かくなるかなと信じています（というか，導入するのが遅すぎた）．&lt;br&gt;それから，近々（個人的に）嬉しいお知らせを投稿できると思います．お楽しみに(？)．&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="画像処理" scheme="http://dabokun.github.io/categories/processing/"/>
+    
+    
+      <category term="写真" scheme="http://dabokun.github.io/tags/photography/"/>
+    
+      <category term="天体写真" scheme="http://dabokun.github.io/tags/astrophotography/"/>
+    
+      <category term="画像処理" scheme="http://dabokun.github.io/tags/processing/"/>
+    
+  </entry>
+  
+  <entry>
     <title>FSQ前玉清掃失敗と坂本真綾ALT</title>
     <link href="http://dabokun.github.io/2020/12/01/00000042-clean-failure-maaya-alt/"/>
     <id>http://dabokun.github.io/2020/12/01/00000042-clean-failure-maaya-alt/</id>
     <published>2020-12-01T10:30:07.000Z</published>
-    <updated>2020-12-01T11:27:29.672Z</updated>
+    <updated>2020-12-06T11:20:34.020Z</updated>
     
     <content type="html"><![CDATA[<h3 id="あいさつ"><a href="#あいさつ" class="headerlink" title="あいさつ"></a>あいさつ</h3><p>拝啓，皆様．<br>今は，西暦2020年，11月26日です．この記事をアップロードする，だいたい5日前のことになります．</p><div class="twitter-wrapper"><blockquote class="twitter-tweet"><a href="https://twitter.com/dabo_pic/status/1331937055547424771" target="_blank" rel="noopener"></a></blockquote></div><script async defer src="//platform.twitter.com/widgets.js" charset="utf-8"></script><p>結論だけ書く．</p><a id="more"></a><h3 id="前玉清掃失敗"><a href="#前玉清掃失敗" class="headerlink" title="前玉清掃失敗"></a>前玉清掃失敗</h3><div class="twitter-wrapper"><blockquote class="twitter-tweet"><a href="https://twitter.com/dabo_pic/status/1331946769559683072" target="_blank" rel="noopener"></a></blockquote></div><script async defer src="//platform.twitter.com/widgets.js" charset="utf-8"></script><p><br><br><br><br><br><br><br></p><p><strong>失敗した失敗した失敗した失敗した失敗した</strong><br><strong>失敗した失敗した失敗した失敗した失敗した</strong><br><strong>失敗した失敗した失敗した失敗した失敗した</strong><br><strong>失敗した失敗した失敗した失敗した失敗した</strong></p><p><strong>あたしは失敗した失敗した失敗した失敗した</strong><br><strong>失敗した失敗した失敗した失敗した失敗した</strong><br><strong>失敗した失敗した失敗したあたしは失敗</strong><br>(<a href="https://dic.nicovideo.jp/a/%E5%A4%B1%E6%95%97%E3%81%97%E3%81%9F%E5%A4%B1%E6%95%97%E3%81%97%E3%81%9F%E5%A4%B1%E6%95%97%E3%81%97%E3%81%9F%E5%A4%B1%E6%95%97%E3%81%97%E3%81%9F%E5%A4%B1%E6%95%97%E3%81%97%E3%81%9F" target="_blank" rel="noopener">元ネタ</a>)</p><p>ええ，やらかしましたよ，やらかしましたとも．前玉についた細かいゴミは泡で落とすと良いとどこかで見たような気がしたのです．鏡筒横倒しの状態で指に泡状のクリーナーをつけて適当に前玉に塗りたくった結果，垂れたやつが前玉縁の隙間に入り込んで無事死亡しました．こういう望遠鏡ぶっ壊しは初心者あるあるらしいので，あまり気にしないでいきたいところではありますが，やはり凹みますね（自業自得）．あまり細かい顛末を書くことはできませんが，「しばらく直焦は封印」とだけ申し上げておきたいと思います．</p><p>あと色々ありまして現在 Twitter を自粛中です，TL，リプライ，引用RTは一切見ていませんが，DMだけは見ていますので，ご用のある方はそちらまでお願いします．<br>が，12月になりましたので，天体画像処理研究会の活動は裏でのんびりやっていくつもりです．詳しくは<a href="/2020/11/20/00000041-asimproc-start/">前回の記事</a>を御覧ください．</p><h3 id="坂本真綾ALT"><a href="#坂本真綾ALT" class="headerlink" title="坂本真綾ALT"></a>坂本真綾ALT</h3><p>あまり辛いことばかり書いても仕方がないので，全く関係ないですが最近行った真綾さんのライブ感想を書いておきます．<br><strong>後日配信があるそうなのでネタバレに注意です．</strong><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>今回は28日と29日の土日で1枚ずつチケットを取っていたのですが，座席運が全く良くなく（最後尾2列分13席を土日両方とも引くという），また日曜は頭痛がひどかったというのもあって結局土曜日夜公演だけの参加となりました．真綾さんと，同公演のチケットを外した方には，日曜日不参加となってしまい大変申し訳無いです．<br>双眼鏡を持っていきましたが，座席が一個空けなのもあってこれは正解でした．ちょうど画角いっぱいに真綾さんの全身が入る感じ．それから真綾さんのお召し物の柄が随分細かく，ピント合わせの良い指標になりました．真綾さんありがとうございます（）．</p><p>以下セットリスト</p><p>宇宙の記憶<br>Million Clouds<br>幸せ5<br>私へ<br>逆光（unplugged）<br>躍動</p><p>～免疫アップメドレー～<br>スピカ<br>ユッカ<br>CLEAR<br>Gift<br>tune the rainbow<br>光あれ<br>Get No Satisfaction!<br>プラチナ</p><p>クローバー<br>いつか旅に出る日</p><p>今回はやはり最後の MC（クロアチアでの朝焼けの話題）が印象的でした．朝焼けというのは本当に写真で撮ってもその美しさを表現することは困難で，その美しさは記憶の中にしか残らないと．私も写真を撮る人間ではありますが，写真を撮る，というのは記憶に対する足がかりを作ることだと考えています．記憶そのものを作ることではなく．この朝焼けの話は今回のライブについても同じことが当てはまって，どんなに高性能な録音機材を使ったところで生の音には敵わないのではないかと思うのです．こんな情勢だからこそ，そのナマモノがあるということの大切さ，ありがたさをしみじみと感じることができました．一度しか参加できなかったし，席も最後尾だったけれど，記憶に残るライブだったと思います．<br>曲についてはあまり多くを語ることはしませんが，アチコチ Disc1 の存在を完全に忘れていて最初（ミリクラなんてアチコチに入っていたか…？）などと超失礼なことを思いながら聴いていたのは内緒です．「スピカ」，「tune the rainbow」はライブでは記憶にある限り聴くのは初めてな気がしますので，嬉しかった．「ユッカ」はやはり泣いてしまいます，イントロのメロディが優しすぎるんだよね．「クローバー」と「いつか旅に出る日」は，今後ライブがあるならたくさん歌われるんじゃないかなと思います，特に後者は真綾さんの哲学をよく表していると思いましたし，ライブラストナンバーの定番覇権をとっても良いんじゃないかなと思えました．<br>ライブ会場では誰とも話したりすることはしませんでした．来年3月に横浜アリーナでアニバーサリーライブが決定されましたが，その頃には情勢が少しでも良くなり，また多くの方と交流できることを切に願っています．</p><p>それでは．</p>]]></content>
     
@@ -61,43 +89,11 @@
       <category term="機材" scheme="http://dabokun.github.io/categories/equipments/"/>
     
     
-      <category term="写真" scheme="http://dabokun.github.io/tags/photography/"/>
-    
-      <category term="天体写真" scheme="http://dabokun.github.io/tags/astrophotography/"/>
-    
-      <category term="遠征記" scheme="http://dabokun.github.io/tags/expedition/"/>
-    
-      <category term="その他" scheme="http://dabokun.github.io/tags/others/"/>
-    
-      <category term="カメラ" scheme="http://dabokun.github.io/tags/camera/"/>
-    
-      <category term="画像処理" scheme="http://dabokun.github.io/tags/processing/"/>
-    
-      <category term="Rust" scheme="http://dabokun.github.io/tags/rust/"/>
-    
-      <category term="C++" scheme="http://dabokun.github.io/tags/cpp/"/>
-    
-      <category term="競技プログラミング" scheme="http://dabokun.github.io/tags/progcomp/"/>
-    
-      <category term="AtCoder" scheme="http://dabokun.github.io/tags/atcoder/"/>
-    
       <category term="機材" scheme="http://dabokun.github.io/tags/equipments/"/>
-    
-      <category term="レンズ" scheme="http://dabokun.github.io/tags/lens/"/>
     
       <category term="鏡筒" scheme="http://dabokun.github.io/tags/telescope/"/>
     
-      <category term="SI8" scheme="http://dabokun.github.io/tags/si8/"/>
-    
-      <category term="Adobe Photoshop" scheme="http://dabokun.github.io/tags/photoshop/"/>
-    
-      <category term="Adobe Lightroom" scheme="http://dabokun.github.io/tags/lightroom/"/>
-    
-      <category term="OpenCV" scheme="http://dabokun.github.io/tags/opencv/"/>
-    
-      <category term="赤道儀" scheme="http://dabokun.github.io/tags/mount/"/>
-    
-      <category term="パーツ" scheme="http://dabokun.github.io/tags/parts/"/>
+      <category term="坂本真綾" scheme="http://dabokun.github.io/tags/maaya-sakamoto/"/>
     
   </entry>
   
@@ -149,11 +145,11 @@
     
       <category term="天体写真" scheme="http://dabokun.github.io/tags/astrophotography/"/>
     
-      <category term="遠征記" scheme="http://dabokun.github.io/tags/expedition/"/>
-    
       <category term="機材" scheme="http://dabokun.github.io/tags/equipments/"/>
     
       <category term="赤道儀" scheme="http://dabokun.github.io/tags/mount/"/>
+    
+      <category term="遠征記" scheme="http://dabokun.github.io/tags/expedition/"/>
     
   </entry>
   
@@ -229,13 +225,13 @@
     
       <category term="天体写真" scheme="http://dabokun.github.io/tags/astrophotography/"/>
     
-      <category term="遠征記" scheme="http://dabokun.github.io/tags/expedition/"/>
-    
       <category term="機材" scheme="http://dabokun.github.io/tags/equipments/"/>
     
       <category term="鏡筒" scheme="http://dabokun.github.io/tags/telescope/"/>
     
       <category term="パーツ" scheme="http://dabokun.github.io/tags/parts/"/>
+    
+      <category term="遠征記" scheme="http://dabokun.github.io/tags/expedition/"/>
     
   </entry>
   
@@ -261,13 +257,13 @@
     
       <category term="天体写真" scheme="http://dabokun.github.io/tags/astrophotography/"/>
     
-      <category term="遠征記" scheme="http://dabokun.github.io/tags/expedition/"/>
-    
       <category term="鏡筒" scheme="http://dabokun.github.io/tags/telescope/"/>
     
       <category term="赤道儀" scheme="http://dabokun.github.io/tags/mount/"/>
     
       <category term="パーツ" scheme="http://dabokun.github.io/tags/parts/"/>
+    
+      <category term="遠征記" scheme="http://dabokun.github.io/tags/expedition/"/>
     
   </entry>
   
@@ -345,9 +341,9 @@
     
       <category term="天体写真" scheme="http://dabokun.github.io/tags/astrophotography/"/>
     
-      <category term="遠征記" scheme="http://dabokun.github.io/tags/expedition/"/>
-    
       <category term="画像処理" scheme="http://dabokun.github.io/tags/processing/"/>
+    
+      <category term="遠征記" scheme="http://dabokun.github.io/tags/expedition/"/>
     
   </entry>
   
@@ -425,11 +421,11 @@
     
       <category term="天体写真" scheme="http://dabokun.github.io/tags/astrophotography/"/>
     
-      <category term="遠征記" scheme="http://dabokun.github.io/tags/expedition/"/>
-    
       <category term="機材" scheme="http://dabokun.github.io/tags/equipments/"/>
     
       <category term="鏡筒" scheme="http://dabokun.github.io/tags/telescope/"/>
+    
+      <category term="遠征記" scheme="http://dabokun.github.io/tags/expedition/"/>
     
   </entry>
   
@@ -553,31 +549,6 @@
       <category term="天体写真" scheme="http://dabokun.github.io/tags/astrophotography/"/>
     
       <category term="遠征記" scheme="http://dabokun.github.io/tags/expedition/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>面分光研究会2019で発表してきました</title>
-    <link href="http://dabokun.github.io/2019/11/01/00000024-ifu-2019-report/"/>
-    <id>http://dabokun.github.io/2019/11/01/00000024-ifu-2019-report/</id>
-    <published>2019-11-01T06:00:56.000Z</published>
-    <updated>2019-11-01T15:24:49.645Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="あいさつ"><a href="#あいさつ" class="headerlink" title="あいさつ"></a>あいさつ</h3><p>こんにちは．<br><a href="https://dabokun.github.io/2019/09/24/00000020-ifu-2019/">先日の投稿</a>にも書きました通り，国立天文台で行われた面分光研究会という研究会で，招待講演者の一人として発表してきました．<br>今年は3月の天文学会年会にも参加したのですが，今回の研究会は発表の時間制約が緩かったり（本当は守ったほうがいいんですが，そのため実機で時間をかけて開発ソフトのデモをすることができました），人がそこまで多くないので蜜な議論ができる環境があったり，同年代の天文学を専攻する優秀な学生がいたり，私の先輩や先生も発表したこともあって，かなりインパクトを与えることができたのではないかと思っています．発表では色々失敗もあり，反省すべき点は多々あったのですが，自分の研究を発信し，今後につなげていく大きな機会であったことは間違いないと思っています．自分の研究や研究室で開発している面分光可視化分析ソフトウェアに天文学者が興味をもっていただけるのはとてもありがたいこと（天文学者はそういうものに積極的に興味を持ってくれる方が多いです）ですね．</p><p>研究室内発表（プロポーザルの練習のようなもの）も一息ついたので，そろそろたまっている遠征記を消化しないとなあと考えています．<br>それでは．</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h3 id=&quot;あいさつ&quot;&gt;&lt;a href=&quot;#あいさつ&quot; class=&quot;headerlink&quot; title=&quot;あいさつ&quot;&gt;&lt;/a&gt;あいさつ&lt;/h3&gt;&lt;p&gt;こんにちは．&lt;br&gt;&lt;a href=&quot;https://dabokun.github.io/2019/09/24/000000
-      
-    
-    </summary>
-    
-      <category term="その他" scheme="http://dabokun.github.io/categories/others/"/>
-    
-    
-      <category term="その他" scheme="http://dabokun.github.io/tags/others/"/>
     
   </entry>
   
