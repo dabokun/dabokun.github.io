@@ -42,13 +42,41 @@
   </entry>
   
   <entry>
+    <title>QHY268C ファーストライト</title>
+    <link href="http://dabokun.github.io/2021/03/28/00000050-qhy268c-first/"/>
+    <id>http://dabokun.github.io/2021/03/28/00000050-qhy268c-first/</id>
+    <published>2021-03-28T09:25:07.000Z</published>
+    <updated>2021-03-28T16:05:08.643Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="あいさつ"><a href="#あいさつ" class="headerlink" title="あいさつ"></a>あいさつ</h3><p>先日，届いた QHY268C のファーストをしてきました．<br>このカメラですがかなりのじゃじゃ馬で，一度失敗をしたのですが，とりあえずなんとか使うことができましたという顛末になります．</p><a id="more"></a><h3 id="清里で大失敗"><a href="#清里で大失敗" class="headerlink" title="清里で大失敗"></a>清里で大失敗</h3><p>ファーストライトのつもりで，3月10日～11日で清里に行きました．目標はマルカリアンチェーンを撮ることでした．<br>ほうとうを食べてから20時頃に現地入り．</p><div class="twitter-wrapper"><blockquote class="twitter-tweet"><a href="https://twitter.com/dabo_pic/status/1369596905328496640" target="_blank" rel="noopener"></a></blockquote></div><script async defer src="//platform.twitter.com/widgets.js" charset="utf-8"></script><p>のんびりと組立ててから撮影を…と思ったのですが，まず<strong>ガイドに問題が発生</strong>．オートガイドには MGEN-3 を使っているのですが，キャリブレーションまでは通っているものの，実際にガイドを開始すると導入対象が吹き飛んでいくレベルで暴れまわります．<br>パラメタ値を変えたりして何度か試したもののうまくいかず，放棄．キャリブレーション時に（どちらかの軸か忘れましたが）ガイド信号を少し長めに送っていたことや，直交率を示す Ortho. の値が全然ダメ（20～40%くらい）なのが気になりました．今のところ鏡筒の前後バランスが出ていないので，これを改善してどうなるかといったところです．また，向いている方向の相性があったりするのかもしれません．オリオンの方向に向けるとうまくいきましたが，マルカリアンチェーンではうまくいきませんでした．全く困ったものですが，とりあえずバランスを出してみて直らなければ，別の策を練らねばなりません．<br>仕方がないのでカメラの接続を試みると今度は <strong>PC がカメラを全く認識しません．</strong>接続すると，以下のように_IOの接尾辞がついたデバイス名が表示されるのですが，_FW（これはフィルタホイールのドライバか？）しか表示されません．それも「表示」から「非表示のデバイスの表示」を有効にして初めて表示されます．とにかく，デバイスが正しく認識されていないのは確かです．</p><p><img src="dm.jpg" alt="デバイスマネージャの問題"></p><p>これもデバイスの再インストールや PC 再起動，全 USB 接続機器の取外しなど，考えられるありとあらゆることを数時間試してみたものの全くうまくいかず，寒さの中泣きたくなりながらバッテリとカメラとPCを車に撤退してふてくされていました．すると車内で突然 PC がカメラを認識しました．「まさか温度か…？（冷却カメラでそんな事があるのか？）」などと思いつつ時間はすでに2時頃．薄明までまだ2時間ほどありましたが，対象も子午線を越えようかという段階で気力もなく今回は諦めることにしました．一応 6D に変えていたのですが，疲れからか ISO-25600 のままで撮っていたことに気づき見なかったことにしました．<br>ちなみに現地では<a href="https://twitter.com/antales" target="_blank" rel="noopener">流れ星さん</a>と合流しており，上記問題について色々と相談したり話を聞いてもらいました．ありがとうございました．<br>また，カメラを認識しなくなる現象はこの後自宅でも発生し，もうこれは今のところ運なのではとしか考えられません（少なくとも温度ではなさそう）．出発前に Windows Update を走らせたことなど色々考えましたが，全ては憶測の域を出ず，はっきりとした原因はわかりませんでした．PC との相性とかもあるかもしれません．運でカメラが使えるか使えないかというのは大変困ったものです．<br>…とまあ散々な結果で，ボーズで帰ってからしばらくめちゃくちゃ落ち込んでいたのですが，いつまでもくよくよしてはいられず，その週の土日月に再チャレンジすることにしました．</p><h3 id="爪木崎からの朝霧"><a href="#爪木崎からの朝霧" class="headerlink" title="爪木崎からの朝霧"></a>爪木崎からの朝霧</h3><p>まず，設営の順番，ガイド，PC からのカメラ操作など不慣れなことが多すぎたので，手順という大枠だけは確定させておいたほうが楽だろうと考え，撮影の手順を徹底的に文書に書き出し，Google ドキュメントにまとめました．そして出発前にカメラとの接続を必ず確認するようにしました．<br>リベンジということでしたが，初日は知り合いのポートレートカメラマンと合流し，直焦はやりませんでした．暴風のユウスゲ公園でしばらく星を見ながら一時間ほど駄弁り，爪木崎に移動．爪木崎に行くのは初めてでしたが，灯台前は本当に人が多かったです．灯台から少し離れたところに良さげなベンチがあったので，そこで何枚かポトレを撮影しました．</p><p><img src="p01.jpg" alt="一緒に行った方々と"><br><img src="p02.jpg" alt="自撮り"><br>（※二枚目の私は見苦しいので目線を入れています）</p><p>ストロボは一緒に行ってくれた方の提供です．みんな灯台の方に行くので手前の広場は人が少なく，穴場な感じでした．<br>やっぱり一人で伊豆半島南端まで行くのは遠いです．5時頃まで下田で仮眠をとり，伊東マリンタウンでいつものように温泉に入って朝ごはんを食べたのですが，その後疲れで11時くらいまで寝てしまいました．この時点で同行者の方々とは解散，再びソロに．</p><div class="twitter-wrapper"><blockquote class="twitter-tweet"><a href="https://twitter.com/dabo_pic/status/1370880381004644352" target="_blank" rel="noopener"></a></blockquote></div><script async defer src="//platform.twitter.com/widgets.js" charset="utf-8"></script><p>伊東マリンタウンは朝風呂料金がなくなり1000円になった代わりに，時間制限がなくなったようでした（以前は9時だか10時で朝風呂の人は帰ってくれとアナウンスが入っていた）．</p><div class="twitter-wrapper"><blockquote class="twitter-tweet"><a href="https://twitter.com/dabo_pic/status/1370950556169031682" target="_blank" rel="noopener"></a></blockquote></div><script async defer src="//platform.twitter.com/widgets.js" charset="utf-8"></script><p>というわけで目も覚めたので富士宮に移動してきました．昼間はご飯を食べるか観光するくらいしかやることがないので，まずはのんびり，「ゆるキャン」にも登場するお好み食堂伊東さんへ．一時間弱待ちでしぐれ焼きを食べました．焼きそばやお好み焼きというと個人的には味が濃いイメージがあったのですが，ここのはとてもさっぱりしていてとても好きな味で，気づいたら完食していました．</p><div class="twitter-wrapper"><blockquote class="twitter-tweet"><a href="https://twitter.com/dabo_pic/status/1370983756404719616" target="_blank" rel="noopener"></a></blockquote></div><script async defer src="//platform.twitter.com/widgets.js" charset="utf-8"></script><p>その後は本栖湖畔へ移動．おやつを食べながら少し夕日を眺め，コンビニで買い出しから朝霧アリーナに現地入りしました．</p><div class="twitter-wrapper"><blockquote class="twitter-tweet"><a href="https://twitter.com/dabo_pic/status/1371021600565301251" target="_blank" rel="noopener"></a></blockquote></div><script async defer src="//platform.twitter.com/widgets.js" charset="utf-8"></script><div class="twitter-wrapper"><blockquote class="twitter-tweet"><a href="https://twitter.com/dabo_pic/status/1371061962365415426" target="_blank" rel="noopener"></a></blockquote></div><script async defer src="//platform.twitter.com/widgets.js" charset="utf-8"></script><p>現地では問題なくカメラがつながり使用できたので，とりあえず問題はガイドだけになりました．結局，オリオン大星雲に向けたときはしっかりとガイドしたのですが，マルカリアンチェーンやカラフルタウン付近に向けたときは機能してくれませんでした．MGEN-3に関して有識者の方がいらっしゃいましたらなにかヒントを教えていただけると幸いです．<br>オリオン大星雲，マルカリアンチェーン，カラフルタウン付近をなんとか撮影できましたので，以下に載せておきます．一応成果が出て安心です．</p><p><img src="w01.jpg" alt="オリオン大星雲"></p><div style="text-align: center;">「オリオン大星雲」<br>2021年3月14日 20時19分～ 静岡県 朝霧アリーナ駐車場にて<br>FSQ-85EDP直焦点F5.3<br>QHY268C<br>Gain 0/Offset 15/-20℃/480s*16=128min<br>タカハシ EM-11 Temma2 Jr.<br>ステライメージ8 / Adobe Lightroom CC / Photoshop CC<br><br></div><p><img src="w02.jpg" alt="マルカリアンチェーン"></p><div style="text-align: center;">「マルカリアンチェーン」<br>2021年3月15日 0時10分～ 静岡県 朝霧アリーナ駐車場にて<br>FSQ-85EDP直焦点F5.3<br>QHY268C<br>Gain 15/Offset 15/-20℃/180s*30=90min<br>タカハシ EM-11 Temma2 Jr.<br>ステライメージ8 / Adobe Lightroom CC / Photoshop CC<br><br></div><p><img src="w03.jpg" alt="カラフルタウン付近"></p><div style="text-align: center;">「カラフルタウン付近」<br>2021年3月15日 2時53分～ 静岡県 朝霧アリーナ駐車場にて<br>FSQ-85EDP直焦点F5.3<br>QHY268C<br>Gain 0/Offset 15/-20℃/300s*18=90min<br>タカハシ EM-11 Temma2 Jr.<br>ステライメージ8 / Adobe Lightroom CC / Photoshop CC<br><br></div><p>モードは全てフォトグラフィックモードです．<br>とりあえずなんか撮れれば良かったので南北とかは全く気にしてません．やはりGain0で大きなフルウェル，16bitの豊かな階調を活かせるというのはとても大きいです．<br>HDR などしなくても，オリオン大星雲の中心部が飽和しにくいです．アンドロメダとか撮ったらどうなるかも試してみたいです．<br>もう少し解像感とかノイズに気を配りたいなあという気持ち．がんばります．<br>カメラやガイドなど，慣れるまでもう少しかかりそうですね．近々鏡筒の前後バランスを出すKBプレートとファインダーを導入するので，少しはやりやすくなるのでないかと思っています．<br>また遠征に行ったらレポートしたいと重います．</p><div class="twitter-wrapper"><blockquote class="twitter-tweet"><a href="https://twitter.com/dabo_pic/status/1371269535001583621" target="_blank" rel="noopener"></a></blockquote></div><script async defer src="//platform.twitter.com/widgets.js" charset="utf-8"></script><p>そうそう，上述したポートレートとマルカリアンチェーン，昨年原村で撮影した昴の写真を使用して，<a href="https://fancollection-too-maaya.tumblr.com/post/646369092147806208/18%E3%81%8B%E3%81%99%E3%81%8B%E3%81%AA%E3%83%A1%E3%83%AD%E3%83%87%E3%82%A3-photography-%E3%81%A0%E3%81%BC-%E5%A4%9C%E6%98%8E%E3%81%91%E3%81%A8%E3%81%A8%E3%82%82%E3%81%AB%E5%BF%98%E3%82%8C%E3%81%9F%E3%81%8F%E3%81%AA%E3%81%84%E6%99%AF%E8%89%B2%E3%81%8C%E6%B6%88%E3%81%88%E3%82%8B" target="_blank" rel="noopener">坂本真綾25周年を祝うファン企画</a>に参加させていただきました．写真と，彼女の楽曲と絡めた簡単な解説を載せておりますので，よろしければご覧ください．</p><p>それではまた．</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;あいさつ&quot;&gt;&lt;a href=&quot;#あいさつ&quot; class=&quot;headerlink&quot; title=&quot;あいさつ&quot;&gt;&lt;/a&gt;あいさつ&lt;/h3&gt;&lt;p&gt;先日，届いた QHY268C のファーストをしてきました．&lt;br&gt;このカメラですがかなりのじゃじゃ馬で，一度失敗をしたのですが，とりあえずなんとか使うことができましたという顛末になります．&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="機材" scheme="http://dabokun.github.io/categories/equipments/"/>
+    
+    
+      <category term="天体写真" scheme="http://dabokun.github.io/tags/astrophotography/"/>
+    
+      <category term="機材" scheme="http://dabokun.github.io/tags/equipments/"/>
+    
+      <category term="カメラ" scheme="http://dabokun.github.io/tags/camera/"/>
+    
+      <category term="遠征記" scheme="http://dabokun.github.io/tags/expedition/"/>
+    
+  </entry>
+  
+  <entry>
     <title>スーパーワイドビノと坂本真綾25周年ライブ</title>
     <link href="http://dabokun.github.io/2021/03/25/00000049-super-wide-bino-live/"/>
     <id>http://dabokun.github.io/2021/03/25/00000049-super-wide-bino-live/</id>
     <published>2021-03-25T09:43:47.000Z</published>
-    <updated>2021-03-25T11:21:33.539Z</updated>
+    <updated>2021-03-28T09:43:38.462Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="あいさつ"><a href="#あいさつ" class="headerlink" title="あいさつ"></a>あいさつ</h3><p>先日<a href="https://lp.p.pia.jp/shared/cnt-s/cnt-s-11-02_2_e5df5bca-0ede-4ada-9150-a3dca1884304.html?detail=true" target="_blank" rel="noopener">坂本真綾25周年記念ライブ</a>に行ってきたわけですが，そこで<strong>スーパーワイドビノ2×54</strong>という双眼鏡を使ってみたのでレビューを書いていこうと思います．別に製品の回し者というわけではありませんが，これがなかなか良かったのです．</p><div class="twitter-wrapper"><blockquote class="twitter-tweet"><a href="https://twitter.com/dabo_pic/status/1373113834219524097" target="_blank" rel="noopener"></a></blockquote></div><script async defer src="//platform.twitter.com/widgets.js" charset="utf-8"></script><a id="more"></a><h3 id="スーパーワイドビノとは"><a href="#スーパーワイドビノとは" class="headerlink" title="スーパーワイドビノとは"></a>スーパーワイドビノとは</h3><p>スーパーワイドビノとはなんぞやという話ですが，笠井トレーディングさんから出ている<strong>「超超広角」</strong>星空観賞用双眼鏡です．双眼鏡というと比較的高倍率のものを想像し，見たい対象に寄れれば寄れるだけ良いと考える方が多いかもしれませんが，このスーパーワイドビノはどちらかというと低倍率のオペラグラス寄り，いやむしろ<strong>オペラグラスよりも倍率が低く（2倍）作られている</strong>のが大きな特徴です．ガリレオ式のためずっしりとしており，ガラスの塊を持っているような重厚感があります．<br>倍率が低い代わりに<strong>とても明るく，シャープに像を結ぶ</strong>ため，遠くの対象でも見た目は小さいのに鮮明に観察することができます．また<strong>見口が大きく</strong>，私は眼鏡をかけているのですが，かけたまま使用しても他の双眼鏡ほど視野が狭くなるということがありません．<br>星空で使用してみると，はくちょう座やオリオン座といった大きな星座が視野内にすっぽりと収まります．そして裸眼では見えていなかった細かい星々がグワッと浮かび上がり，<strong>没入度の高い星空を堪能できる</strong>アイテムです．<br>こいつをアーティストのライブでも使ってみようというわけです．</p><h3 id="早速使ってみた"><a href="#早速使ってみた" class="headerlink" title="早速使ってみた"></a>早速使ってみた</h3><p>横浜アリーナの，ステージはセンターパターン，席は1日目はアリーナB12列，2日目はアリーナD8列でした．詳しくは<a href="https://www.yokohama-arena.co.jp/seatguide/cstage.html" target="_blank" rel="noopener">こちら</a>をご覧ください．列番号だけ見るとあまり差がないように見えますが，センターステージからの距離は全く違ったので，良い比較になりました．<br>スーパーワイドビノと，VixenさんのジョイフルM（10倍）を持っていきましたので，それぞれがどんな感じの視界で見えたかを以下の画像に示します．<br>初日，アリーナBから眺めた感じ．<br><img src="01.jpg" alt="初日，アリーナBから"><br>2日目，アリーナDから眺めた感じ．<br><img src="02.jpg" alt="2日目，アリーナDから"><br>（画像引用元：<a href="https://www.yokohama-arena.co.jp/seatguide/cstage.html" target="_blank" rel="noopener">https://www.yokohama-arena.co.jp/seatguide/cstage.html</a> パノラマギャラリー）</p><p>赤枠がスーパーワイドビノ，青枠がジョイフルMです．（記憶を頼りにこんなもんかなと書いてるので不正確さはあるかと思います）<br>スーパーワイドビノの圧倒的な視界の広さがおわかりかと思います．1日目の際はステージから上部の画面までがきれいに収まり，かつ像も良く，画面の映像から演者の顔や衣装など全て明るく鮮明に見ることができました．2日目は流石にセンターステージにかなり近づいたので，左右は鳥籠状の画面の幅ギリギリ収まらず，画面も上に行ってしまうと全ては収まりきらないという感じでしたが，ステージ全体だけであればよく見渡すことが可能でした．ステージ全体を見たいときはこれで，各演者に注目したいときはジョイフルで見ることで，ライブや観劇などの楽しさも倍増するのではないかと思います．<br>特に今回のライブではデュエットなどで10倍のジョイフルだと収まりが悪いことがあり，スーパーワイドビノで演出などを楽しむ→ジョイフルで視界いっぱいのルンバ真綾さんや内村さん，土岐さん，堂島さん，原さん，たまんねぇ！　といった楽しみ方をすることができました．<br>スーパーワイドビノの値段は2万円前後しますが，ライブでも星空でも使える楽しい双眼鏡でした．</p><h3 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h3><p>簡単スーパーワイドビノについてまとめておきますと，値段以外の部分で</p><p>メリット</p><ul><li>倍率は2倍とそこまでではないが，明るくてシャープ．ライブや観劇でも，ステージ全体を見るのにとても良い．</li><li>見口が大きく，眼鏡をかけたままでもあまり問題なく見える．</li><li>本来の星空用途でももちろん使える．</li></ul><p>デメリット</p><ul><li>前玉がわりとしっかり出ていて（いわゆる出目金レンズほどではないが…）重いので，落としたりすると怖い．小さなお子さんなどは長時間持っていると重くて疲れてしまうかも．</li></ul><p>といった感じになります．一家に一台，いかがでしょうか．</p>]]></content>
+    <content type="html"><![CDATA[<h3 id="あいさつ"><a href="#あいさつ" class="headerlink" title="あいさつ"></a>あいさつ</h3><p>先日<a href="https://lp.p.pia.jp/shared/cnt-s/cnt-s-11-02_2_e5df5bca-0ede-4ada-9150-a3dca1884304.html?detail=true" target="_blank" rel="noopener">坂本真綾25周年記念ライブ</a>に行ってきたわけですが，そこで<strong>スーパーワイドビノ2×54</strong>という双眼鏡を使ってみたのでレビューを書いていこうと思います．別に製品の回し者というわけではありませんが，これがなかなか良かったのです．</p><div class="twitter-wrapper"><blockquote class="twitter-tweet"><a href="https://twitter.com/dabo_pic/status/1373113834219524097" target="_blank" rel="noopener"></a></blockquote></div><script async defer src="//platform.twitter.com/widgets.js" charset="utf-8"></script><a id="more"></a><h3 id="スーパーワイドビノとは"><a href="#スーパーワイドビノとは" class="headerlink" title="スーパーワイドビノとは"></a>スーパーワイドビノとは</h3><p>スーパーワイドビノとはなんぞやという話ですが，笠井トレーディングさんから出ている<strong>「超超広角」</strong>星空観賞用双眼鏡です．双眼鏡というと比較的高倍率のものを想像し，見たい対象に寄れれば寄れるだけ良いと考える方が多いかもしれませんが，このスーパーワイドビノはどちらかというと低倍率のオペラグラス寄り，いやむしろ<strong>オペラグラスよりも倍率が低く（2倍）作られている</strong>のが大きな特徴です．ガリレオ式のためずっしりとしており，ガラスの塊を持っているような重厚感があります．<br>倍率が低い代わりに<strong>とても明るく，シャープに像を結ぶ</strong>ため，遠くの対象でも見た目は小さいのに鮮明に観察することができます．また<strong>見口が大きく</strong>，私は眼鏡をかけているのですが，かけたまま使用しても他の双眼鏡ほど視野が狭くなるということがありません．<br>星空で使用してみると，はくちょう座やオリオン座といった大きな星座が視野内にすっぽりと収まります．そして裸眼では見えていなかった細かい星々がグワッと浮かび上がり，<strong>没入度の高い星空を堪能できる</strong>アイテムです．<br>こいつをアーティストのライブでも使ってみようというわけです．</p><h3 id="早速使ってみた"><a href="#早速使ってみた" class="headerlink" title="早速使ってみた"></a>早速使ってみた</h3><p>横浜アリーナの，ステージはセンターパターン，席は1日目はアリーナB12列，2日目はアリーナD8列でした．詳しくは<a href="https://www.yokohama-arena.co.jp/seatguide/cstage.html" target="_blank" rel="noopener">こちら</a>をご覧ください．列番号だけ見るとあまり差がないように見えますが，センターステージからの距離は全く違ったので，良い比較になりました．<br>スーパーワイドビノと，VixenさんのジョイフルM（10倍）を持っていきましたので，それぞれがどんな感じの視界で見えたかを以下の画像に示します．<br>初日，アリーナBから眺めた感じ．<br><img src="01.jpg" alt="初日，アリーナBから"><br>2日目，アリーナDから眺めた感じ．<br><img src="02.jpg" alt="2日目，アリーナDから"><br>（画像引用元：<a href="https://www.yokohama-arena.co.jp/seatguide/cstage.html" target="_blank" rel="noopener">https://www.yokohama-arena.co.jp/seatguide/cstage.html</a> パノラマギャラリー）</p><p>赤枠がスーパーワイドビノ，青枠がジョイフルMです．（記憶を頼りにこんなもんかなと書いてるので不正確さはあるかと思います）<br>スーパーワイドビノの圧倒的な視界の広さがおわかりかと思います．1日目の際はステージから上部の画面までがきれいに収まり，かつ像も良く，画面の映像から演者の顔や衣装など全て明るく鮮明に見ることができました．2日目は流石にセンターステージにかなり近づいたので，左右は鳥籠状の画面の幅ギリギリ収まらず，画面も上に行ってしまうと全ては収まりきらないという感じでしたが，ステージ全体だけであればよく見渡すことが可能でした．ステージ全体を見たいときはこれで，各演者に注目したいときはジョイフルで見ることで，ライブや観劇などの楽しさも倍増するのではないかと思います．<br>特に今回のライブではデュエットなどで10倍のジョイフルだと収まりが悪いことがあり，スーパーワイドビノで演出などを楽しむ→ジョイフルで視界いっぱいのルンバ真綾さんや内村さん，土岐さん，堂島さん，原さん，たまんねぇ！　といった楽しみ方をすることができました．<br>スーパーワイドビノの値段は2万円前後しますが，ライブでも星空でも使える楽しい双眼鏡でした．</p><h3 id="まとめ"><a href="#まとめ" class="headerlink" title="まとめ"></a>まとめ</h3><p>簡単にスーパーワイドビノについてまとめておきますと，値段以外の部分で</p><p>メリット</p><ul><li>倍率は2倍とそこまでではないが，明るくてシャープ．ライブや観劇でも，ステージ全体を見るのにとても良い．</li><li>見口が大きく，眼鏡をかけたままでもあまり問題なく見える．</li><li>本来の星空用途でももちろん使える．</li></ul><p>デメリット</p><ul><li>前玉がわりとしっかり出ていて（いわゆる出目金レンズほどではないが…）重いので，落としたりすると怖い．小さなお子さんなどは長時間持っていると重くて疲れてしまうかも．</li></ul><p>といった感じになります．一家に一台，いかがでしょうか．</p>]]></content>
     
     <summary type="html">
     
@@ -60,9 +88,9 @@
       <category term="その他" scheme="http://dabokun.github.io/categories/others/"/>
     
     
-      <category term="機材" scheme="http://dabokun.github.io/tags/equipments/"/>
-    
       <category term="その他" scheme="http://dabokun.github.io/tags/others/"/>
+    
+      <category term="機材" scheme="http://dabokun.github.io/tags/equipments/"/>
     
   </entry>
   
@@ -186,13 +214,13 @@
       <category term="その他" scheme="http://dabokun.github.io/categories/others/"/>
     
     
+      <category term="その他" scheme="http://dabokun.github.io/tags/others/"/>
+    
       <category term="機材" scheme="http://dabokun.github.io/tags/equipments/"/>
     
       <category term="赤道儀" scheme="http://dabokun.github.io/tags/mount/"/>
     
       <category term="遠征記" scheme="http://dabokun.github.io/tags/expedition/"/>
-    
-      <category term="その他" scheme="http://dabokun.github.io/tags/others/"/>
     
   </entry>
   
@@ -514,32 +542,6 @@
     <summary type="html">
     
       &lt;h3 id=&quot;あいさつ&quot;&gt;&lt;a href=&quot;#あいさつ&quot; class=&quot;headerlink&quot; title=&quot;あいさつ&quot;&gt;&lt;/a&gt;あいさつ&lt;/h3&gt;&lt;p&gt;先日の三連休の間で小諸に星見に行ってきましたので，簡単にまとめておきます．&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="遠征記" scheme="http://dabokun.github.io/categories/expedition/"/>
-    
-    
-      <category term="写真" scheme="http://dabokun.github.io/tags/photography/"/>
-    
-      <category term="天体写真" scheme="http://dabokun.github.io/tags/astrophotography/"/>
-    
-      <category term="遠征記" scheme="http://dabokun.github.io/tags/expedition/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>【遠征記】2019年12月 おんたけ2240（天文ガイド入選）</title>
-    <link href="http://dabokun.github.io/2020/03/04/00000031-2019-12-otaki/"/>
-    <id>http://dabokun.github.io/2020/03/04/00000031-2019-12-otaki/</id>
-    <published>2020-03-04T05:21:22.000Z</published>
-    <updated>2020-10-28T17:40:52.000Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="あいさつ"><a href="#あいさつ" class="headerlink" title="あいさつ"></a>あいさつ</h3><p>昨年末に，久々に長野県王滝村に遠征に行きましたので，撮影したものと遠征記を簡単に書いておきます．</p><a id="more"></a><h3 id="都内から王滝へ"><a href="#都内から王滝へ" class="headerlink" title="都内から王滝へ"></a>都内から王滝へ</h3><p>冒頭「久々」，と書きましたが，最初に王滝村を星見で訪れたのは，私が学部1年→2年に上がる2月頃でした．その頃はまだ撮影を始めたばかりで，ろくな防寒知識もなく（とりあえずたくさん着重ねておけばいいでしょという考え），-20℃近い中呻きながら寝ていたのを覚えています．しかもその時は極寒の中二晩も観測したのでした…．<br>その時からお世話になっていて，今回も連れてってくださる方は都内在住なので，予め自分の機材をそちらに運んでおき，その方の車で都内出発ということになりました．</p><div class="twitter-wrapper"><blockquote class="twitter-tweet"><a href="https://twitter.com/dabo_pic/status/1210785814369591297" target="_blank" rel="noopener"></a></blockquote></div><script async defer src="//platform.twitter.com/widgets.js" charset="utf-8"></script><p>中央道を通り，諏訪湖でアホなことをしつつ少し休憩．途中王滝に向かう山道手前のスーパーでカップ麺を備蓄（一晩だけなのになぜか5つも買ってしまった）し，こちらの方面に住んでいるK君とも合流，王滝村に向かいました．<br>道中には猿がたくさんいました．ここ以外だと日光戦場ヶ原に行く際にいろは坂などで見ることが多いですが，こちらの野生猿はとにかく数が多かった．狭路の真ん中に居座っていたりするので，轢きそうで怖い．<br>そんなこんなで王滝村に着き，とりあえず温泉と夕飯処が無いかということで，まずは観光案内所を訪ねました．ここの案内所のおばちゃんはとてもフランクでお優しい方で，こちらの質問に丁寧に答えてくださったのが印象的で，なおかつ「銀河の雫」という非売品の水までもらってしまいました．ありがたや…．<br>結局，夕飯はカップ麺の備蓄があるので省略することにし，温泉はおんたけ2240スキー場にあるスキー客用のものに入ることにしました．おんたけ2240の駐車場にも以前一度行ったことがあったので，久々の訪問になります．</p><div class="twitter-wrapper"><blockquote class="twitter-tweet"><a href="https://twitter.com/dabo_pic/status/1210839556817182720" target="_blank" rel="noopener"></a></blockquote></div><script async defer src="//platform.twitter.com/widgets.js" charset="utf-8"></script><p>観光案内所からここまでの道中，若干雪が残っていましたが，スタッドレスで止まることなく上っていったので特に滑ることはありませんでした．翌朝帰る際は心配だったのでチェーンを巻いていただきました．<br>温泉を出て（スキー客のためか？ここのお湯はけっこう熱い）18時頃からセッティング開始．19時から翌朝4時頃まで，とても長い冬の夜を過ごしました．</p><div class="twitter-wrapper"><blockquote class="twitter-tweet"><a href="https://twitter.com/dabo_pic/status/1210855635522162688" target="_blank" rel="noopener"></a></blockquote></div><script async defer src="//platform.twitter.com/widgets.js" charset="utf-8"></script><p>セッティング途中でとりあえずテキトーに自撮り．</p><h3 id="掲載作品"><a href="#掲載作品" class="headerlink" title="掲載作品"></a>掲載作品</h3><p>この長い夜で撮影した作品ですが，月間天文ガイド2020年4月号ビギナーの部に掲載していただきました．天文ガイドに載るのは初めてなので，嬉しいです．</p><p><img src="work_1.jpg" alt="貴女の苦しみ"></p><div style="text-align: center;">”貴女の苦しみ”<br>2019年12月28日 午後19時4分～ 長野県王滝村おんたけ2240スキー場駐車場にて<br>SIGMA 135mm F1.8 DG HSM Art (F2.8)<br>Canon EOS 6D<br>ISO 2500 / 180s * 130 = 390 min<br>タカハシ EM-11 Temma2Jr. ノータッチガイド<br>ステライメージ8 / Adobe Lightroom CC / Photoshop CC<br>月刊 天文ガイド2020年4月号ビギナーの部 掲載<br><br></div><p>応募時から若干色味を変えています．僕はどうやら明るい部分を黄色に寄せすぎるクセがあるらしく，あとから赤（オレンジ？）に寄せてごまかすことが多いです笑．<br>ポイントは6.5時間も露光できたことですかね．牡牛座が東から西へ移動する間中ひたすら露光できました．驚いたのは，バッテリー（SG-3500）が極寒の中ここまで保ったということです．いくら重くない機材とはいえ，冬の夜に一晩保つとは思っていませんでした．今回の MVP です．<br>いつもコンポジットにはステライメージ8を使っていますが，これだけの枚数あるとものすごい量のキャッシュを吐くので，そのためにカツカツの PC 容量を空ける必要があり大変でした．<br>それから，タイトルについて本誌でも触れられていますが，牡牛座にまつわる神話を少し調べてつけました．大神ゼウスが牛に姿を変え，エウロパをさらったという神話が有名なようですが，今回はこちらではなく，ゼウスの妻ヘラが，ゼウスに愛されるイオという女性を嫉妬から牛の姿に変えたという方から採用しました．分子雲の美しくも禍々しい見た目が，こちらの神話の方によりリンクするかなあと思ったためですね．坂本真綾楽曲に詳しい人は，このタイトルとある曲の歌詞がリンクしたりするんじゃないかなあと思っています笑．<br>あ，あとこの写真の現像は日本酒を飲みながらやりました．観測明けでヘロヘロの中，さらにお酒を入れながら現像するのはなかなか良いのかもしれません(？)．</p><h3 id="もう一枚"><a href="#もう一枚" class="headerlink" title="もう一枚"></a>もう一枚</h3><p>牡牛座が西に傾いてから薄明までしばらく時間があったので，カメラを北に向け（というのも，南関東で撮影することが多く，いつもより北の空が暗い印象だったためです），M81, 82付近の分子雲にトライしてみることにしました．</p><p><img src="work_2.jpg" alt="すぐ傍の彼方から"></p><div style="text-align: center;">”すぐ傍の彼方から”<br>2019年12月29日 午前2時6分～ 長野県王滝村おんたけ2240スキー場駐車場にて<br>SIGMA 135mm F1.8 DG HSM Art (F2.8)<br>Canon EOS 6D<br>ISO 2500 / 210s * 47 = 164.5 min<br>タカハシ EM-11 Temma2Jr. ノータッチガイド<br>ステライメージ8 / Adobe Lightroom CC / Photoshop CC<br><br></div><p>ここの分子雲は以前の撮影で薄雲に沈み大敗した対象なので，今回これだけ分子雲の存在が確認できてかなり満足です．タイトルは坂本真綾楽曲から，まあ分かる人には分かるでしょう．</p><div class="twitter-wrapper"><blockquote class="twitter-tweet"><a href="https://twitter.com/dabo_pic/status/1211644512499466240" target="_blank" rel="noopener"></a></blockquote></div><script async defer src="//platform.twitter.com/widgets.js" charset="utf-8"></script><p>こちらは星ナビに応募し，密かに同時掲載を狙っていたのですが，無事失敗に終わりました笑．まあ銀河のディテールも飛んでしまっているし，粗を探せばきりが無いので，仕方ないですね．同時掲載は一筋縄ではいかないということで，今後も精進してまいります．</p><p>今年は FSQ で一回くらい入選してみたいものですが，焦点距離が伸びれば伸びるほど技術の外で勝負が効かなくなってくるので，下手の横好きでやっている自分はあまり自信がありません．まあとにかく頑張ってみようと思います．それでは．</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;あいさつ&quot;&gt;&lt;a href=&quot;#あいさつ&quot; class=&quot;headerlink&quot; title=&quot;あいさつ&quot;&gt;&lt;/a&gt;あいさつ&lt;/h3&gt;&lt;p&gt;昨年末に，久々に長野県王滝村に遠征に行きましたので，撮影したものと遠征記を簡単に書いておきます．&lt;/p&gt;
     
     </summary>
     
