@@ -42,6 +42,36 @@
   </entry>
   
   <entry>
+    <title>MGEN-3 でのガイドについて</title>
+    <link href="http://dabokun.github.io/2021/04/25/00000051-mgen-3-resolved/"/>
+    <id>http://dabokun.github.io/2021/04/25/00000051-mgen-3-resolved/</id>
+    <published>2021-04-25T07:22:31.000Z</published>
+    <updated>2021-04-25T09:21:14.863Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="あいさつ"><a href="#あいさつ" class="headerlink" title="あいさつ"></a>あいさつ</h3><p>前回の冷却CMOSファーストライトでは色々と課題が出てきたのですが，そのうちMGEN については進展がありましたので書いておきます．</p><a id="more"></a><h3 id="MGEN-3-でのガイド"><a href="#MGEN-3-でのガイド" class="headerlink" title="MGEN-3 でのガイド"></a>MGEN-3 でのガイド</h3><p>さて，MGEN がこれまでうまくガイドをしなかった理由は本当にしょうもないものでした．<br>ある時，自宅近辺でガイドのテストをしたい（この直前に美ヶ原で生じた追尾エラーの検証，この遠征についてはまた別記事で）と思い，家から車で30秒の公園で機材を広げて練習していたところ，やはりガイドはうまくいきません．</p><div class="twitter-wrapper"><blockquote class="twitter-tweet"><a href="https://twitter.com/dabo_pic/status/1383771012022489094" target="_blank" rel="noopener"></a></blockquote></div><script async defer src="//platform.twitter.com/widgets.js" charset="utf-8"></script><p>ガイドはじめの数10秒～1,2分はグラフも特に問題ないように見えるのですが，しばらくするとガイド星が吹き飛んでいきガイドをやめてしまいます．<br>うまくいかねーと愚痴りながらTL 上でいろいろな方と話していたとき，私がこのような写真を上げたところ，M&amp;M さんが本質情報を叩き込んでくれました．</p><div class="twitter-wrapper"><blockquote class="twitter-tweet"><a href="https://twitter.com/dabo_pic/status/1383776500822855683" target="_blank" rel="noopener"></a></blockquote></div><script async defer src="//platform.twitter.com/widgets.js" charset="utf-8"></script><p>上のツイートの添付画像に問題があります．<br>さあ，どこが問題かわかりますでしょうか？<br>そう！ここです！！<br>。<br>。<br>。<br>。<br>。<br>。<br>。<br>。<br>。<br>。</p><p><img src="04.jpg" alt="hoge"></p><p>私や M&amp;M さんが使用しているタカハシ EM 赤道儀にはこのようなコントローラがついています．よく見るとライトがついているのがお分かりかと思いますが，ここが赤だとモータを高速で駆動するモード，緑だと低速で駆動するモードなのです．これを見つけた M&amp;M さんが次のように指摘．</p><div class="twitter-wrapper"><blockquote class="twitter-tweet"><a href="https://twitter.com/656nm_freak/status/1383780262174093315" target="_blank" rel="noopener"></a></blockquote></div><script async defer src="//platform.twitter.com/widgets.js" charset="utf-8"></script><p>よくよく考えれば，高速モードでガイドがうまくいかないのは当然です．高速モードなので動かし始めに注目すると最初はゆっくり，だんだんと高速になります．そのような信号→モータ駆動の精度でキャリブレーションがうまくいくはずがなかったのです．オートガイド初心者の私はこのことに全く気づきませんでした．<br>このようなミスはオートガイドあるあるだそうで，M&amp;M さんや他のリアル知り合いの人でも同じミスをした経験のある方が数名いらっしゃいました．<br>低速モードにしてやり直したところ無事ガイドもうまくいき，8分ほぼ点像を成し遂げました．めでたしめでたし．</p><div class="twitter-wrapper"><blockquote class="twitter-tweet"><a href="https://twitter.com/dabo_pic/status/1383783107212439558" target="_blank" rel="noopener"></a></blockquote></div><script async defer src="//platform.twitter.com/widgets.js" charset="utf-8"></script><p>本当にしょうもない理由でしたが，もう絶対に忘れることはなさそうです．<br><strong>凄まじい観察眼でミスを発見し指摘していただいた M&amp;M さんには本当に感謝しかありません，ありがとうございました．<br>それから，散々 MGEN がうまくいかないと TL で愚痴ってしまって Lacerta さんごめんなさい．私の MGEN はどこも悪くありませんでした．</strong><br>教訓：<font color="red"><b>EM シリーズ赤道儀キャリブレーション，オートガイド時は絶対低速モードにすること！</b></font></p><h3 id="MGEN-3-でのディザリング"><a href="#MGEN-3-でのディザリング" class="headerlink" title="MGEN-3 でのディザリング"></a>MGEN-3 でのディザリング</h3><p>オートガイドはとりあえずこれでうまくいくことがわかりましたが，次に生じた疑問は「そういえば今の自分の環境でディザリングってどうやるんだろう？そもそもできるんだろうか？」ということです．<br>MGEN の場合，一眼レフであれば専用のカメラケーブルを使うとディザリングを利用したシャッターコントロールまでできるようになるようですが，冷却 CMOS の場合なにかうまいやり方があるのでしょうか．<br>結論から言うと，ありました．</p><p>参考になったのは以下の記事です．</p><p><a href="https://hiroooo000-blog.hatenablog.com/entry/2020/12/30/001210" target="_blank" rel="noopener">20201229 MGEN.APPでPHD2を使ってPCとMGEN3を接続し、リモート操作できました！</a></p><p><a href="https://mgen.app/" target="_blank" rel="noopener">MGEN.APP</a> という ASCOM ドライバを利用することで，MGEN を PC から制御できるようになります．PC から制御できるということは，同じく PC から制御している冷却 CMOS ともコミュニケーションできるんじゃないか？と推測できます．<br>上記の記事では PHD2 を利用していますが，私が利用している APT でもやり方は同じです．<br>以下に手順を書いておきます．</p><h4 id="ディザリングの利用手順"><a href="#ディザリングの利用手順" class="headerlink" title="ディザリングの利用手順"></a>ディザリングの利用手順</h4><ol><li>MGEN-3 と冷却 CMOS を PC に接続します（MGEN-3は電源ケーブルの USB を PC の USB ポートに繋げばOK）．<br><img src="01.jpg" alt="hoge"></li><li>APT の「Connect」から「CCD:ASCOM Camera」を選択します．</li><li>OK を選択します．<br><img src="02.jpg" alt="hoge"></li><li>ドライバの選択画面から「MGEN.APP」を選択します．ここでは冷却 CMOS のドライバはまだ選択しません．</li><li>MGEN.APP の Properties 画面を開きます．</li><li>一番下の Choose から制御したい本撮影用カメラのドライバを選択画面を開きます．</li><li>ここで QHYCCD-Cameras2-Capture を選択します．この画面での Properties からは，いつものようにカメラの設定をいじることもできます．</li><li>OK を選択して 本撮影用の ASCOM Camera Chooser を閉じます．</li><li>Choose の横に選択したカメラドライバ名が出ているはずですので，OK を選択して MGEN.APP Setup を閉じます．</li><li>OK を選択して MGEN.APP 用の ASCOM Camera Chooser を閉じます．接続が試行されます．<br><img src="03.jpg" alt="hoge"></li><li>接続に成功すると，APT の本画面の他に MGEN-3 のエミュレータ画面とログ画面も開かれます．PC に表示されている MGEN-3 の画面と MGEN-3 本体は同期しています．どちらからでもいいのでディザリングの設定を開いて，Enable にチェックを入れて適当なパラメタ値を設定します．</li><li>これで APT から 露光を Start します．以上です．</li></ol><p>こんなんでできるのか（APT から追加の設定などはいらないのか）と思いましたが，無事にディザリングできていることを確認できました．</p><div class="twitter-wrapper"><blockquote class="twitter-tweet"><a href="https://twitter.com/dabo_pic/status/1385629756868022272" target="_blank" rel="noopener"></a></blockquote></div><script async defer src="//platform.twitter.com/widgets.js" charset="utf-8"></script><p>これでガイドについては自分が思いつく限りでは完全な撮影体制が整ったと思います．やったぜ．<br>ただ，残念ながらいまのところ「ある枠の中でランダムに散らす」設定しかできないように見えます．以前の MGEN では Square Snake（星を矩形の渦巻上になるように散らす）といった設定も可能でしたが，MGEN-3 ではできないようです．今後のファームウェアアップデートなどで追加されるかもしれません（今のファームウェアバージョンは1.10.2です）．<br>それから，ディザリングもうまくいかないこと（確かに散らしてはいるのですが単一方向にしか動いていないように見える）があるようです．</p><div class="twitter-wrapper"><blockquote class="twitter-tweet"><a href="https://twitter.com/dabo_pic/status/1385584819510255625" target="_blank" rel="noopener"></a></blockquote></div><script async defer src="//platform.twitter.com/widgets.js" charset="utf-8"></script><p>MGEN の問題ではないかもしれませんが，MGEN-3 ではこれまでどのように星を散らしてきたかの履歴が見れるのでそれを現地で確認したり，コンポジットしてちゃんとできているか確認するのが安全策として有効だと思います．</p><p>以上です，それでは！</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;あいさつ&quot;&gt;&lt;a href=&quot;#あいさつ&quot; class=&quot;headerlink&quot; title=&quot;あいさつ&quot;&gt;&lt;/a&gt;あいさつ&lt;/h3&gt;&lt;p&gt;前回の冷却CMOSファーストライトでは色々と課題が出てきたのですが，そのうちMGEN については進展がありましたので書いておきます．&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="天体写真" scheme="http://dabokun.github.io/categories/astrophotography/"/>
+    
+    
+      <category term="天体写真" scheme="http://dabokun.github.io/tags/astrophotography/"/>
+    
+      <category term="写真" scheme="http://dabokun.github.io/tags/photography/"/>
+    
+      <category term="機材" scheme="http://dabokun.github.io/tags/equipments/"/>
+    
+      <category term="カメラ" scheme="http://dabokun.github.io/tags/camera/"/>
+    
+      <category term="赤道儀" scheme="http://dabokun.github.io/tags/mount/"/>
+    
+  </entry>
+  
+  <entry>
     <title>QHY268C ファーストライト</title>
     <link href="http://dabokun.github.io/2021/03/28/00000050-qhy268c-first/"/>
     <id>http://dabokun.github.io/2021/03/28/00000050-qhy268c-first/</id>
@@ -244,9 +274,9 @@
       <category term="画像処理" scheme="http://dabokun.github.io/categories/processing/"/>
     
     
-      <category term="写真" scheme="http://dabokun.github.io/tags/photography/"/>
-    
       <category term="天体写真" scheme="http://dabokun.github.io/tags/astrophotography/"/>
+    
+      <category term="写真" scheme="http://dabokun.github.io/tags/photography/"/>
     
       <category term="画像処理" scheme="http://dabokun.github.io/tags/processing/"/>
     
@@ -298,9 +328,9 @@
       <category term="画像処理" scheme="http://dabokun.github.io/categories/processing/"/>
     
     
-      <category term="写真" scheme="http://dabokun.github.io/tags/photography/"/>
-    
       <category term="天体写真" scheme="http://dabokun.github.io/tags/astrophotography/"/>
+    
+      <category term="写真" scheme="http://dabokun.github.io/tags/photography/"/>
     
       <category term="画像処理" scheme="http://dabokun.github.io/tags/processing/"/>
     
@@ -324,9 +354,9 @@
       <category term="遠征記" scheme="http://dabokun.github.io/categories/expedition/"/>
     
     
-      <category term="写真" scheme="http://dabokun.github.io/tags/photography/"/>
-    
       <category term="天体写真" scheme="http://dabokun.github.io/tags/astrophotography/"/>
+    
+      <category term="写真" scheme="http://dabokun.github.io/tags/photography/"/>
     
       <category term="機材" scheme="http://dabokun.github.io/tags/equipments/"/>
     
@@ -354,9 +384,9 @@
       <category term="遠征記" scheme="http://dabokun.github.io/categories/expedition/"/>
     
     
-      <category term="写真" scheme="http://dabokun.github.io/tags/photography/"/>
-    
       <category term="天体写真" scheme="http://dabokun.github.io/tags/astrophotography/"/>
+    
+      <category term="写真" scheme="http://dabokun.github.io/tags/photography/"/>
     
       <category term="遠征記" scheme="http://dabokun.github.io/tags/expedition/"/>
     
@@ -404,9 +434,9 @@
       <category term="遠征記" scheme="http://dabokun.github.io/categories/expedition/"/>
     
     
-      <category term="写真" scheme="http://dabokun.github.io/tags/photography/"/>
-    
       <category term="天体写真" scheme="http://dabokun.github.io/tags/astrophotography/"/>
+    
+      <category term="写真" scheme="http://dabokun.github.io/tags/photography/"/>
     
       <category term="機材" scheme="http://dabokun.github.io/tags/equipments/"/>
     
@@ -436,9 +466,9 @@
       <category term="遠征記" scheme="http://dabokun.github.io/categories/expedition/"/>
     
     
-      <category term="写真" scheme="http://dabokun.github.io/tags/photography/"/>
-    
       <category term="天体写真" scheme="http://dabokun.github.io/tags/astrophotography/"/>
+    
+      <category term="写真" scheme="http://dabokun.github.io/tags/photography/"/>
     
       <category term="鏡筒" scheme="http://dabokun.github.io/tags/telescope/"/>
     
@@ -468,9 +498,9 @@
       <category term="遠征記" scheme="http://dabokun.github.io/categories/expedition/"/>
     
     
-      <category term="写真" scheme="http://dabokun.github.io/tags/photography/"/>
-    
       <category term="天体写真" scheme="http://dabokun.github.io/tags/astrophotography/"/>
+    
+      <category term="写真" scheme="http://dabokun.github.io/tags/photography/"/>
     
       <category term="遠征記" scheme="http://dabokun.github.io/tags/expedition/"/>
     
@@ -494,9 +524,9 @@
       <category term="遠征記" scheme="http://dabokun.github.io/categories/expedition/"/>
     
     
-      <category term="写真" scheme="http://dabokun.github.io/tags/photography/"/>
-    
       <category term="天体写真" scheme="http://dabokun.github.io/tags/astrophotography/"/>
+    
+      <category term="写真" scheme="http://dabokun.github.io/tags/photography/"/>
     
       <category term="遠征記" scheme="http://dabokun.github.io/tags/expedition/"/>
     
@@ -520,37 +550,11 @@
       <category term="遠征記" scheme="http://dabokun.github.io/categories/expedition/"/>
     
     
-      <category term="写真" scheme="http://dabokun.github.io/tags/photography/"/>
-    
       <category term="天体写真" scheme="http://dabokun.github.io/tags/astrophotography/"/>
+    
+      <category term="写真" scheme="http://dabokun.github.io/tags/photography/"/>
     
       <category term="画像処理" scheme="http://dabokun.github.io/tags/processing/"/>
-    
-      <category term="遠征記" scheme="http://dabokun.github.io/tags/expedition/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>【遠征記】2020年3月 小諸</title>
-    <link href="http://dabokun.github.io/2020/03/25/00000032-2020-03-komoro/"/>
-    <id>http://dabokun.github.io/2020/03/25/00000032-2020-03-komoro/</id>
-    <published>2020-03-25T03:29:24.000Z</published>
-    <updated>2020-10-28T17:40:28.000Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="あいさつ"><a href="#あいさつ" class="headerlink" title="あいさつ"></a>あいさつ</h3><p>先日の三連休の間で小諸に星見に行ってきましたので，簡単にまとめておきます．</p><a id="more"></a><h3 id="小諸へ"><a href="#小諸へ" class="headerlink" title="小諸へ"></a>小諸へ</h3><p>私が所属する「屋根裏天文舎」というゆるい星見団体では，夏と冬に一回ずつ星見合宿をします．夏は乗鞍岳の「白雲荘」へ，冬は小諸にある「西川ペンション星の宿」に大体二泊三日で宿泊します．今回も（例年よりちょっと遅めになりますが）そこで星見をするということで，通算三回目（？）の参加をしてきました．夏の乗鞍と比べてしまうと標高の差が大きいので流石に見劣りしてしまう空ですが，何より宿の料理が美味しい，宿から出て15秒のところで観望ができる，コンビニがそれなりに近いというのが西川ペンションの大きな利点です．</p><div class="twitter-wrapper"><blockquote class="twitter-tweet"><a href="https://twitter.com/dabo_pic/status/1240909643267727361" target="_blank" rel="noopener"></a></blockquote></div><script async defer src="//platform.twitter.com/widgets.js" charset="utf-8"></script><p>こんな感じで観測施設もあったりします．対空双眼鏡があるのでメシエ天体や他の銀河などを眺めるにはとても良いです．</p><p>毎回大雪が降ったりしてタダでは帰れない冬の星見合宿ですが，今回は特に大きなトラブルもなく，二晩ともそれなりの晴れに恵まれました．<br>今回も基本的に FSQ での撮影と，それからこの合宿の直前に買った Helinox ビーチチェアの使用感を確かめることが主な目的でした．</p><h3 id="Helinox-ビーチチェアについて"><a href="#Helinox-ビーチチェアについて" class="headerlink" title="Helinox ビーチチェアについて"></a>Helinox ビーチチェアについて</h3><p>先にチェアについて書いておこうと思います笑 このチェアを買ったのは，Twitter で誰かが良いと言っていたのを頭の片隅で覚えていたからなのです．実際に使ってみると，確かに使い勝手は良かったです．シンプルな構造（フレームをセットして椅子を四箇所で留めるだけ，ちょっと固いのでテンションをかけながら留める必要あり）なのでセッティングや片付けにそこまで時間はかからないし，何よりとても軽い．もともと山にも持っていけるようなものなので当然ですが，ここまで軽いとは驚きでした．それだけ軽いので，風が強い日は外には出せない気がします…笑　ブランケットも使えば，夏場は楽々寝られるでしょう．ある程度の背もたれの大きさがあるタイプなので，真上を見上げることは（相当座高が高くない限り）できませんが，それでも星空を楽しむ分には申し分ないと思います．早く夏の天の川に向かって座ってみたいものです．</p><div class="twitter-wrapper"><blockquote class="twitter-tweet"><a href="https://twitter.com/dabo_pic/status/1240984017576448001" target="_blank" rel="noopener"></a></blockquote></div><script async defer src="//platform.twitter.com/widgets.js" charset="utf-8"></script><h3 id="一晩目-～-M81-M82-と-C-2019-Y4-アトラス彗星～"><a href="#一晩目-～-M81-M82-と-C-2019-Y4-アトラス彗星～" class="headerlink" title="一晩目 ～ M81/M82 と C/2019 Y4 アトラス彗星～"></a>一晩目 ～ M81/M82 と C/2019 Y4 アトラス彗星～</h3><p>本当はチェアに座ってぐうたらしていたいところですが，M81/M82 とアトラス彗星が接近中，かつ FSQ の 450mm 写野でギリギリ両方写せるということで，一晩目は M81/M82 を狙うことに決めていました．<br>が，夜半近くのこの領域は高度が高く，いつだったかの M106 のようにそもそも全然導入できない笑．結局，おおぐま座α星（ドゥペ）から目盛り環を使ってなんとか導入…．ファインダーがあれば幾分マシになると思うのですが…（買おうかな）．</p><p><img src="m8182_intro.jpg" alt="M81/M82 の導入"></p><p>そしてさらに困難なのが，アトラス彗星と同写野に入れること．カメラの向きを東西南北揃えてはダメで，よしなに回転させる必要があります．これは気合でなんとかしました．<br>途中インターバルも3分にするというトラブルもあり，彗星をどうこうするというのは今後明るくなってからの課題にしたいと思いますが，とりあえず両方写っただけ万々歳です．</p><p><img src="work_1.jpg" alt="M81/M82 と C/2019 Y4 アトラス彗星"></p><div style="text-align: center;">”M81/M82 と C/2019 Y4 アトラス彗星”<br>2020年3月21日 午前0時57分～ 長野県小諸市西川ペンション星の宿にて<br>タカハシ FSQ-85EDP (450mm F5.3)<br>Canon EOS 6D<br>ISO 3200 / 180s * 32 = 96 min<br>タカハシ EM-11 Temma2Jr. ノータッチガイド<br>ステライメージ8 / Adobe Lightroom CC / Photoshop CC<br><br></div><p>強調したら分子雲がいたので少し炙ってみました．普通に恒星基準で加算平均コンポジットです．シグマクリッピングもしていないので，真ん中を飛行機やら人工衛星やらが通過していますが，まああまり気にしない感じで…笑．注目されているこの C/2019 Y4 ですが，しっかり増光してくれるといいですね．</p><h3 id="小休止（銭湯-あぐりの湯こもろ-へ）"><a href="#小休止（銭湯-あぐりの湯こもろ-へ）" class="headerlink" title="小休止（銭湯 あぐりの湯こもろ へ）"></a>小休止（銭湯 あぐりの湯こもろ へ）</h3><p>翌日少しお腹の調子が悪かったのですが，朝食を食べてしばらくしたら復活したので，上の作品のコンポジットを仕掛けて温泉へ向かいました．ここらで温泉に入るのは三回目の参加にして初めてでしたが，とても良い温泉でした．もう1年早く知っておきたかった…．</p><div class="twitter-wrapper"><blockquote class="twitter-tweet"><a href="https://twitter.com/dabo_pic/status/1241227014524157953" target="_blank" rel="noopener"></a></blockquote></div><script async defer src="//platform.twitter.com/widgets.js" charset="utf-8"></script><p>サウナは二段あって上段で暑すぎも寒すぎもせず，水風呂は15度と個人的には少し冷たいくらい．そして何より，脱衣所に湯上がり室という部屋があって，外気浴ができないほど寒い時期にはこの部屋が最適．バチバチに整うことができました．これで入館料500円なので，コスパはかなり良いと思います．また行きます．</p><h3 id="二晩目-～M51-M13～"><a href="#二晩目-～M51-M13～" class="headerlink" title="二晩目 ～M51, M13～"></a>二晩目 ～M51, M13～</h3><p>一晩目で苦労したので，今回は楽に撮影できる対象を主に狙いました．M51 子持ち銀河と M13 球状星団．450mm では少し小さめですが，両方とも導入は楽な対象です．</p><p><img src="work_2.jpg" alt="M51 子持ち銀河"></p><div style="text-align: center;">”M51 子持ち銀河”<br>2020年3月21日 午後10時10分～ 長野県小諸市西川ペンション星の宿にて<br>タカハシ FSQ-85EDP (450mm F5.3)<br>Canon EOS 6D<br>ISO 3200 / 180s * 36 = 108 min<br>タカハシ EM-11 Temma2Jr. ノータッチガイド<br>ステライメージ8 / Adobe Lightroom CC / Photoshop CC<br><br></div><p>まずM51．フラットがめんどくさかったので上下はトリミングしました．しっかりと自分の中の子持ちらしい出来になったかなと思います．</p><p><img src="work_3.jpg" alt="M13 球状星団"></p><div style="text-align: center;">”M13 球状星団”<br>2020年3月22日 午前0時24分～ 長野県小諸市西川ペンション星の宿にて<br>タカハシ FSQ-85EDP (450mm F5.3)<br>Canon EOS 6D<br>ISO 3200 / 180s * 32 = 96 min<br>タカハシ EM-11 Temma2Jr. ノータッチガイド<br>ステライメージ8 / Adobe Lightroom CC / Photoshop CC<br><br></div><p>こちらはM13．やはりトリミング．大規模な星団なだけあって写真でも見応えがあって美しいですね．<br>本当はもう少し春の銀河を撮ってみたさもありますが，今シーズンはこれくらいになりますかね．今回の新月期も上弦までまだ少しありますが，天気的に遠征に出られるかどうかは怪しいです．次の新月期では恐らく夏の天の川を狙うことになるでしょう（どこを撮るかは既に決めています，といってもオーソドックスな場所ですが）．</p><p>それでは～．</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;あいさつ&quot;&gt;&lt;a href=&quot;#あいさつ&quot; class=&quot;headerlink&quot; title=&quot;あいさつ&quot;&gt;&lt;/a&gt;あいさつ&lt;/h3&gt;&lt;p&gt;先日の三連休の間で小諸に星見に行ってきましたので，簡単にまとめておきます．&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="遠征記" scheme="http://dabokun.github.io/categories/expedition/"/>
-    
-    
-      <category term="写真" scheme="http://dabokun.github.io/tags/photography/"/>
-    
-      <category term="天体写真" scheme="http://dabokun.github.io/tags/astrophotography/"/>
     
       <category term="遠征記" scheme="http://dabokun.github.io/tags/expedition/"/>
     
