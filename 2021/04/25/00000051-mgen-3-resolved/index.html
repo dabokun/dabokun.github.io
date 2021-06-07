@@ -7,7 +7,7 @@
   <title>MGEN-3 でのガイドについて | ほしよみ大学生のブログ</title>
   <meta name="viewport" content="width=device-width">
   <meta name="description" content="あいさつ前回の冷却CMOSファーストライトでは色々と課題が出てきたのですが，そのうちMGEN については進展がありましたので書いておきます．">
-<meta name="keywords" content="天体写真,写真,機材,カメラ,赤道儀">
+<meta name="keywords" content="写真,天体写真,機材,カメラ,赤道儀">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MGEN-3 でのガイドについて">
 <meta property="og:url" content="http://dabokun.github.io/2021/04/25/00000051-mgen-3-resolved/index.html">
@@ -15,7 +15,7 @@
 <meta property="og:description" content="あいさつ前回の冷却CMOSファーストライトでは色々と課題が出てきたのですが，そのうちMGEN については進展がありましたので書いておきます．">
 <meta property="og:locale" content="ja">
 <meta property="og:image" content="http://dabokun.github.io/2021/04/25/00000051-mgen-3-resolved/card.jpg">
-<meta property="og:updated_time" content="2021-04-25T09:35:55.186Z">
+<meta property="og:updated_time" content="2021-04-26T12:17:27.653Z">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="MGEN-3 でのガイドについて">
 <meta name="twitter:description" content="あいさつ前回の冷却CMOSファーストライトでは色々と課題が出てきたのですが，そのうちMGEN については進展がありましたので書いておきます．">
@@ -106,7 +106,7 @@
 <p><a href="https://hiroooo000-blog.hatenablog.com/entry/2020/12/30/001210" target="_blank" rel="noopener">20201229 MGEN.APPでPHD2を使ってPCとMGEN3を接続し、リモート操作できました！</a></p>
 <p><a href="https://mgen.app/" target="_blank" rel="noopener">MGEN.APP</a> という ASCOM ドライバを利用することで，MGEN を PC から制御できるようになります．PC から制御できるということは，同じく PC から制御している冷却 CMOS ともコミュニケーションできるんじゃないか？と推測できます．<br>上記の記事では PHD2 を利用していますが，私が利用している APT でもやり方は同じです．<br>以下に手順を書いておきます．</p>
 <h4 id="ディザリングの利用手順"><a href="#ディザリングの利用手順" class="headerlink" title="ディザリングの利用手順"></a>ディザリングの利用手順</h4><ol>
-<li>MGEN-3 と冷却 CMOS を PC に接続します（MGEN-3は電源ケーブルの USB を PC の USB ポートに繋げばOK）．<br><img src="01.jpg" alt="ディザリングの利用手順1"></li>
+<li>MGEN-3 と冷却 CMOS の電源を入れ，両方とも PC に接続します（MGEN-3は電源ケーブルの USB を PC の USB ポートに繋げばOK）．<br><img src="01.jpg" alt="ディザリングの利用手順1"></li>
 <li>APT の「Connect」から「CCD:ASCOM Camera」を選択します．</li>
 <li>OK を選択します．<br><img src="02.jpg" alt="ディザリングの利用手順2"></li>
 <li>ドライバの選択画面から「MGEN.APP」を選択します．ここでは冷却 CMOS のドライバはまだ選択しません．</li>
@@ -122,7 +122,7 @@
 <p>こんなんでできるのか（APT から追加の設定などはいらないのか）と思いましたが，無事にディザリングできていることを確認できました．</p>
 <div class="twitter-wrapper"><blockquote class="twitter-tweet"><a href="https://twitter.com/dabo_pic/status/1385577650345836551" target="_blank" rel="noopener"></a></blockquote></div><script async defer src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 <div class="twitter-wrapper"><blockquote class="twitter-tweet"><a href="https://twitter.com/dabo_pic/status/1385629756868022272" target="_blank" rel="noopener"></a></blockquote></div><script async defer src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-<p>これでガイドについては自分が思いつく限りでは完全な撮影体制が整ったと思います．やったぜ．<br>ただ，残念ながらいまのところ「ある枠の中でランダムに散らす」設定しかできないように見えます．以前の MGEN では Square Snake（星を矩形の渦巻上になるように散らす）といった設定も可能でしたが，MGEN-3 ではできないようです．今後のファームウェアアップデートなどで追加されるかもしれません（今のファームウェアバージョンは1.10.2です）．<br>それから，ディザリングもうまくいかないこと（確かに散らしてはいるのですが単一方向にしか動いていないように見える）があるようです．</p>
+<p>これでガイドについては自分が思いつく限りでは完全な撮影体制が整ったと思います．やったぜ．<br>ただ，残念ながらいまのところ「ある枠の中でランダムに散らす」設定しかできないように見えます．以前の MGEN では Square Snake（星を矩形の渦巻状になるように散らす）といった設定も可能でしたが，MGEN-3 ではできないようです．今後のファームウェアアップデートなどで追加されるかもしれません（今のファームウェアバージョンは1.10.2です）．<br>それから，ディザリングもうまくいかないこと（確かに散らしてはいるのですが単一方向にしか動いていないように見える）があるようです．</p>
 <div class="twitter-wrapper"><blockquote class="twitter-tweet"><a href="https://twitter.com/dabo_pic/status/1385584819510255625" target="_blank" rel="noopener"></a></blockquote></div><script async defer src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 <p>MGEN の問題ではないかもしれませんが，MGEN-3 ではこれまでどのように星を散らしてきたかの履歴が見れるのでそれを現地で確認したり，コンポジットしてちゃんとできているか確認するのが安全策として有効だと思います．</p>
 <p>以上です，それでは！</p>
@@ -157,11 +157,11 @@
 	
 <nav id="article-nav">
   
-    <a href="/2999/12/31/99999999-notice/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2021/06/07/00000053-2021-04-utsukushi/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          お知らせ
+          【遠征記】2021年4月 美ヶ原
         
       </div>
     </a>
