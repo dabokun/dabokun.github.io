@@ -19,7 +19,7 @@
 <meta property="og:description" content="あいさつ最近 PixInsight を導入して使い始めました．このソフトには ArcsinhStretch というストレッチ機能があり，結局どういうことをやっているのか少し気になったので調べてみました．">
 <meta property="og:locale" content="ja">
 <meta property="og:image" content="http://dabokun.github.io/2021/06/16/00000056-aflak-improc-03/card.jpg">
-<meta property="og:updated_time" content="2021-06-17T10:12:52.922Z">
+<meta property="og:updated_time" content="2021-06-17T12:06:25.475Z">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="ArcsinhStretch について調べて，追実装してみる">
 <meta name="twitter:description" content="あいさつ最近 PixInsight を導入して使い始めました．このソフトには ArcsinhStretch というストレッチ機能があり，結局どういうことをやっているのか少し気になったので調べてみました．">
@@ -103,16 +103,16 @@ f(x) = \begin{cases}
     0 & (x < m) \\
     \frac{F(x - m)}{F(M - m)} & (m \le x \le M) \\
     1 & (x > M)
-  \end{cases}</script><p>関数<script type="math/tex">F</script>は通常<script type="math/tex">\log</script>や√，線形などがありますが，色が保持されるとは，変換後の<script type="math/tex">R, G, B</script>の比率が変換前の<script type="math/tex">r, g, b</script>と変わらないことを言います．<br>このことは，色相と彩度を考えると理解できて，</p>
+  \end{cases}</script><p>関数<script type="math/tex">F</script>は通常<script type="math/tex">\log</script>や√，線形関数などがありますが，色が保持されるとは，変換後の<script type="math/tex">R, G, B</script>の比率が変換前の<script type="math/tex">r, g, b</script>と変わらないことを言います．<br>このことは，色相と彩度が変わらないということです．これらを式で見てみると，</p>
 <script type="math/tex; mode=display">Max = \max(R, G, B), Min = \min(R, G, B)</script><script type="math/tex; mode=display">H = \begin{cases}
   60 * ((G - B) / (Max - Min)) ,\; \max(R, G, B) = R \\
   60 * ((B - R) / (Max - Min)) + 120 ,\; \max(R, G, B) = G \\
   60 * ((R - G) / (Max - Min)) + 240 ,\; \max(R, G, B) = B
-    \end{cases}</script><script type="math/tex; mode=display">S = (Max - Min) / Max</script><p>であることから，<script type="math/tex">r = k \cdot R, g = k \cdot G, b = k \cdot B (k > 0)</script>であるような変換であれば，三色の値の大小関係も保たれ（最大値は<script type="math/tex">k \cdot Max</script>，最小値は<script type="math/tex">k \cdot Min</script>），色相と彩度が基本的に保たれることになります．</p>
-<script type="math/tex; mode=display">H = \frac{60 * (k \cdot G - k \cdot B)}{k \cdot Max - k \cdot Min} = \frac{60 * (G - B)}{Max - Min}</script><p>（上の式については他のケースについても同様）</p>
-<script type="math/tex; mode=display">S = \frac{k \cdot Max - k \cdot Min}{k \cdot Max} = \frac{Max - Min}{Max}</script><p>この<script type="math/tex">k</script>（ストレッチファクターとも呼びます）を決めるときに，Arcsinh関数を使うことで，ArcsinhStretchが実現できます．したがって，（自分は勘違いしていたのですが）Arcsinh関数を使うことと色が保持されることは特に関係はありません．<br>どの画素に対しても同じ<script type="math/tex">k</script>を掛け算するようなストレッチ方法であれば，必ず色は保持されます．</p>
+    \end{cases}</script><script type="math/tex; mode=display">S = (Max - Min) / Max</script><p>であることから，たとえば，<script type="math/tex">R' = k \cdot R, G' = k \cdot G, B' = k \cdot B (k > 0)</script>であるような変換であれば，三色の値の大小関係も保たれ（最大値は<script type="math/tex">Max' = k \cdot Max</script>，最小値は<script type="math/tex">Min' = k \cdot Min</script>），色相と彩度が基本的に保たれる，つまり色が保たれるということになります．</p>
+<script type="math/tex; mode=display">H: \frac{60 * (G' - B')}{Max' - Min'} = \frac{60 * (k \cdot G - k \cdot B)}{k \cdot Max - k \cdot Min} = \frac{60 * (G - B)}{Max - Min}</script><p>（上の式については他のケースについても同様）</p>
+<script type="math/tex; mode=display">S: \frac{Max' - Min'}{Max'} = \frac{k \cdot Max - k \cdot Min}{k \cdot Max} = \frac{Max - Min}{Max}</script><p>この<script type="math/tex">k</script>（ストレッチファクターとも呼びます）を決めるときに，Arcsinh関数を使うことで，ArcsinhStretchが実現できます．したがって，（自分は勘違いしていたのですが）Arcsinh関数を使うことと色が保持されることは特に関係はありません．<br>どの画素に対しても同じ<script type="math/tex">k</script>を掛け算するようなストレッチ方法であれば，必ず色は保持されます．</p>
 <blockquote>
-<p>The key point is that to preserve color the calculated pixel multiplier must be simultaneously applied to all channels (R,G,B) in the pixel.<br>―<a href="https://pixinsight.com/doc/tools/ArcsinhStretch/ArcsinhStretch.html#__Possible_Future_Work__" target="_blank" rel="noopener">ArcsinhStretch</a>― by Mark Shelley</p>
+<p>The key point is that to preserve color the calculated pixel multiplier must be simultaneously applied to all channels (R,G,B) in the pixel.<br><a href="https://pixinsight.com/doc/tools/ArcsinhStretch/ArcsinhStretch.html#__Possible_Future_Work__" target="_blank" rel="noopener">ArcsinhStretch</a>― by Mark Shelley</p>
 </blockquote>
 <h3 id="どう計算するか"><a href="#どう計算するか" class="headerlink" title="どう計算するか"></a>どう計算するか</h3><p>実際に<script type="math/tex">k</script>を決めるのは，次のような式で決めます．</p>
 <script type="math/tex; mode=display">L = \mathrm{Luminance}(R, G, B)</script><script type="math/tex; mode=display">k = \frac{\mathrm{arcsinh}(\beta \cdot L)}{L \cdot \mathrm{arcsinh}(\beta)}</script><p>画素ごとにストレッチファクターを一意に決めるため，輝度の値を使っています．前述したように，上の式の Arcsinh 関数は，別に他の関数でも問題ありません．実際，PixInsight でも他の関数でもできるようにしたいという Future Work が書かれています．<br>輝度―<script type="math/tex">k</script>のグラフを書くと，こんな感じの概形になります．<br><img src="01.jpg" alt="輝度―kのグラフ"><br>上では<script type="math/tex">\beta = 10</script>としてみました．この値が大きくなればなるほど，<script type="math/tex">x = 0</script>での値も大きくなるように変化します．この値は<script type="math/tex">\frac{\beta}{\mathrm{arcsinh}(\beta)}</script>となるようです．<br>暗い画素ほどより大きい値で，明るい画素ほど<script type="math/tex">1</script>に近い値でスケーリングされます．これにより，明るい星まわりの階調をなるべく保存しつつ，暗い部分を持ち上げていることになりますね．<br>直観的な操作を提供するため，PixInsight では0から1000までの値で<script type="math/tex">k</script>の最大値（上のグラフで言うところの<script type="math/tex">x = 0</script>での値だと思われます）をユーザ入力としています．</p>
@@ -122,8 +122,8 @@ f(x) = \begin{cases}
 <p>いかがでしたでしょうか？まとめると</p>
 <ul>
 <li>色を保つような変換の一つとして，画素の各RGBを同じ値だけ定数倍するような変換がある．この値は画素ごとに違う分には当然問題ない．</li>
-<li>この定数として輝度の arcsinh（をスケーリングしたもの）を利用すると，ArcsinhStretch を実現できる．</li>
-<li>必ずしも arcsinh を利用しなければ色を保てないわけではない．logやsqrtを利用しても何か面白い結果が得られるかも．</li>
+<li>この定数として輝度の Arcsinh（をスケーリングしたもの）を利用すると，ArcsinhStretch を実現できる．</li>
+<li>必ずしも Arcsinh を利用しなければ色を保てないわけではない．logやsqrtを利用しても何か面白い結果が得られるかも．</li>
 </ul>
 <p>ということがわかりました．arcsinh 以外の関数でストレッチした場合にどうなるかも見ていきたいと思いますが，今回のところはこれまで．<br>それでは．</p>
 
