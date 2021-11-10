@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://dabokun.github.io/about/index.html</loc>
+    
+    <lastmod>2021-11-10T15:06:00.779Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dabokun.github.io/2021/11/10/00000059-toa130ns/</loc>
+    
+    <lastmod>2021-11-10T15:04:45.975Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://dabokun.github.io/2021/07/17/00000058-call-pcl/</loc>
     
     <lastmod>2021-07-17T14:52:54.285Z</lastmod>
@@ -208,13 +222,6 @@
     <loc>http://dabokun.github.io/2020/08/22/00000037-2020-08-hoshinomura/</loc>
     
     <lastmod>2020-10-28T17:15:42.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://dabokun.github.io/about/index.html</loc>
-    
-    <lastmod>2020-10-17T08:47:38.000Z</lastmod>
     
   </url>
   
