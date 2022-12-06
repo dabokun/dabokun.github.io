@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://dabokun.github.io/work/index.html</loc>
+    
+    <lastmod>2022-12-06T06:54:23.455Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://dabokun.github.io/2022/12/06/00000069-tenmonguide202301/</loc>
     
     <lastmod>2022-12-06T06:51:13.423Z</lastmod>
@@ -299,13 +306,6 @@
     <loc>http://dabokun.github.io/2020/10/16/00000038-1d-gaussian-fitting/</loc>
     
     <lastmod>2020-10-17T08:40:46.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://dabokun.github.io/work/index.html</loc>
-    
-    <lastmod>2020-08-16T19:53:42.000Z</lastmod>
     
   </url>
   
