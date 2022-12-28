@@ -42,6 +42,38 @@
   </entry>
   
   <entry>
+    <title>2022年12月 天城</title>
+    <link href="http://dabokun.github.io/2022/12/27/00000071-2022-12-amagi/"/>
+    <id>http://dabokun.github.io/2022/12/27/00000071-2022-12-amagi/</id>
+    <published>2022-12-27T13:30:20.000Z</published>
+    <updated>2022-12-28T07:00:41.132Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="今年最初で最後の天城へ"><a href="#今年最初で最後の天城へ" class="headerlink" title="今年最初で最後の天城へ"></a>今年最初で最後の天城へ</h3><p>なんだかんだで，今年は天城に一度も行っていないなーと思っていました．クリスマスにも特に予定ができなかったし（いつものことである），天城，富士山周りはなんだか晴れそうな雰囲気だったので，遠征に出ることにしました．</p><a id="more"></a><p>運転しながら割とギリギリまで朝霧にするか天城にするか悩んでいたのですが，知り合いの方も多くいらっしゃるようなので天城に行くことに．<br>16時半頃といういつもの時間に出発し，テキトーに買い出しだけして19時半頃に到着，すでに下の駐車場には同業者がそれなりに多く来ていました．<a href="http://aramister.blog.fc2.com/blog-entry-716.html" target="_blank" rel="noopener">Aramisさん</a>に<a href="https://ramb-astro.hatenadiary.jp/entry/2022/12/27/133024" target="_blank" rel="noopener">Rambさん</a>，後から<a href="https://twitter.com/ShonanAstroPhot" target="_blank" rel="noopener">けーたろさん</a>，<a href="https://twitter.com/hotan666" target="_blank" rel="noopener">Wadaさん</a>，<a href="https://twitter.com/okwkzkw" target="_blank" rel="noopener">かばねさん</a>もいらっしゃり，お話することができました．<br>TOA-645 フラットナーと回転装置を最近導入したので，今回は TOA での撮影です．鏡筒を買ってから1年以上経過していますが，撮影に使うのはまだ片手に収まるくらいです．</p><p><img src="01.jpg" alt="撮影の様子"></p><p>クリスマスですからクリスマスツリー星団を…と思いましたがまだ高度が低く，上がってくるまでどうしよう…と悩んだ末にぎょしゃ座の勾玉星雲の一番明るそうなところを拡大撮影で狙ってみました．<br>が，撮影が不安定です．MGEN-3 と PC の接続がすぐに切れてしまい，ディザリングがまともにできません．PC の再起動や USB，ケーブルをガイドカメラとのものと交換してもダメでしたが，Anker のハブを介したところ切れなくなりました．Anker は神．</p><p><img src="work1.jpg" alt="勾玉星雲 拡大撮影"></p><div style="text-align: center;">「勾玉星雲 拡大撮影」<br>2022年12月24日21時17分～12月25日0時29分 静岡県 天城高原ゴルフコース<br>TOA-130NS+645 Flattener<br>QHY268PH C<br>Gain 26/Offset 50/-20℃/180s*49<br>Optolong UV/IR Cut 2''Total: 147min<br>タカハシ EM-200 TemmaPC Jr. + MGEN-3<br>Adobe Photoshop CC / PixInsight (BlurXTerminator, NoiseXTerminator)<br><br></div><p>そんなこんなで一応2時間半弱撮影…．<br>最近話題の SPCC や BlurXTerminator (BXT) を使っています．本当はもっと星が大きいです…．AI 系のツールに対してはかなり懐疑的(？)な見方をしている AI については不勉強な僕()ですが，学習しているのはデコンボリューションのためのパラメタで，そのための教師データとして HST や JWST を使っていると．おそらく，HST や JWST の画像（の一部）に大気のゆらぎなどを通したぼけやガイドエラーをかけた画像を用意し，それを尤もらしく元の画像に戻すようなデコンボリューションのパラメタを学習しているのではないかと考えられます．学習後のネットワークモデルさえあればいいので，当然プログラムが走るときに HST や JWST の画像は必要にはならないでしょう．それならいいのかな…いや良くない気もする．自分の立ち位置がよくわからなくなります．<br>BXT ではなるべくインテグレーション直後に実行することが推奨されていますが，リニアステージで適用すると asinh ストレッチの際に星の色がおかしくなってしまう問題が報告されているようです（たとえば<a href="https://snct-astro.hatenadiary.jp/entry/2022/12/18/155747#%E4%BD%BF%E3%81%84%E6%96%B9%E3%81%A82022%E5%B9%B412%E6%9C%88%E6%99%82%E7%82%B9%E3%81%A7%E3%81%AE%E6%B3%A8%E6%84%8F%E7%82%B9" target="_blank" rel="noopener">だいこもん氏の記事</a>）．自分も同じで，この問題は NoiseXTerminator (NXT) でも生じています．ただ他にやりようがないので，おかしくなった星の色は Photoshop でなんとなく戻しているというのが現状です．青い星が紫っぽくなってしまうので，この辺の色相をいじっている感じ…．まだ改善の余地がありそうなツールだと感じていますが，今回のように焦点距離が長く，かつシーイングが悪くて星像が大きい画像に効果絶大なのは認めざるをえません．自分も考え方を変えたほうがいいのかな…．とりあえず AI 系のツールを使っていることはちゃんと明記しておきたいと思います．やってることが結局デコンボリューションなのであれば，そのパラメタ値だけでもちゃんとターミナルに出力してくれたりすると，まだ再現性があっていいなと思うのですが．<br>SPCC については，勉強したらかなり面白そうなツールだと思います．特に蒼月城さんの以下の PCC 解説動画は一見の価値があります．まだ流し見しかできていないですが，PCC を追実装したくなったら真っ先に参照したい動画ですね．</p><div class="video-container"><iframe src="//www.youtube.com/embed/52ZnyJ9oYrY" frameborder="0" allowfullscreen></iframe></div><p>クリスマスツリー星団の子午線通過が0:17頃でしたが，0時からぼっち・ざ・ろっく！の最終回が配信されていたのでそれが終わるまでリアタイ．星空の下で聴く「星座になれたら」，いい最終回だった…．（スピーカーで聞いてたので周りの人うるさかったらすみませんでした…）</p><p><img src="02.jpg" alt="夜も更けていきます…"></p><p>視聴後に対象を変えて撮影開始．導入や，カメラを90度回したりしていたので30分ほど時間がかかってしまいました．クリスマスツリー星団は双子座ガンマ星（アルヘナ，ポルックスの左足元に相当する2等星）と経度がかなり近いので，こいつを導入して南に振っていくと導入しやすいようです．撮影開始後は特に問題は発生せず4時過ぎくらいまで撮影…．</p><p><img src="work2.jpg" alt="クリスマスツリー星団"></p><div style="text-align: center;">「クリスマスツリー星団」<br>2022年12月25日1時00分～4時38分 静岡県 天城高原ゴルフコース<br>TOA-130NS+645 Flattener<br>QHY268PH C<br>Gain 26/Offset 50/-20℃/180s*62<br>Optolong UV/IR Cut 2''Total: 186min<br>タカハシ EM-200 TemmaPC Jr. + MGEN-3<br>Adobe Photoshop CC / PixInsight (BlurXTerminator, NoiseXTerminator)<br><br></div><p>こちらは3時間ちょい．なかなか見栄えはするんじゃないでしょうか．<br>645フラットナーの実力を出し切れたかというとそうでもない感じがしていますが，まあまたシーイングが良いタイミングで…．<br>今回はフラット撮影を一切していません．勾玉の方はなぜか少し被りがありましたが，グラデーションマスクで用意に目立たなくできるレベルでひじょうにやりやすかったです．フルサイズ CMOS がほしくなってきます…．</p><p>薄明にまだ30分ちょいあったので，眼視に切り替えて M51, M104, M81/82 を見ました．その場にいらした何人かの方にも見てもらいました．小海で買った PENTAX XW-20mm をようやく使えましたが，見やすく TOA との組み合わせはシャープで，見ごたえがありましたね．<br>今年こそはメシエマラソンしてみたいな…．</p><p><img src="03.jpg" alt="朝焼けに照らされる富士山"></p><p>片付けて7時前に離脱．あまりに朝焼けに照らされた冬の富士山が綺麗だったので，思わず伊豆スカイラインに課金（山伏峠まで…おりてからの道が狭かったので二度と使いたくない）．<br>休憩を挟みつつ9時半頃の帰宅となりました．</p><p>来年も星撮りたい…．余裕あるかな…．<br>それでは．</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;今年最初で最後の天城へ&quot;&gt;&lt;a href=&quot;#今年最初で最後の天城へ&quot; class=&quot;headerlink&quot; title=&quot;今年最初で最後の天城へ&quot;&gt;&lt;/a&gt;今年最初で最後の天城へ&lt;/h3&gt;&lt;p&gt;なんだかんだで，今年は天城に一度も行っていないなーと思っていました．クリスマスにも特に予定ができなかったし（いつものことである），天城，富士山周りはなんだか晴れそうな雰囲気だったので，遠征に出ることにしました．&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="遠征記" scheme="http://dabokun.github.io/categories/expedition/"/>
+    
+    
+      <category term="写真" scheme="http://dabokun.github.io/tags/photography/"/>
+    
+      <category term="天体写真" scheme="http://dabokun.github.io/tags/astrophotography/"/>
+    
+      <category term="機材" scheme="http://dabokun.github.io/tags/equipments/"/>
+    
+      <category term="画像処理" scheme="http://dabokun.github.io/tags/processing/"/>
+    
+      <category term="遠征記" scheme="http://dabokun.github.io/tags/expedition/"/>
+    
+      <category term="OpenCV" scheme="http://dabokun.github.io/tags/opencv/"/>
+    
+  </entry>
+  
+  <entry>
     <title>月間天文ガイド2023年1月号に掲載していただきました</title>
     <link href="http://dabokun.github.io/2022/12/06/00000069-tenmonguide202301/"/>
     <id>http://dabokun.github.io/2022/12/06/00000069-tenmonguide202301/</id>
@@ -164,9 +196,9 @@
     
       <category term="天体写真" scheme="http://dabokun.github.io/tags/astrophotography/"/>
     
-      <category term="遠征記" scheme="http://dabokun.github.io/tags/expedition/"/>
-    
       <category term="その他" scheme="http://dabokun.github.io/tags/others/"/>
+    
+      <category term="遠征記" scheme="http://dabokun.github.io/tags/expedition/"/>
     
   </entry>
   
@@ -192,9 +224,9 @@
     
       <category term="天体写真" scheme="http://dabokun.github.io/tags/astrophotography/"/>
     
-      <category term="機材" scheme="http://dabokun.github.io/tags/equipments/"/>
-    
       <category term="レンズ" scheme="http://dabokun.github.io/tags/lens/"/>
+    
+      <category term="機材" scheme="http://dabokun.github.io/tags/equipments/"/>
     
       <category term="遠征記" scheme="http://dabokun.github.io/tags/expedition/"/>
     
@@ -222,11 +254,11 @@
     
       <category term="天体写真" scheme="http://dabokun.github.io/tags/astrophotography/"/>
     
-      <category term="機材" scheme="http://dabokun.github.io/tags/equipments/"/>
-    
       <category term="カメラ" scheme="http://dabokun.github.io/tags/camera/"/>
     
       <category term="レンズ" scheme="http://dabokun.github.io/tags/lens/"/>
+    
+      <category term="機材" scheme="http://dabokun.github.io/tags/equipments/"/>
     
       <category term="鏡筒" scheme="http://dabokun.github.io/tags/telescope/"/>
     
@@ -527,39 +559,11 @@
     
       <category term="天体写真" scheme="http://dabokun.github.io/tags/astrophotography/"/>
     
-      <category term="機材" scheme="http://dabokun.github.io/tags/equipments/"/>
-    
       <category term="カメラ" scheme="http://dabokun.github.io/tags/camera/"/>
+    
+      <category term="機材" scheme="http://dabokun.github.io/tags/equipments/"/>
     
       <category term="赤道儀" scheme="http://dabokun.github.io/tags/mount/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>QHY268C ファーストライト</title>
-    <link href="http://dabokun.github.io/2021/03/28/00000050-qhy268c-first/"/>
-    <id>http://dabokun.github.io/2021/03/28/00000050-qhy268c-first/</id>
-    <published>2021-03-28T09:25:07.000Z</published>
-    <updated>2021-06-07T17:37:38.297Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="あいさつ"><a href="#あいさつ" class="headerlink" title="あいさつ"></a>あいさつ</h3><p>先日，届いた QHY268C のファーストをしてきました．<br>このカメラですがかなりのじゃじゃ馬で，一度失敗をしたのですが，とりあえずなんとか使うことができましたという顛末になります．</p><a id="more"></a><h3 id="清里で大失敗"><a href="#清里で大失敗" class="headerlink" title="清里で大失敗"></a>清里で大失敗</h3><p>ファーストライトのつもりで，3月10日～11日で清里に行きました．目標はマルカリアンチェーンを撮ることでした．<br>ほうとうを食べてから20時頃に現地入り．</p><p><img src="tw01.jpg" alt="やけくそほうとう"></p><p>のんびりと組立ててから撮影を…と思ったのですが，まず<strong>ガイドに問題が発生</strong>．オートガイドには MGEN-3 を使っているのですが，キャリブレーションまでは通っているものの，実際にガイドを開始すると導入対象が吹き飛んでいくレベルで暴れまわります．<br>パラメタ値を変えたりして何度か試したもののうまくいかず，放棄．キャリブレーション時に（どちらかの軸か忘れましたが）ガイド信号を少し長めに送っていたことや，直交率を示す Ortho. の値が全然ダメ（20～40%くらい）なのが気になりました．今のところ鏡筒の前後バランスが出ていないので，これを改善してどうなるかといったところです．また，向いている方向の相性があったりするのかもしれません．オリオンの方向に向けるとうまくいきましたが，マルカリアンチェーンではうまくいきませんでした．全く困ったものですが，とりあえずバランスを出してみて直らなければ，別の策を練らねばなりません．<br>仕方がないのでカメラの接続を試みると今度は <strong>PC がカメラを全く認識しません．</strong>接続すると，本来は以下のように_IOの接尾辞がついたデバイス名が表示されるのですが，_FW（これはフィルタホイールのドライバか？）しか表示されません．それも「表示」から「非表示のデバイスの表示」を有効にして初めて表示されます．とにかく，デバイスが正しく認識されていないのは確かです．</p><p><img src="dm.jpg" alt="デバイスマネージャの問題"></p><p>これもQHY関係のドライバの再インストールや PC 再起動，全 USB 接続機器の取外しなど，考えられるありとあらゆることを数時間試してみたものの全くうまくいかず，寒さの中泣きたくなりながらバッテリとカメラとPCを車に撤退してふてくされていました．すると車内で突然 PC がカメラを認識しました．「まさか温度か…？（冷却カメラでそんな事があるのか？）」などと思いつつ時間はすでに2時頃．薄明までまだ2時間ほどありましたが，対象も子午線を越えようかという段階で気力もなく今回は諦めることにしました．一応 6D に変えていたのですが，疲れからか ISO-25600 のままで撮っていたことに気づき見なかったことにしました．<br>ちなみに現地では<a href="https://twitter.com/antales" target="_blank" rel="noopener">流れ星さん</a>と合流しており，上記問題について色々と相談したり話を聞いてもらいました．ありがとうございました．<br>また，カメラを認識しなくなる現象はこの後自宅でも発生し，もうこれは今のところ運なのではとしか考えられません（少なくとも温度ではなさそう）．出発前に Windows Update を走らせたことなど色々考えましたが，全ては憶測の域を出ず，はっきりとした原因はわかりませんでした．PC との相性とかもあるかもしれません．運でカメラが使えるか使えないかというのは大変困ったものです．<br>…とまあ散々な結果で，ボーズで帰ってからしばらくめちゃくちゃ落ち込んでいたのですが，いつまでもくよくよしてはいられず，その週の土日月に再チャレンジすることにしました．</p><h3 id="爪木崎からの朝霧"><a href="#爪木崎からの朝霧" class="headerlink" title="爪木崎からの朝霧"></a>爪木崎からの朝霧</h3><p>まず，設営の順番，ガイド，PC からのカメラ操作など不慣れなことが多すぎたので，手順という大枠だけは確定させておいたほうが楽だろうと考え，撮影の手順を徹底的に文書に書き出し，Google ドキュメントにまとめました．そして出発前にカメラとの接続を必ず確認するようにしました．<br>リベンジということでしたが，初日は知り合いのポートレートカメラマンと合流し，直焦はやりませんでした．暴風のユウスゲ公園でしばらく星を見ながら一時間ほど駄弁り，爪木崎に移動．爪木崎に行くのは初めてでしたが，灯台前は本当に人が多かったです．灯台から少し離れたところに良さげなベンチがあったので，そこで何枚かポトレを撮影しました．</p><p><img src="p01.jpg" alt="一緒に行った方々と"><br><img src="p02.jpg" alt="自撮り"><br>（※二枚目の私は見苦しいので目線を入れています）</p><p>ストロボは一緒に行ってくれた方の提供です．みんな灯台の方に行くので手前の広場は人が少なく，穴場な感じでした．<br>やっぱり一人で伊豆半島南端まで行くのは遠いです．5時頃まで下田で仮眠をとり，伊東マリンタウンでいつものように温泉に入って朝ごはんを食べたのですが，その後疲れで11時くらいまで寝てしまいました．この時点で同行者の方々とは解散，再びソロに．</p><p><img src="tw02.jpg" alt="マリンタウンの朝食"></p><p>伊東マリンタウンは朝風呂料金がなくなり1000円になった代わりに，時間制限がなくなったようでした（以前は9時だか10時で朝風呂の人は帰ってくれとアナウンスが入っていた）．</p><p><img src="tw03.jpg" alt="富士宮に到着"></p><p>というわけで目も覚めたので富士宮に移動してきました．昼間はご飯を食べるか観光するくらいしかやることがないので，まずはのんびり，「ゆるキャン」にも登場するお好み食堂伊東さんへ．一時間弱待ちでしぐれ焼きを食べました．焼きそばやお好み焼きというと個人的には味が濃いイメージがあったのですが，ここのはとてもさっぱりしていてとても好きな味で，気づいたら完食していました．</p><p><img src="tw04.jpg" alt="しぐれ焼き-1"><br><img src="tw05.jpg" alt="しぐれ焼き-2"><br><img src="tw06.jpg" alt="しぐれ焼き-3"><br><img src="tw07.jpg" alt="こんな感じになっていた"></p><p>その後は本栖湖畔へ移動．おやつを食べながら少し夕日を眺め，コンビニで買い出しから朝霧アリーナに現地入りしました．</p><p><img src="tw08.jpg" alt="日の入り前に準備">日の入り前から設営するなんて我ながら珍しい…．<br><img src="tw09.jpg" alt="天文なう">撮影開始．</p><p>現地では問題なくカメラがつながり使用できたので，とりあえず問題はガイドだけになりました．結局，オリオン大星雲に向けたときはしっかりとガイドしたのですが，マルカリアンチェーンやカラフルタウン付近に向けたときは機能してくれませんでした．MGEN-3に関して有識者の方がいらっしゃいましたらなにかヒントを教えていただけると幸いです．<br>オリオン大星雲，マルカリアンチェーン，カラフルタウン付近をなんとか撮影できましたので，以下に載せておきます．一応成果が出て安心です．</p><p><img src="w01.jpg" alt="オリオン大星雲"></p><div style="text-align: center;">「オリオン大星雲」<br>2021年3月14日 20時19分～ 静岡県 朝霧アリーナ駐車場にて<br>FSQ-85EDP直焦点F5.3<br>QHY268C<br>Gain 0/Offset 15/-20℃/480s*16=128min<br>タカハシ EM-11 Temma2 Jr.<br>ステライメージ8 / Adobe Lightroom CC / Photoshop CC<br><br></div><p><img src="w02.jpg" alt="マルカリアンチェーン"></p><div style="text-align: center;">「マルカリアンチェーン」<br>2021年3月15日 0時10分～ 静岡県 朝霧アリーナ駐車場にて<br>FSQ-85EDP直焦点F5.3<br>QHY268C<br>Gain 15/Offset 15/-20℃/180s*30=90min<br>タカハシ EM-11 Temma2 Jr.<br>ステライメージ8 / Adobe Lightroom CC / Photoshop CC<br><br></div><p><img src="w03.jpg" alt="カラフルタウン付近"></p><div style="text-align: center;">「カラフルタウン付近」<br>2021年3月15日 2時53分～ 静岡県 朝霧アリーナ駐車場にて<br>FSQ-85EDP直焦点F5.3<br>QHY268C<br>Gain 0/Offset 15/-20℃/300s*18=90min<br>タカハシ EM-11 Temma2 Jr.<br>ステライメージ8 / Adobe Lightroom CC / Photoshop CC<br><br></div><p>モードは全てフォトグラフィックモードです．<br>とりあえずなんか撮れれば良かったので南北とかは全く気にしてません．やはりGain0で大きなフルウェル，16bitの豊かな階調を活かせるというのはとても大きいです．<br>HDR などしなくても，オリオン大星雲の中心部が飽和しにくいです．アンドロメダとか撮ったらどうなるかも試してみたいです．<br>もう少し解像感とかノイズに気を配りたいなあという気持ち．がんばります．<br>カメラやガイドなど，慣れるまでもう少しかかりそうですね．近々鏡筒の前後バランスを出すKBプレートとファインダーを導入するので，少しはやりやすくなるのでないかと思っています．<br>また遠征に行ったらレポートしたいと思います．</p><p><img src="tw10.jpg" alt="今回の旅程">今回の旅程です．ちょうど500kmくらいでした．</p><p>そうそう，上述したポートレートとマルカリアンチェーン，昨年原村で撮影した昴の写真を使用して，<a href="https://fancollection-too-maaya.tumblr.com/post/646369092147806208/18%E3%81%8B%E3%81%99%E3%81%8B%E3%81%AA%E3%83%A1%E3%83%AD%E3%83%87%E3%82%A3-photography-%E3%81%A0%E3%81%BC-%E5%A4%9C%E6%98%8E%E3%81%91%E3%81%A8%E3%81%A8%E3%82%82%E3%81%AB%E5%BF%98%E3%82%8C%E3%81%9F%E3%81%8F%E3%81%AA%E3%81%84%E6%99%AF%E8%89%B2%E3%81%8C%E6%B6%88%E3%81%88%E3%82%8B" target="_blank" rel="noopener">坂本真綾25周年を祝うファン企画</a>に参加させていただきました．写真と，彼女の楽曲と絡めた簡単な解説を載せておりますので，よろしければご覧ください．</p><p>それではまた．</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;あいさつ&quot;&gt;&lt;a href=&quot;#あいさつ&quot; class=&quot;headerlink&quot; title=&quot;あいさつ&quot;&gt;&lt;/a&gt;あいさつ&lt;/h3&gt;&lt;p&gt;先日，届いた QHY268C のファーストをしてきました．&lt;br&gt;このカメラですがかなりのじゃじゃ馬で，一度失敗をしたのですが，とりあえずなんとか使うことができましたという顛末になります．&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="機材" scheme="http://dabokun.github.io/categories/equipments/"/>
-    
-    
-      <category term="天体写真" scheme="http://dabokun.github.io/tags/astrophotography/"/>
-    
-      <category term="機材" scheme="http://dabokun.github.io/tags/equipments/"/>
-    
-      <category term="カメラ" scheme="http://dabokun.github.io/tags/camera/"/>
-    
-      <category term="遠征記" scheme="http://dabokun.github.io/tags/expedition/"/>
     
   </entry>
   
