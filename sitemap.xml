@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://dabokun.github.io/about/index.html</loc>
+    
+    <lastmod>2024-09-05T12:13:08.254Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://dabokun.github.io/2023/02/02/00000073-mgen3-fw130/</loc>
     
     <lastmod>2023-02-02T15:36:25.862Z</lastmod>
@@ -61,13 +68,6 @@
     <loc>http://dabokun.github.io/2022/09/04/00000065-2022-07-08/</loc>
     
     <lastmod>2022-10-15T05:34:59.729Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://dabokun.github.io/about/index.html</loc>
-    
-    <lastmod>2022-10-15T05:34:37.389Z</lastmod>
     
   </url>
   
