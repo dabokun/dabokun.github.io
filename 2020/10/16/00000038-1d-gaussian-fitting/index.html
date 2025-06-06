@@ -1,0 +1,98 @@
+<!DOCTYPE html><html class="appearance-auto" lang="en"><head><meta charset="UTF-8"><title>ほしよみ社会塵のブログ</title><meta name="description" content="やっていきます"><meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, initial-scale=1"><!-- Google Analytics --><!-- End Google Analytics -->
+<!-- Baidu Analytics --><!-- End Baidu Analytics --><link rel="icon" href="/images/favicon.ico"><link rel="stylesheet" href="/style/common/bulma.css"><link rel="stylesheet" href="/style/base.css"><link rel="stylesheet" href="/style/common/helper.css"><script src="/js/common.js"></script><link rel="stylesheet" href="/style/post.css"><link rel="stylesheet" href="/style/themes/highlight-theme-light.css"><link rel="stylesheet" href="/style/common/jquery.fancybox.min.css"><script src="/js/highlight.pack.js"></script><meta name="description" content="
+
+あいさつ突然ですが，数式を使えるようにしてみたので，テスト的な記事です．自分は Hexo という静的サイトジェネレータを使っています．「Hexo 数式」とかでググると mathjax をインストールして…みたいな記事が多くヒットしますが，僕の環境ではなぜか動きませんでした．結局，ここに書いているscriptタグを記事冒頭に埋め込むといい感じに動いてそうだったので，それでテストしています．
+
+本題さて，スペクトルなどをガウス関数でフィッティングしたいということはよくあるわけですが，単純に一つのガウス関数だけなら簡単にフィッティングする方法がいくつかあります．そのなかで，非線形最小二乗法について書きます．これは Caruana’s Algorithm とよばれるもので，昔参考にしていた Qiita の記事が.."><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="ほしよみ社会塵のブログ" type="application/atom+xml">
+</head><body class="is-flex is-flex-direction-column"><header class="header-widget is-flex-shrink-0 is-hidden-mobile"><div class="container is-fullhd is-flex is-justify-content-space-between is-align-items-center is-full-height"><section class="is-hidden-mobile is-flex-shrink-0"><h2><a href="/">ほしよみ社会塵のブログ</a></h2></section><h3 class="is-hidden-mobile is-family-serif is-full-height is-flex is-align-items-center is-flex-shrink-0"><div class="is-full-height" id="postTopic"><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">ガウス関数のフィッティング―非線形最小二乗法</p><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">Click back to the top</p></div></h3><aside class="is-flex-shrink-0"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/null">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></aside></div></header><header class="is-flex header-widget is-flex-shrink-0 is-align-items-center is-justify-content-center is-hidden-tablet"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/null">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></header><main><main class="container is-max-widescreen content section post-page pt-4 px-4"><div class="columns is-flex-desktop is-justify-content-center is-flex-direction-row-reverse"><div class="column is-3 is-hidden-mobile"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E3%81%82%E3%81%84%E3%81%95%E3%81%A4"><span class="toc-text">あいさつ</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%AC%E9%A1%8C"><span class="toc-text">本題</span></a></li></ol></div><div class="column is-9"><header class="my-4"><a href="/tags/%E3%81%9D%E3%81%AE%E4%BB%96"><i class="tag post-item-tag">その他</i></a></header><h1 class="mt-0 mb-1 is-family-serif" id="postTitle">ガウス関数のフィッティング―非線形最小二乗法</h1><time class="has-text-grey" datetime="2020-10-16T13:58:07.000Z">2020-10-16</time><article class="mt-2 post-content"><script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+<h3 id="あいさつ"><a href="#あいさつ" class="headerlink" title="あいさつ"></a>あいさつ</h3><p>突然ですが，数式を使えるようにしてみたので，テスト的な記事です．<br>自分は Hexo という静的サイトジェネレータを使っています．「Hexo 数式」とかでググると mathjax をインストールして…みたいな記事が多くヒットしますが，僕の環境ではなぜか動きませんでした．結局，<a target="_blank" rel="noopener" href="https://ishiis.net/2017/03/14/mathjax-install/">ここ</a>に書いているscriptタグを記事冒頭に埋め込むといい感じに動いてそうだったので，それでテストしています．</p>
+<span id="more"></span>
+<h3 id="本題"><a href="#本題" class="headerlink" title="本題"></a>本題</h3><p>さて，スペクトルなどをガウス関数でフィッティングしたいということはよくあるわけですが，単純に一つのガウス関数だけなら簡単にフィッティングする方法がいくつかあります．そのなかで，非線形最小二乗法について書きます．これは Caruana’s Algorithm とよばれるもので，昔参考にしていた Qiita の記事があったのにそれが見つからなくなってしまったので，ここに書いておくことにします．<br>観測したデータを，次のガウス関数でフィッティングしたいとします．<br>$$f(x) &#x3D; {A \exp \frac{-(x - \mu)^2}{2 \sigma^2}}$$<br>両辺の対数をとると，</p>
+<p>$$\ln f(x) &#x3D; \ln A + \frac{-(x - \mu)^2}{2 \sigma^2} &#x3D; \ln A - \frac{\mu^2}{2 \sigma^2} + \frac{\mu x}{\sigma^2} - \frac{x^2}{2 \sigma^2} &#x3D; a + bx + cx^2$$<br>ここで，$$a &#x3D; \ln A - \frac{\mu^2}{2 \sigma^2}$$，$$b &#x3D; \frac{\mu}{\sigma^2}$$，$$c &#x3D; - \frac{1}{2 \sigma^2}$$とおきました．<br>観測したデータを$$g(x)$$とすると，フィッティング問題は，次の誤差関数$$S$$を最小にする組$$(a, b, c)$$を探す問題に帰着します：</p>
+<p>$$ {S(a, b, c) &#x3D; \sum_{x} { \ln g(x) - (a + bx + cx^2) }^2} $$</p>
+<p>次に，$${S}$$を$$a, b, c$$で偏微分して，極値となる場所を考えます．</p>
+<body>
+\begin{eqnarray}\frac{\partial S}{\partial a} &=& 2 \sum_{x} \{ \ln g(x) - (a + bx + cx^2) \}(-1) = 0 \\ &\Leftrightarrow& a \sum_{x} 1 + b \sum_{x} x + c \sum_{x} x^2 = \sum_{x} \ln g(x)\end{eqnarray}
+
+<p>\begin{eqnarray}\frac{\partial S}{\partial b} &amp;&#x3D;&amp; 2 \sum_{x} { \ln g(x) - (a + bx + cx^2) }(-x) &#x3D; 0 \ &amp;\Leftrightarrow&amp; a \sum_{x} x + b \sum_{x} x^2 + c \sum_{x} x^3 &#x3D; \sum_{x} x \ln g(x)\end{eqnarray}</p>
+<p>\begin{eqnarray}\frac{\partial S}{\partial c} &amp;&#x3D;&amp; 2 \sum_{x} { \ln g(x) - (a + bx + cx^2) }(-x^2) &#x3D; 0 \ &amp;\Leftrightarrow&amp; a \sum_{x} x^2 + b \sum_{x} x^3 + c \sum_{x} x^4 &#x3D; \sum_{x} x^2 \ln g(x)\end{eqnarray}</p>
+</body>
+
+<p>したがって，データの個数を$$N &#x3D; \sum_{x} 1$$とすれば，</p>
+<body>
+\begin{equation}
+\begin{pmatrix}
+N & \sum_{x} x & \sum_{x} x^2 \\
+\sum_{x} x & \sum_{x} x^2 & \sum_{x} x^3 \\
+\sum_{x} x^2 & \sum_{x} x^3 & \sum_{x} x^4
+\end{pmatrix}
+\begin{pmatrix}
+a \\
+b \\
+c
+\end{pmatrix} = 
+\begin{pmatrix}
+\sum_{x} \ln g(x) \\
+\sum_{x} x \ln g(x) \\
+\sum_{x} x^2 \ln g(x)
+\end{pmatrix}
+\end{equation}
+</body>
+
+<p>と書けます．今，$$N$$や$$x$$，$$g(x)$$は既知ですから，</p>
+<body>
+\begin{equation}
+\begin{pmatrix}
+a \\
+b \\
+c
+\end{pmatrix} =
+\begin{pmatrix}
+N & \sum_{x} x & \sum_{x} x^2 \\
+\sum_{x} x & \sum_{x} x^2 & \sum_{x} x^3 \\
+\sum_{x} x^2 & \sum_{x} x^3 & \sum_{x} x^4
+\end{pmatrix}^{-1}
+\begin{pmatrix}
+\sum_{x} \ln g(x) \\
+\sum_{x} x \ln g(x) \\
+\sum_{x} x^2 \ln g(x)
+\end{pmatrix}
+\end{equation}
+</body>
+
+<p>とすれば，組$$(a, b, c)$$が求まりますね．<br>もともとの未知数$$A, \mu, \sigma$$について解けば，<br>$$A &#x3D; \exp\left(a - \frac{b^2}{4c}\right), \mu &#x3D; -\frac{b}{2c}, \sigma &#x3D; \sqrt{-\frac{1}{2c}}$$<br>となります．<br>今日はこれまで…．また追記するかもです．</p>
+<p>2020年10月17日追記<br>このアルゴリズムの利点は，反復的な処理が必要ではなく，ただ連立方程式を解くだけであるという点です．一方で問題点は，ノイズに弱いことです．このことを示すために，観測値にノイズ$$\eta$$が含まれていると考えます．$$\eta$$は平均$$0$$，標準偏差$$\sigma_{\eta}$$であるとします．<br>$$<br>\hat{g}(x) &#x3D; g(x) + \eta<br>$$<br>ここで，$$g(x)$$は何らかのモデルに従っている真の値です．<br>すると誤差は，<br>$$<br>\delta &#x3D; \ln \hat{g}(x) - (a + bx + cx^2) &#x3D; \ln (g(x) + \eta) - (a + bx + cx^2)<br>$$<br>テイラーの定理から，第一項について近似をとると（おそらく<a target="_blank" rel="noopener" href="https://www.efunda.com/math/taylor_series/logarithmic.cfm">ここ</a>の五つ目の近似，さらに$$\eta$$は$$g(x)$$に比べて十分小さいことを想定していると思う），<br>$$<br>\delta \approx \ln g(x) - (a + bx + cx^2) + \frac{\eta}{g(x)}<br>$$<br>先程は二乗誤差の和について考えましたが，今度は$$\delta^2$$の平均二乗誤差を考えます．先程の例では，偏微分の計算過程でデータ数$$N$$を払ってしまうので和でも良かったわけですが，普通は平均二乗誤差を考えることが多いですね．<br>$$<br>E[\delta^2] &#x3D; {\ln g(x) - (a + bx + cx^2)}^2 + \frac{\sigma_{\eta}^2}{g^2(x)}<br>$$<br>ぶっちゃけここが一番わかりにくいところかと思いますが，<a target="_blank" rel="noopener" href="https://qiita.com/riversun/items/b691cc0fa8a8a8f42013">ここ</a>の9合目セクションにおいて，$$f(x) &#x3D; \ln g(x) - (a + bx + cx^2)$$，$$\epsilon &#x3D; \frac{\eta}{g(x)}$$，$$\hat{f}(x) &#x3D; 0$$を代入して計算すればいいんだと思います，たぶん．<br>さて，上の式で大事なのは第二項で，これはもし$$g(x)$$が小さい，すなわちガウス関数の場合平均から離れる（&#x3D;0に近い）データ点を選んでしまった場合，大きな誤差を発生させてしまうということを表しています．実際，Caruana’s algorithm ではこの問題が発生してしまいます．<br>そこで，Guo’s algorithm というアルゴリズムを紹介します．発想はひじょうにシンプルで，上の誤差$$\delta$$に$$g(x)$$をかけた，すなわち$$g(x)$$で重み付けをしたものを新たに誤差として採用すれば，小さなデータ点に対する影響も小さくなるだろうというものです．つまり，<br>$$<br>\delta \approx g(x){\ln g(x) - (a + bx + cx^2)} + \eta<br>$$<br>$$<br>E[\delta^2] &#x3D; [g(x){\ln g(x) - (a + bx + cx^2)}]^2 + \sigma_{\eta}^2<br>$$<br>とすればよかろうということになります．この関数を先ほどと同様に$$a, b, c$$で偏微分して，不明な$$g(x)$$の代わりに観測値$$\hat{g}(x)$$を用いれば，</p>
+<body>
+\begin{eqnarray}\frac{\partial S}{\partial a} &=& 2 \sum_{x} \hat{g}(x)\{ \ln \hat{g}(x) - (a + bx + cx^2) \}(-\hat{g}(x)) = 0 \\ &\Leftrightarrow& a \sum_{x} \hat{g}^2(x) + b \sum_{x} x\hat{g}^2(x) + c \sum_{x} x^2\hat{g}^2(x) = \sum_{x} \hat{g}^2(x)\ln \hat{g}(x)\end{eqnarray}
+
+<p>\begin{eqnarray}\frac{\partial S}{\partial b} &amp;&#x3D;&amp; 2 \sum_{x} \hat{g}(x){ \ln \hat{g}(x) - (a + bx + cx^2) }(-x\hat{g}(x)) &#x3D; 0 \ &amp;\Leftrightarrow&amp; a \sum_{x} x\hat{g}^2(x) + b \sum_{x} x^2\hat{g}^2(x) + c \sum_{x} x^3\hat{g}^2(x) &#x3D; \sum_{x} x\hat{g}^2(x) \ln \hat{g}(x)\end{eqnarray}</p>
+<p>\begin{eqnarray}\frac{\partial S}{\partial c} &amp;&#x3D;&amp; 2 \sum_{x} \hat{g}(x){ \ln \hat{g}(x) - (a + bx + cx^2) }(-x^2\hat{g}(x)) &#x3D; 0 \ &amp;\Leftrightarrow&amp; a \sum_{x} x^2\hat{g}^2(x) + b \sum_{x} x^3\hat{g}^2(x) + c \sum_{x} x^4\hat{g}^2(x) &#x3D; \sum_{x} x^2\hat{g}^2(x) \ln \hat{g}(x)\end{eqnarray}</p>
+</body>
+
+<p>禍々しくなってきましたが，さっきとやってることは一緒です．よって，</p>
+<body>
+\begin{equation}
+\begin{pmatrix}
+\sum_{x} \hat{g}^2(x) & \sum_{x} x\hat{g}^2(x) & \sum_{x} x^2\hat{g}^2(x) \\
+\sum_{x} x\hat{g}^2(x) & \sum_{x} x^2\hat{g}^2(x) & \sum_{x} x^3\hat{g}^2(x) \\
+\sum_{x} x^2\hat{g}^2(x) & \sum_{x} x^3\hat{g}^2(x) & \sum_{x} x^4\hat{g}^2(x)
+\end{pmatrix}
+\begin{pmatrix}
+a \\
+b \\
+c
+\end{pmatrix} = 
+\begin{pmatrix}
+\sum_{x} \ln \hat{g}^2(x)\hat{g}(x) \\
+\sum_{x} x \hat{g}^2(x)\ln \hat{g}(x) \\
+\sum_{x} x^2 \hat{g}^2(x)\ln \hat{g}(x)
+\end{pmatrix}
+\end{equation}
+</body>
+となります．めでたしめでたし．また追記すると思います．
+#### 参考
+
+<p>R. A. Caruana, R. B. Searle, T. Heller, and S. I. Shupack, “Fast algorithm for the resolution of spectra,” <em>Analytical Chemistry,</em> Vol. 58, No. 6, pp. 1162―1167, 1986.</p>
+<p>H. GUO, “A Simple Algorithm for Fitting a Gaussian Function,” <em>IEEE Signal Process,</em> Mag.28, No. 5 (2011), 134–137.</p>
+</article><section class="jump-container is-flex is-justify-content-space-between my-6"><!-- em is empty placeholder--><a class="button is-default" href="/2020/10/29/00000039-2020-10/" title="【遠征記】2020年10月 いろいろ"><i class="iconfont icon-prev mr-2 has-text-grey"></i><span class="has-text-weight-semibold">Previous: 【遠征記】2020年10月 いろいろ</span></a><a class="button is-default" href="/2020/08/22/00000037-2020-08-hoshinomura/" title="【遠征記】2020年8月 星の村天文台"><span class="has-text-weight-semibold">Next: 【遠征記】2020年8月 星の村天文台</span><i class="iconfont icon-next ml-2 has-text-grey"></i></a></section><article class="mt-6 comment-container"><script async repo="dabokun/dabokun.github.io" src="https://utteranc.es/client.js" issue-term="pathname" theme="preferred-color-scheme"></script></article></div></div></main></main><footer class="is-flex is-flex-direction-column is-align-items-center is-flex-shrink-0 is-family-serif"><section class="sns-container"><a title="twitter" target="_blank" rel="noopener nofollow" href="//twitter.com/astrodabo"><i class="iconfont icon-twitter"></i></a><!-- Github--><a title="github" target="_blank" rel="noopener nofollow" href="//github.com/dabokun"><i class="iconfont icon-github"></i></a><!-- Ins--><!-- RSS--><!-- 知乎--><!-- 领英--><!-- 脸书--></section><p><span>Copyright ©</span><span> dabokun 2025</span></p><div class="is-flex is-justify-content-center is-flex-wrap-wrap"><p>Powered by Hexo &verbar;&nbsp;</p><p class="is-flex is-justify-content-center"><a title="Hexo theme author" target="_blank" rel="noopener" href="//github.com/haojen">Theme by Haojen&nbsp;</a></p><div style="margin-top: 2px"><a class="github-button" title="github-button" target="_blank" rel="noopener" href="https://github.com/haojen/hexo-theme-Claudia" data-color-scheme="no-preference: light; light: light; dark: dark;" data-show-count="true"></a></div></div><div><span></span></div></footer><script async defer src="https://buttons.github.io/buttons.js"></script><script src="/js/jquery-3.6.1.min.js"></script><script src="/js/jquery-fancybox.min.js"></script><script src="/js/img_zoom.js"></script><script src="/js/post.js"></script></body></html>
