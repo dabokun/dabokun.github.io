@@ -41,26 +41,6 @@
   </entry>
   
   <entry>
-    <title>Hello World</title>
-    <link href="http://dabokun.github.io/2025/06/06/hello-world/"/>
-    <id>http://dabokun.github.io/2025/06/06/hello-world/</id>
-    <published>2025-06-06T13:28:46.906Z</published>
-    <updated>2025-06-06T13:28:46.906Z</updated>
-    
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot;&gt;documentation&lt;/a&gt; for</summary>
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
     <title>2024年11月 福島県某所，育樹祭記念広場</title>
     <link href="http://dabokun.github.io/2024/12/03/00000076-2024-11-fukushima/"/>
     <id>http://dabokun.github.io/2024/12/03/00000076-2024-11-fukushima/</id>
@@ -539,6 +519,27 @@
     <category term="Rust" scheme="http://dabokun.github.io/tags/Rust/"/>
     
     <category term="C++" scheme="http://dabokun.github.io/tags/C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>動画投稿デビュー（のちょっと裏話）</title>
+    <link href="http://dabokun.github.io/2021/06/27/00000057-douga-01/"/>
+    <id>http://dabokun.github.io/2021/06/27/00000057-douga-01/</id>
+    <published>2021-06-27T13:56:59.000Z</published>
+    <updated>2021-06-27T14:14:07.782Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="あいさつ"><a href="#あいさつ" class="headerlink" title="あいさつ"></a>あいさつ</h3><p>こんにちは，突然ですが Youtube に動画投稿してみました．<br>もともと，「観測遠征×ボイロ（ボイスロイドの略）って誰もやってなさそうだしやりたいな…」と思っていたので，その第一歩として簡単な動画を作ってみました．</p><span id="more"></span><h3 id="作ってみる"><a href="#作ってみる" class="headerlink" title="作ってみる"></a>作ってみる</h3><p>Aviutl を使った動画作成の経験は何度かあったので，ボイロくらいだったら一日もあれば作れるやろ！と思いましたが，素材を集めたり，ちゃんとしたものを作ろうと思うと一分のものを作るだけでも一苦労．<br><img src="/01.jpg" alt="編集画面">編集画面，使いこなせてないのでごちゃごちゃｗ<br>まだ慣れていないソフトがあったりもして，結局2日くらいのうち暇な時間をかけて一本目を作ることができましたが，扱いやすい素材などがたくさん転がっていて，ありがたい時代になったものです…(？)．</p><div class="video-container"><iframe src="https://www.youtube.com/embed/2E9TI3p3N8E" frameborder="0" loading="lazy" allowfullscreen></iframe></div><p>なんのこともないただの自己紹介動画です．次回から本格的に車載や撮影の模様をお届けできればいいなと思っています．</p><p>あまり頻繁に更新できないかもしれませんが（目指せ月１更新），もしよければチャンネル登録，高評価をよろしくお願いいたします！m(_ _)m</p>]]></content>
+    
+    
+    <summary type="html">&lt;h3 id=&quot;あいさつ&quot;&gt;&lt;a href=&quot;#あいさつ&quot; class=&quot;headerlink&quot; title=&quot;あいさつ&quot;&gt;&lt;/a&gt;あいさつ&lt;/h3&gt;&lt;p&gt;こんにちは，突然ですが Youtube に動画投稿してみました．&lt;br&gt;もともと，「観測遠征×ボイロ（ボイスロイドの略）って誰もやってなさそうだしやりたいな…」と思っていたので，その第一歩として簡単な動画を作ってみました．&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="その他" scheme="http://dabokun.github.io/categories/%E3%81%9D%E3%81%AE%E4%BB%96/"/>
+    
+    
+    <category term="その他" scheme="http://dabokun.github.io/tags/%E3%81%9D%E3%81%AE%E4%BB%96/"/>
     
   </entry>
   
