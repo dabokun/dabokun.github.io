@@ -21,29 +21,658 @@
 <p>となります．特にノイズ解析では<a target="_blank" rel="noopener" href="https://apranat.exblog.jp/31097570/">あぷらなーとさんがよくダークデータのノイズ解析をしてらっしゃいます</a>ので，あんな感じのことができればいいかなということになります．<br>プログラムの全般的な詳しい機能の紹介は，<a href="/2019/03/15/00000005-astrophoto-and-processing-2/">以前書いたコンセプトの記事</a>をご覧ください．</p>
 <h4 id="その1-Rawを開く（ファイルパス群→三次元データ）"><a href="#その1-Rawを開く（ファイルパス群→三次元データ）" class="headerlink" title="その1. Rawを開く（ファイルパス群→三次元データ）"></a>その1. Rawを開く（ファイルパス群→三次元データ）</h4><p>まず，Raw を開くだけなら簡単です．<a href="/2019/06/04/00000009-rust-raw-loader-crate/">以前紹介した rawloader crate</a> を使用すれば開けます．<br>が，今回はコンポジットやノイズ解析をしたいので，複数枚の Raw 画像を読む必要があります．<br>これまでは一つの Path というノードで単一のデータファイルパスを表現していましたが，これを一つのノードで複数枚のリストが表現できるように改造する必要がありました．</p>
 <p><strong><font color="red">これからコードをドバドバ貼っていきますが，自分のメモ代わりなので読み飛ばしてください．</font></strong></p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">enum</span> <span class="title class_">PATHS</span> &#123;</span><br><span class="line">    Nothing,</span><br><span class="line">    <span class="title function_ invoke__">FileList</span>(<span class="type">Vec</span>&lt;PathBuf&gt;),</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">MenuBar</span> <span class="keyword">for</span> <span class="title class_">PATHS</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">visualize</span>&lt;F&gt;(&amp;<span class="keyword">self</span>, ctx: OutputWindowCtx&lt;<span class="symbol">&#x27;_</span>, <span class="symbol">&#x27;_</span>, <span class="symbol">&#x27;_</span>, <span class="symbol">&#x27;_</span>, <span class="symbol">&#x27;_</span>, <span class="symbol">&#x27;_</span>, <span class="symbol">&#x27;_</span>, F&gt;)</span><br><span class="line">    <span class="keyword">where</span></span><br><span class="line">        F: glium::backend::Facade,</span><br><span class="line">    &#123;</span><br><span class="line">        ctx.ui.<span class="title function_ invoke__">text_wrapped</span>(&amp;im_str!(<span class="string">&quot;&#123;:?&#125;&quot;</span>, <span class="keyword">self</span>));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/*省略*/</span></span><br><span class="line">&#125;</span><br><span class="line">IOValue::<span class="title function_ invoke__">Paths</span>(<span class="keyword">ref</span> file) =&gt; &#123;</span><br><span class="line">    <span class="keyword">match</span> file &#123;</span><br><span class="line">        primitives::PATHS::Nothing =&gt; <span class="literal">None</span>,</span><br><span class="line">        primitives::PATHS::<span class="title function_ invoke__">FileList</span>(file) =&gt; &#123;</span><br><span class="line">            <span class="keyword">if</span> read_only &#123;</span><br><span class="line">                <span class="literal">None</span></span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">let</span> <span class="variable">size</span> = ui.<span class="title function_ invoke__">item_rect_size</span>();</span><br><span class="line">                <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">ret</span> = <span class="title function_ invoke__">Ok</span>(<span class="literal">None</span>);</span><br><span class="line">                ChildWindow::<span class="title function_ invoke__">new</span>(im_str!(<span class="string">&quot;edit&quot;</span>))</span><br><span class="line">                    .<span class="title function_ invoke__">size</span>([size[<span class="number">0</span>].<span class="title function_ invoke__">max</span>(<span class="number">400.0</span>), <span class="number">150.0</span>])</span><br><span class="line">                    .<span class="title function_ invoke__">horizontal_scrollbar</span>(<span class="literal">true</span>)</span><br><span class="line">                    .<span class="title function_ invoke__">build</span>(ui, || &#123;</span><br><span class="line">                        <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">hoge</span> = <span class="literal">false</span>;</span><br><span class="line">                        ret = ui.<span class="title function_ invoke__">file_explorer</span>(</span><br><span class="line">                            TOP_FOLDER,</span><br><span class="line">                            &amp;[</span><br><span class="line">                                <span class="string">&quot;fits&quot;</span>, <span class="string">&quot;fit&quot;</span>, <span class="string">&quot;fts&quot;</span>, <span class="string">&quot;cr2&quot;</span>, <span class="string">&quot;CR2&quot;</span>, <span class="string">&quot;RW2&quot;</span>, <span class="string">&quot;rw2&quot;</span>, <span class="string">&quot;nef&quot;</span>, <span class="string">&quot;NEF&quot;</span>,</span><br><span class="line">                            ],</span><br><span class="line">                            &amp;<span class="keyword">mut</span> hoge,</span><br><span class="line">                        );</span><br><span class="line">                    &#125;);</span><br><span class="line">                ui.<span class="title function_ invoke__">text</span>(im_str!(<span class="string">&quot;Selected Files:&quot;</span>));</span><br><span class="line">                <span class="keyword">for</span> <span class="variable">single_file</span> <span class="keyword">in</span> file &#123;</span><br><span class="line">                    ui.<span class="title function_ invoke__">text</span>(single_file.<span class="title function_ invoke__">to_str</span>().<span class="title function_ invoke__">unwrap_or</span>(<span class="string">&quot;Unrepresentable path&quot;</span>));</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> <span class="keyword">let</span> <span class="variable">Ok</span>(<span class="title function_ invoke__">Some</span>(new_file)) = ret &#123;</span><br><span class="line">                    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">already_exist</span> = <span class="literal">false</span>;</span><br><span class="line">                    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">key</span> = <span class="number">0</span>;</span><br><span class="line">                    <span class="keyword">for</span> <span class="variable">single_file</span> <span class="keyword">in</span> file &#123;</span><br><span class="line">                        <span class="keyword">if</span> *single_file == new_file &#123;</span><br><span class="line">                            already_exist = <span class="literal">true</span>;</span><br><span class="line">                            <span class="keyword">break</span>;</span><br><span class="line">                        &#125;</span><br><span class="line">                        key += <span class="number">1</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">if</span> already_exist &#123;</span><br><span class="line">                        <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">new_files</span> = file.<span class="title function_ invoke__">clone</span>();</span><br><span class="line">                        new_files.<span class="title function_ invoke__">remove</span>(key);</span><br><span class="line">                        <span class="title function_ invoke__">Some</span>(IOValue::<span class="title function_ invoke__">Paths</span>(primitives::PATHS::<span class="title function_ invoke__">FileList</span>(</span><br><span class="line">                            new_files.<span class="title function_ invoke__">to_vec</span>(),</span><br><span class="line">                        )))</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">new_files</span> = file.<span class="title function_ invoke__">clone</span>();</span><br><span class="line">                        new_files.<span class="title function_ invoke__">push</span>(new_file);</span><br><span class="line">                        <span class="title function_ invoke__">Some</span>(IOValue::<span class="title function_ invoke__">Paths</span>(primitives::PATHS::<span class="title function_ invoke__">FileList</span>(</span><br><span class="line">                            new_files.<span class="title function_ invoke__">to_vec</span>(),</span><br><span class="line">                        )))</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="literal">None</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="language-Rust">pub enum PATHS &#123;
+    Nothing,
+    FileList(Vec&lt;PathBuf&gt;),
+&#125;
+impl MenuBar for PATHS &#123;
+    fn visualize&lt;F&gt;(&amp;self, ctx: OutputWindowCtx&lt;&#39;_, &#39;_, &#39;_, &#39;_, &#39;_, &#39;_, &#39;_, F&gt;)
+    where
+        F: glium::backend::Facade,
+    &#123;
+        ctx.ui.text_wrapped(&amp;im_str!(&quot;&#123;:?&#125;&quot;, self));
+    &#125;
+    /*省略*/
+&#125;
+IOValue::Paths(ref file) =&gt; &#123;
+    match file &#123;
+        primitives::PATHS::Nothing =&gt; None,
+        primitives::PATHS::FileList(file) =&gt; &#123;
+            if read_only &#123;
+                None
+            &#125; else &#123;
+                let size = ui.item_rect_size();
+                let mut ret = Ok(None);
+                ChildWindow::new(im_str!(&quot;edit&quot;))
+                    .size([size[0].max(400.0), 150.0])
+                    .horizontal_scrollbar(true)
+                    .build(ui, || &#123;
+                        let mut hoge = false;
+                        ret = ui.file_explorer(
+                            TOP_FOLDER,
+                            &amp;[
+                                &quot;fits&quot;, &quot;fit&quot;, &quot;fts&quot;, &quot;cr2&quot;, &quot;CR2&quot;, &quot;RW2&quot;, &quot;rw2&quot;, &quot;nef&quot;, &quot;NEF&quot;,
+                            ],
+                            &amp;mut hoge,
+                        );
+                    &#125;);
+                ui.text(im_str!(&quot;Selected Files:&quot;));
+                for single_file in file &#123;
+                    ui.text(single_file.to_str().unwrap_or(&quot;Unrepresentable path&quot;));
+                &#125;
+                if let Ok(Some(new_file)) = ret &#123;
+                    let mut already_exist = false;
+                    let mut key = 0;
+                    for single_file in file &#123;
+                        if *single_file == new_file &#123;
+                            already_exist = true;
+                            break;
+                        &#125;
+                        key += 1;
+                    &#125;
+                    if already_exist &#123;
+                        let mut new_files = file.clone();
+                        new_files.remove(key);
+                        Some(IOValue::Paths(primitives::PATHS::FileList(
+                            new_files.to_vec(),
+                        )))
+                    &#125; else &#123;
+                        let mut new_files = file.clone();
+                        new_files.push(new_file);
+                        Some(IOValue::Paths(primitives::PATHS::FileList(
+                            new_files.to_vec(),
+                        )))
+                    &#125;
+                &#125; else &#123;
+                    None
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+&#125;
+</code></pre>
 <p>するとこんな感じに↓<br><img src="/images/00000046-aflak-improc-01/01.jpg" alt="Paths ノードでファイル複数のファイルを開く"><br>なんかカレントディレクトリの表示がおかしいですが，ちゃんと動作するので今はキニシナイ．</p>
 <p>次に，この Path 改め Paths を受け取り，画像を展開して**三次元データ（0番目の軸で何枚目かというインデックス，1番目と2番目の軸で画像の輝度にアクセスできる）**を生成するノードを作ります．</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">cake_transform!(</span><br><span class="line">    <span class="string">&quot;Open RAW file from a Paths.&quot;</span>,</span><br><span class="line">    <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>,</span><br><span class="line">    open_raw&lt;IOValue, IOErr&gt;(path: Paths, n: Integer = <span class="number">0</span>) <span class="punctuation">-&gt;</span> Image &#123;</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">let</span> <span class="variable">PATHS</span>::<span class="title function_ invoke__">FileList</span>(path) = path &#123;</span><br><span class="line">            <span class="built_in">vec!</span>[<span class="title function_ invoke__">run_open_raw</span>(path.<span class="title function_ invoke__">to_vec</span>(), *n)]</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="built_in">vec!</span>[] <span class="comment">//エラーを返そう</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">),</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">run_open_raw</span>&lt;P: <span class="built_in">AsRef</span>&lt;Path&gt;&gt;(path: <span class="type">Vec</span>&lt;P&gt;, n: <span class="type">i64</span>) <span class="punctuation">-&gt;</span> <span class="type">Result</span>&lt;IOValue, IOErr&gt; &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">pathlist_len</span> = path.<span class="title function_ invoke__">len</span>();</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">n</span> = n <span class="keyword">as</span> <span class="type">usize</span>;</span><br><span class="line">    precheck!(pathlist_len &gt; n)?;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">imagecount</span> = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">width</span> = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">height</span> = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">img</span> = <span class="type">Vec</span>::<span class="title function_ invoke__">new</span>();</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">openresult</span>: <span class="type">Result</span>&lt;IOValue, IOErr&gt; = <span class="title function_ invoke__">Ok</span>(IOValue::<span class="title function_ invoke__">Integer</span>(<span class="number">0</span>));</span><br><span class="line">    <span class="keyword">for</span> <span class="variable">single_path</span> <span class="keyword">in</span> path &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">image</span> = rawloader::<span class="title function_ invoke__">decode_file</span>(single_path);</span><br><span class="line">        <span class="keyword">match</span> image &#123;</span><br><span class="line">            <span class="title function_ invoke__">Ok</span>(image) =&gt; &#123;</span><br><span class="line">                <span class="keyword">if</span> imagecount == <span class="number">0</span> &#123;</span><br><span class="line">                    width = image.width;</span><br><span class="line">                    height = image.height;</span><br><span class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> width != image.width || height != image.height &#123;</span><br><span class="line">                    <span class="built_in">eprintln!</span>(<span class="string">&quot;Couldn&#x27;t load images with different size images.\n&quot;</span>); <span class="comment">//エラーを返そう</span></span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> <span class="keyword">let</span> <span class="variable">rawloader</span>::RawImageData::<span class="title function_ invoke__">Integer</span>(data) = image.data &#123;</span><br><span class="line">                    <span class="keyword">for</span> <span class="variable">pix</span> <span class="keyword">in</span> data &#123;</span><br><span class="line">                        img.<span class="title function_ invoke__">push</span>(pix <span class="keyword">as</span> <span class="type">f32</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="built_in">eprintln!</span>(<span class="string">&quot;Don&#x27;t know how to process non-integer raw files&quot;</span>); <span class="comment">//エラーを返そう</span></span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="title function_ invoke__">Err</span>(err) =&gt; openresult = <span class="title function_ invoke__">Err</span>(IOErr::<span class="title function_ invoke__">RawLoaderError</span>(<span class="built_in">format!</span>(<span class="string">&quot;&#123;:?&#125;&quot;</span>, err))),</span><br><span class="line">        &#125;</span><br><span class="line">        imagecount += <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">match</span> openresult &#123;</span><br><span class="line">        <span class="title function_ invoke__">Ok</span>(_) =&gt; &#123;</span><br><span class="line">            <span class="keyword">let</span> <span class="variable">img</span> = Array::<span class="title function_ invoke__">from_shape_vec</span>((pathlist_len, height, width), img).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line">            <span class="title function_ invoke__">Ok</span>(IOValue::<span class="title function_ invoke__">Image</span>(WcsArray::<span class="title function_ invoke__">from_array</span>(Dimensioned::<span class="title function_ invoke__">new</span>(</span><br><span class="line">                img.<span class="title function_ invoke__">into_dyn</span>(),</span><br><span class="line">                Unit::<span class="literal">None</span>,</span><br><span class="line">            ))))</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="title function_ invoke__">Err</span>(_) =&gt; openresult,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="language-Rust">cake_transform!(
+    &quot;Open RAW file from a Paths.&quot;,
+    0, 1, 0,
+    open_raw&lt;IOValue, IOErr&gt;(path: Paths, n: Integer = 0) -&gt; Image &#123;
+        if let PATHS::FileList(path) = path &#123;
+            vec![run_open_raw(path.to_vec(), *n)]
+        &#125; else &#123;
+            vec![] //エラーを返そう
+        &#125;
+    &#125;
+),
+
+fn run_open_raw&lt;P: AsRef&lt;Path&gt;&gt;(path: Vec&lt;P&gt;, n: i64) -&gt; Result&lt;IOValue, IOErr&gt; &#123;
+    let pathlist_len = path.len();
+    let n = n as usize;
+    precheck!(pathlist_len &gt; n)?;
+    let mut imagecount = 0;
+    let mut width = 0;
+    let mut height = 0;
+    let mut img = Vec::new();
+    let mut openresult: Result&lt;IOValue, IOErr&gt; = Ok(IOValue::Integer(0));
+    for single_path in path &#123;
+        let image = rawloader::decode_file(single_path);
+        match image &#123;
+            Ok(image) =&gt; &#123;
+                if imagecount == 0 &#123;
+                    width = image.width;
+                    height = image.height;
+                &#125; else if width != image.width || height != image.height &#123;
+                    eprintln!(&quot;Couldn&#39;t load images with different size images.\n&quot;); //エラーを返そう
+                    break;
+                &#125;
+                if let rawloader::RawImageData::Integer(data) = image.data &#123;
+                    for pix in data &#123;
+                        img.push(pix as f32);
+                    &#125;
+                &#125; else &#123;
+                    eprintln!(&quot;Don&#39;t know how to process non-integer raw files&quot;); //エラーを返そう
+                    break;
+                &#125;
+            &#125;
+            Err(err) =&gt; openresult = Err(IOErr::RawLoaderError(format!(&quot;&#123;:?&#125;&quot;, err))),
+        &#125;
+        imagecount += 1;
+    &#125;
+    match openresult &#123;
+        Ok(_) =&gt; &#123;
+            let img = Array::from_shape_vec((pathlist_len, height, width), img).unwrap();
+            Ok(IOValue::Image(WcsArray::from_array(Dimensioned::new(
+                img.into_dyn(),
+                Unit::None,
+            ))))
+        &#125;
+        Err(_) =&gt; openresult,
+    &#125;
+&#125;
+</code></pre>
 <p>cake_transform!マクロは，ノードを作るためのマクロです．引数で入力の型を指定し，-&gt;以降に出力の型を指定します．複数のデータを出力することも可能です．実際のデータは，<code>Vec&lt;Result&lt;IOValue, IOErr&gt;&gt;</code> という型のベクタで返しています．<br><video src="images/00000046-aflak-improc-01/tw01.mp4" width="674" height="360" controls></video><br>i番目の画像をスライスして取り出して表示できています．</p>
 <p>これで統計値計算への準備が整いましたので，<strong>このタイミングであぷらなーとさんに連絡をし，Nikon D3 と D810A のダークデータをいただきました（妥当性の検証ができるのはとても助かります，ありがたいです）</strong>．とりあえず D3 のダーク Raw データが開けそうなので，こちらを使っていきます．</p>
 <h4 id="その2-統計値計算（三次元データ→二次元データ）"><a href="#その2-統計値計算（三次元データ→二次元データ）" class="headerlink" title="その2. 統計値計算（三次元データ→二次元データ）"></a>その2. 統計値計算（三次元データ→二次元データ）</h4><p>三次元データを生成したら，<strong>各種統計値を計算する</strong>ノードを作っていきます．平均はすでに実装済みでしたし，分散と標準偏差も使っている <a target="_blank" rel="noopener" href="https://docs.rs/ndarray/0.14.0/ndarray/">ndarray</a> ライブラリに<a target="_blank" rel="noopener" href="https://docs.rs/ndarray/0.14.0/ndarray/struct.ArrayBase.html#method.mean_axis">計算するための関数</a>があります．中央値だけは，こちらで実装する必要がありそうだったので用意．</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br></pre></td><td class="code"><pre><span class="line">cake_transform!(</span><br><span class="line">    <span class="string">&quot;Average for Image. Parameters: a=start, b=end (a &lt;= b).</span></span><br><span class="line"><span class="string">Compute (Sum[k, &#123;a, b&#125;]image[k]) / (b - a). image[k] is k-th slice of image.</span></span><br><span class="line"><span class="string">Second output contains (a + b) / 2</span></span><br><span class="line"><span class="string">Third output contains (b - a)</span></span><br><span class="line"><span class="string">Note: indices for a and b start from 0&quot;</span>,</span><br><span class="line">    <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>,</span><br><span class="line">    average&lt;IOValue, IOErr&gt;(image: Image, start: Integer = <span class="number">0</span>, end: Integer = <span class="number">1</span>) <span class="punctuation">-&gt;</span> Image, Float, Float &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">middle</span> = (*start <span class="keyword">as</span> <span class="type">f32</span> + *end <span class="keyword">as</span> <span class="type">f32</span>) / <span class="number">2.0</span>;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">width</span> = *end <span class="keyword">as</span> <span class="type">f32</span> - *start <span class="keyword">as</span> <span class="type">f32</span>;</span><br><span class="line">        <span class="built_in">vec!</span>[<span class="title function_ invoke__">run_average</span>(image, *start, *end), <span class="title function_ invoke__">Ok</span>(IOValue::<span class="title function_ invoke__">Float</span>(middle)), <span class="title function_ invoke__">Ok</span>(IOValue::<span class="title function_ invoke__">Float</span>(width))]</span><br><span class="line">    &#125;</span><br><span class="line">),</span><br><span class="line">cake_transform!(</span><br><span class="line">    <span class="string">&quot;Variance for Image. Parameters: a=start, b=end (a &lt;= b).&quot;</span>,</span><br><span class="line">    <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>,</span><br><span class="line">    variance&lt;IOValue, IOErr&gt;(image: Image, start: Integer = <span class="number">0</span>, end: Integer = <span class="number">1</span>) <span class="punctuation">-&gt;</span> Image&#123;</span><br><span class="line">        <span class="built_in">vec!</span>[<span class="title function_ invoke__">run_variance</span>(image, *start, *end)]</span><br><span class="line">    &#125;</span><br><span class="line">),</span><br><span class="line">cake_transform!(</span><br><span class="line">    <span class="string">&quot;Stddev for Image. Parameters: a=start, b=end (a &lt;= b).&quot;</span>,</span><br><span class="line">    <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>,</span><br><span class="line">    stddev&lt;IOValue, IOErr&gt;(image: Image, start: Integer = <span class="number">0</span>, end: Integer = <span class="number">1</span>) <span class="punctuation">-&gt;</span> Image&#123;</span><br><span class="line">        <span class="built_in">vec!</span>[<span class="title function_ invoke__">run_stddev</span>(image, *start, *end)]</span><br><span class="line">    &#125;</span><br><span class="line">),</span><br><span class="line">cake_transform!(</span><br><span class="line">    <span class="string">&quot;Median for Image. Parameters: a=start, b=end (a &lt;= b).&quot;</span>,</span><br><span class="line">    <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>,</span><br><span class="line">    median&lt;IOValue, IOErr&gt;(image: Image, start: Integer = <span class="number">0</span>, end: Integer = <span class="number">1</span>) <span class="punctuation">-&gt;</span> Image&#123;</span><br><span class="line">        <span class="built_in">vec!</span>[<span class="title function_ invoke__">run_median</span>(image, *start, *end)]</span><br><span class="line">    &#125;</span><br><span class="line">),</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">reduce_array_slice</span>&lt;F&gt;(image: &amp;WcsArray, start: <span class="type">i64</span>, end: <span class="type">i64</span>, f: F) <span class="punctuation">-&gt;</span> <span class="type">Result</span>&lt;IOValue, IOErr&gt;</span><br><span class="line"><span class="keyword">where</span></span><br><span class="line">    F: <span class="title function_ invoke__">Fn</span>(&amp;ArrayViewD&lt;<span class="type">f32</span>&gt;) <span class="punctuation">-&gt;</span> ArrayD&lt;<span class="type">f32</span>&gt;,</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">start</span> = try_into_unsigned!(start)?;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">end</span> = try_into_unsigned!(end)?;</span><br><span class="line">    is_sliceable!(image, start, end)?;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">image_val</span> = image.<span class="title function_ invoke__">scalar</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">slices</span> = image_val.<span class="title function_ invoke__">slice_axis</span>(<span class="title function_ invoke__">Axis</span>(<span class="number">0</span>), Slice::<span class="title function_ invoke__">from</span>(start..end));</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">raw</span> = <span class="title function_ invoke__">f</span>(&amp;slices);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">ndim</span> = raw.<span class="title function_ invoke__">ndim</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">wrap_with_unit</span> = image.<span class="title function_ invoke__">make_slice</span>(</span><br><span class="line">        &amp;(<span class="number">0</span>..ndim).<span class="title function_ invoke__">map</span>(|i| (i, <span class="number">0.0</span>, <span class="number">1.0</span>)).collect::&lt;<span class="type">Vec</span>&lt;_&gt;&gt;(),</span><br><span class="line">        image.<span class="title function_ invoke__">array</span>().<span class="title function_ invoke__">with_new_value</span>(raw),</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    <span class="title function_ invoke__">Ok</span>(IOValue::<span class="title function_ invoke__">Image</span>(wrap_with_unit))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">run_average</span>(image: &amp;WcsArray, start: <span class="type">i64</span>, end: <span class="type">i64</span>) <span class="punctuation">-&gt;</span> <span class="type">Result</span>&lt;IOValue, IOErr&gt; &#123;</span><br><span class="line">    <span class="title function_ invoke__">reduce_array_slice</span>(image, start, end, |slices| slices.<span class="title function_ invoke__">mean_axis</span>(<span class="title function_ invoke__">Axis</span>(<span class="number">0</span>)))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">run_variance</span>(image: &amp;WcsArray, start: <span class="type">i64</span>, end: <span class="type">i64</span>) <span class="punctuation">-&gt;</span> <span class="type">Result</span>&lt;IOValue, IOErr&gt; &#123;</span><br><span class="line">    <span class="title function_ invoke__">reduce_array_slice</span>(image, start, end, |slices| slices.<span class="title function_ invoke__">var_axis</span>(<span class="title function_ invoke__">Axis</span>(<span class="number">0</span>), <span class="number">1.0</span>))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">run_stddev</span>(image: &amp;WcsArray, start: <span class="type">i64</span>, end: <span class="type">i64</span>) <span class="punctuation">-&gt;</span> <span class="type">Result</span>&lt;IOValue, IOErr&gt; &#123;</span><br><span class="line">    <span class="title function_ invoke__">reduce_array_slice</span>(image, start, end, |slices| slices.<span class="title function_ invoke__">std_axis</span>(<span class="title function_ invoke__">Axis</span>(<span class="number">0</span>), <span class="number">1.0</span>))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">run_median</span>(image: &amp;WcsArray, start: <span class="type">i64</span>, end: <span class="type">i64</span>) <span class="punctuation">-&gt;</span> <span class="type">Result</span>&lt;IOValue, IOErr&gt; &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">start</span> = try_into_unsigned!(start)?;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">end</span> = try_into_unsigned!(end)?;</span><br><span class="line">    is_sliceable!(image, start, end)?;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">image_val</span> = image.<span class="title function_ invoke__">scalar</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">slices</span> = image_val.<span class="title function_ invoke__">slice_axis</span>(<span class="title function_ invoke__">Axis</span>(<span class="number">0</span>), Slice::<span class="title function_ invoke__">from</span>(start..end));</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">dim</span> = slices.<span class="title function_ invoke__">dim</span>();</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">size</span> = dim.<span class="title function_ invoke__">as_array_view</span>();</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">new_size</span>: <span class="type">Vec</span>&lt;_&gt; = size.<span class="title function_ invoke__">iter</span>().<span class="title function_ invoke__">skip</span>(<span class="number">1</span>).<span class="title function_ invoke__">cloned</span>().<span class="title function_ invoke__">collect</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">result</span> = ArrayD::<span class="title function_ invoke__">from_shape_fn</span>(new_size, |index| &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">vals</span> = <span class="type">Vec</span>::<span class="title function_ invoke__">new</span>();</span><br><span class="line">        <span class="keyword">for</span> (_, slice) <span class="keyword">in</span> slices.<span class="title function_ invoke__">axis_iter</span>(<span class="title function_ invoke__">Axis</span>(<span class="number">0</span>)).<span class="title function_ invoke__">enumerate</span>() &#123;</span><br><span class="line">            vals.<span class="title function_ invoke__">push</span>(slice[&amp;index]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//consider NaN!</span></span><br><span class="line">        vals.<span class="title function_ invoke__">sort_by</span>(|a, b| a.<span class="title function_ invoke__">partial_cmp</span>(b).<span class="title function_ invoke__">unwrap</span>());</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">n</span> = vals.<span class="title function_ invoke__">len</span>();</span><br><span class="line">        <span class="keyword">if</span> n % <span class="number">2</span> == <span class="number">1</span> &#123;</span><br><span class="line">            vals[(n - <span class="number">1</span>) / <span class="number">2</span>]</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            (vals[n / <span class="number">2</span>] + vals[n / <span class="number">2</span> - <span class="number">1</span>]) / <span class="number">2.0</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="title function_ invoke__">Ok</span>(IOValue::<span class="title function_ invoke__">Image</span>(WcsArray::<span class="title function_ invoke__">from_array</span>(Dimensioned::<span class="title function_ invoke__">new</span>(</span><br><span class="line">        result,</span><br><span class="line">        Unit::<span class="literal">None</span>,</span><br><span class="line">    ))))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="language-Rust">cake_transform!(
+    &quot;Average for Image. Parameters: a=start, b=end (a &lt;= b).
+Compute (Sum[k, &#123;a, b&#125;]image[k]) / (b - a). image[k] is k-th slice of image.
+Second output contains (a + b) / 2
+Third output contains (b - a)
+Note: indices for a and b start from 0&quot;,
+    1, 0, 0,
+    average&lt;IOValue, IOErr&gt;(image: Image, start: Integer = 0, end: Integer = 1) -&gt; Image, Float, Float &#123;
+        let middle = (*start as f32 + *end as f32) / 2.0;
+        let width = *end as f32 - *start as f32;
+        vec![run_average(image, *start, *end), Ok(IOValue::Float(middle)), Ok(IOValue::Float(width))]
+    &#125;
+),
+cake_transform!(
+    &quot;Variance for Image. Parameters: a=start, b=end (a &lt;= b).&quot;,
+    1, 0, 0,
+    variance&lt;IOValue, IOErr&gt;(image: Image, start: Integer = 0, end: Integer = 1) -&gt; Image&#123;
+        vec![run_variance(image, *start, *end)]
+    &#125;
+),
+cake_transform!(
+    &quot;Stddev for Image. Parameters: a=start, b=end (a &lt;= b).&quot;,
+    1, 0, 0,
+    stddev&lt;IOValue, IOErr&gt;(image: Image, start: Integer = 0, end: Integer = 1) -&gt; Image&#123;
+        vec![run_stddev(image, *start, *end)]
+    &#125;
+),
+cake_transform!(
+    &quot;Median for Image. Parameters: a=start, b=end (a &lt;= b).&quot;,
+    1, 0, 0,
+    median&lt;IOValue, IOErr&gt;(image: Image, start: Integer = 0, end: Integer = 1) -&gt; Image&#123;
+        vec![run_median(image, *start, *end)]
+    &#125;
+),
 
+fn reduce_array_slice&lt;F&gt;(image: &amp;WcsArray, start: i64, end: i64, f: F) -&gt; Result&lt;IOValue, IOErr&gt;
+where
+    F: Fn(&amp;ArrayViewD&lt;f32&gt;) -&gt; ArrayD&lt;f32&gt;,
+&#123;
+    let start = try_into_unsigned!(start)?;
+    let end = try_into_unsigned!(end)?;
+    is_sliceable!(image, start, end)?;
+
+    let image_val = image.scalar();
+
+    let slices = image_val.slice_axis(Axis(0), Slice::from(start..end));
+    let raw = f(&amp;slices);
+    let ndim = raw.ndim();
+
+    let wrap_with_unit = image.make_slice(
+        &amp;(0..ndim).map(|i| (i, 0.0, 1.0)).collect::&lt;Vec&lt;_&gt;&gt;(),
+        image.array().with_new_value(raw),
+    );
+
+    Ok(IOValue::Image(wrap_with_unit))
+&#125;
+
+fn run_average(image: &amp;WcsArray, start: i64, end: i64) -&gt; Result&lt;IOValue, IOErr&gt; &#123;
+    reduce_array_slice(image, start, end, |slices| slices.mean_axis(Axis(0)))
+&#125;
+
+fn run_variance(image: &amp;WcsArray, start: i64, end: i64) -&gt; Result&lt;IOValue, IOErr&gt; &#123;
+    reduce_array_slice(image, start, end, |slices| slices.var_axis(Axis(0), 1.0))
+&#125;
+
+fn run_stddev(image: &amp;WcsArray, start: i64, end: i64) -&gt; Result&lt;IOValue, IOErr&gt; &#123;
+    reduce_array_slice(image, start, end, |slices| slices.std_axis(Axis(0), 1.0))
+&#125;
+
+fn run_median(image: &amp;WcsArray, start: i64, end: i64) -&gt; Result&lt;IOValue, IOErr&gt; &#123;
+    let start = try_into_unsigned!(start)?;
+    let end = try_into_unsigned!(end)?;
+    is_sliceable!(image, start, end)?;
+
+    let image_val = image.scalar();
+
+    let slices = image_val.slice_axis(Axis(0), Slice::from(start..end));
+    let dim = slices.dim();
+    let size = dim.as_array_view();
+    let new_size: Vec&lt;_&gt; = size.iter().skip(1).cloned().collect();
+
+    let result = ArrayD::from_shape_fn(new_size, |index| &#123;
+        let mut vals = Vec::new();
+        for (_, slice) in slices.axis_iter(Axis(0)).enumerate() &#123;
+            vals.push(slice[&amp;index]);
+        &#125;
+        //consider NaN!
+        vals.sort_by(|a, b| a.partial_cmp(b).unwrap());
+        let n = vals.len();
+        if n % 2 == 1 &#123;
+            vals[(n - 1) / 2]
+        &#125; else &#123;
+            (vals[n / 2] + vals[n / 2 - 1]) / 2.0
+        &#125;
+    &#125;);
+
+    Ok(IOValue::Image(WcsArray::from_array(Dimensioned::new(
+        result,
+        Unit::None,
+    ))))
+&#125;
+</code></pre>
 <p><video src="images/00000046-aflak-improc-01/tw02.mp4" width="674" height="360" controls></video><br>これは平均を計算するノード（average ノード）を使った例です．3枚のデタラメなライトフレームを単純に加算平均してます．</p>
 <p>これで位置合わせなしコンポジット機構もできましたので，<strong>位置合わせのいらない master dark や master flat をコンポジットするのはこのプログラムだけで完結できる</strong>ということになります．やったー．</p>
 <h4 id="その3-リストへ変換"><a href="#その3-リストへ変換" class="headerlink" title="その3. リストへ変換"></a>その3. リストへ変換</h4><p>統計値計算をして得られるデータは二次元のデータです．各画素に，その位置の画素の統計値が入っています．ノイズ解析用 scatterplots ではこれらの統計値を横軸，縦軸の値として使用するため，<strong>一次元リストへ変換</strong>しておくと便利です．<br>ついでに常用対数を通した値にしておきます．</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">cake_transform!(</span><br><span class="line">    <span class="string">&quot;Convert 2d image to 1d list.&quot;</span>,</span><br><span class="line">    <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>,</span><br><span class="line">    convert_to_1d_image&lt;IOValue, IOErr&gt;(image: Image) <span class="punctuation">-&gt;</span> Image&#123;</span><br><span class="line">        <span class="built_in">vec!</span>[<span class="title function_ invoke__">run_convert_to_1d</span>(image)]</span><br><span class="line">    &#125;</span><br><span class="line">),</span><br><span class="line">cake_transform!(</span><br><span class="line">    <span class="string">&quot;Convert to log10&quot;</span>,</span><br><span class="line">    <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>,</span><br><span class="line">    log10&lt;IOValue, IOErr&gt;(image: Image) <span class="punctuation">-&gt;</span> Image &#123;</span><br><span class="line">        <span class="built_in">vec!</span>[<span class="title function_ invoke__">run_log10</span>(image)]</span><br><span class="line">    &#125;</span><br><span class="line">),</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">run_convert_to_1d</span>(image: &amp;WcsArray) <span class="punctuation">-&gt;</span> <span class="type">Result</span>&lt;IOValue, IOErr&gt; &#123;</span><br><span class="line">    dim_is!(image, <span class="number">2</span>)?;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">image_val</span> = image.<span class="title function_ invoke__">scalar</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">list_size</span> = *image_val.<span class="title function_ invoke__">dim</span>().<span class="title function_ invoke__">as_array_view</span>().<span class="title function_ invoke__">first</span>().<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">list</span> = <span class="type">Vec</span>::<span class="title function_ invoke__">with_capacity</span>(list_size);</span><br><span class="line">    <span class="keyword">for</span> <span class="variable">i</span> <span class="keyword">in</span> <span class="number">0</span>..list_size &#123;</span><br><span class="line">        <span class="keyword">for</span> <span class="variable">val</span> <span class="keyword">in</span> image_val.<span class="title function_ invoke__">slice</span>(s![i, ..]) &#123;</span><br><span class="line">            list.<span class="title function_ invoke__">push</span>(*val);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="title function_ invoke__">Ok</span>(IOValue::<span class="title function_ invoke__">Image</span>(</span><br><span class="line">        image.<span class="title function_ invoke__">make_slice</span>(</span><br><span class="line">            &amp;[(<span class="number">2</span>, <span class="number">0.0</span>, <span class="number">1.0</span>)],</span><br><span class="line">            image</span><br><span class="line">                .<span class="title function_ invoke__">array</span>()</span><br><span class="line">                .<span class="title function_ invoke__">with_new_value</span>(Array1::<span class="title function_ invoke__">from_vec</span>(list).<span class="title function_ invoke__">into_dyn</span>()),</span><br><span class="line">        ),</span><br><span class="line">    ))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">run_log10</span>(image: &amp;WcsArray) <span class="punctuation">-&gt;</span> <span class="type">Result</span>&lt;IOValue, IOErr&gt; &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">out</span> = image.<span class="title function_ invoke__">clone</span>();</span><br><span class="line">    <span class="keyword">for</span> <span class="variable">v</span> <span class="keyword">in</span> out.<span class="title function_ invoke__">scalar_mut</span>().<span class="title function_ invoke__">iter_mut</span>() &#123;</span><br><span class="line">        *v = v.<span class="title function_ invoke__">log10</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="title function_ invoke__">Ok</span>(IOValue::<span class="title function_ invoke__">Image</span>(out))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="language-Rust">cake_transform!(
+    &quot;Convert 2d image to 1d list.&quot;,
+    1, 0, 0,
+    convert_to_1d_image&lt;IOValue, IOErr&gt;(image: Image) -&gt; Image&#123;
+        vec![run_convert_to_1d(image)]
+    &#125;
+),
+cake_transform!(
+    &quot;Convert to log10&quot;,
+    1, 0, 0,
+    log10&lt;IOValue, IOErr&gt;(image: Image) -&gt; Image &#123;
+        vec![run_log10(image)]
+    &#125;
+),
 
+fn run_convert_to_1d(image: &amp;WcsArray) -&gt; Result&lt;IOValue, IOErr&gt; &#123;
+    dim_is!(image, 2)?;
+    let image_val = image.scalar();
+
+    let list_size = *image_val.dim().as_array_view().first().unwrap();
+    let mut list = Vec::with_capacity(list_size);
+    for i in 0..list_size &#123;
+        for val in image_val.slice(s![i, ..]) &#123;
+            list.push(*val);
+        &#125;
+    &#125;
+    Ok(IOValue::Image(
+        image.make_slice(
+            &amp;[(2, 0.0, 1.0)],
+            image
+                .array()
+                .with_new_value(Array1::from_vec(list).into_dyn()),
+        ),
+    ))
+&#125;
+
+fn run_log10(image: &amp;WcsArray) -&gt; Result&lt;IOValue, IOErr&gt; &#123;
+    let mut out = image.clone();
+    for v in out.scalar_mut().iter_mut() &#123;
+        *v = v.log10();
+    &#125;
+    Ok(IOValue::Image(out))
+&#125;
+</code></pre>
 <h4 id="その4-scatterplots-の描画"><a href="#その4-scatterplots-の描画" class="headerlink" title="その4. scatterplots の描画"></a>その4. scatterplots の描画</h4><p>これらの2つのリストから，scatterplots データを作っていきます．このプログラムでは<strong>様々な次元のデータを様々な形式で見られるようにしたい</strong>ので，最終データには「タグ文字列」を付加するようにしています．今回の場合，<strong>形状が (2, データ数) の “scatter” タグがついた二次元データをscatterplots と解釈して描画</strong>することになります．</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">cake_transform!(</span><br><span class="line">    <span class="string">&quot;Create scatterplots from two 1D lists.&quot;</span>,</span><br><span class="line">    <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>,</span><br><span class="line">    create_scatter&lt;IOValue, IOErr&gt;(xaxis: Image, yaxis: Image) <span class="punctuation">-&gt;</span> Image&#123;</span><br><span class="line">        <span class="built_in">vec!</span>[<span class="title function_ invoke__">run_create_scatter</span>(xaxis, yaxis)]</span><br><span class="line">    &#125;</span><br><span class="line">),</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">run_create_scatter</span>(xaxis: &amp;WcsArray, yaxis: &amp;WcsArray) <span class="punctuation">-&gt;</span> <span class="type">Result</span>&lt;IOValue, IOErr&gt; &#123;</span><br><span class="line">    dim_is!(xaxis, <span class="number">1</span>)?;</span><br><span class="line">    dim_is!(yaxis, <span class="number">1</span>)?;</span><br><span class="line">    are_same_dim!(xaxis, yaxis)?;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">image_val</span> = xaxis.<span class="title function_ invoke__">scalar</span>();</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">width</span> = image_val.<span class="title function_ invoke__">len</span>();</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">img</span> = <span class="type">Vec</span>::<span class="title function_ invoke__">with_capacity</span>(<span class="number">2</span> * width);</span><br><span class="line">    <span class="keyword">for</span> <span class="variable">i</span> <span class="keyword">in</span> <span class="number">0</span>..width &#123;</span><br><span class="line">        <span class="keyword">for</span> <span class="variable">val</span> <span class="keyword">in</span> image_val.<span class="title function_ invoke__">slice</span>(s![i]) &#123;</span><br><span class="line">            img.<span class="title function_ invoke__">push</span>(*val);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">image_val</span> = yaxis.<span class="title function_ invoke__">scalar</span>();</span><br><span class="line">    <span class="keyword">for</span> <span class="variable">i</span> <span class="keyword">in</span> <span class="number">0</span>..width &#123;</span><br><span class="line">        <span class="keyword">for</span> <span class="variable">val</span> <span class="keyword">in</span> image_val.<span class="title function_ invoke__">slice</span>(s![i]) &#123;</span><br><span class="line">            img.<span class="title function_ invoke__">push</span>(*val);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">datapoints</span> = <span class="type">Vec</span>::<span class="title function_ invoke__">new</span>();</span><br><span class="line">    <span class="keyword">for</span> <span class="variable">i</span> <span class="keyword">in</span> <span class="number">0</span>..width &#123;</span><br><span class="line">        datapoints.<span class="title function_ invoke__">push</span>((img[i], img[i + width]));</span><br><span class="line">    &#125;</span><br><span class="line">    datapoints.<span class="title function_ invoke__">sort_by</span>(|a, b| a.<span class="title function_ invoke__">partial_cmp</span>(b).<span class="title function_ invoke__">unwrap</span>());</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">res</span> = <span class="type">Vec</span>::<span class="title function_ invoke__">with_capacity</span>(<span class="number">2</span> * width);</span><br><span class="line">    <span class="keyword">for</span> <span class="variable">i</span> <span class="keyword">in</span> <span class="number">0</span>..width &#123;</span><br><span class="line">        res.<span class="title function_ invoke__">push</span>(datapoints[i].<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> <span class="variable">i</span> <span class="keyword">in</span> <span class="number">0</span>..width &#123;</span><br><span class="line">        res.<span class="title function_ invoke__">push</span>(datapoints[i].<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">img</span> = Array::<span class="title function_ invoke__">from_shape_vec</span>((<span class="number">2</span>, width), res).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line">    <span class="title function_ invoke__">Ok</span>(IOValue::<span class="title function_ invoke__">Image</span>(WcsArray::<span class="title function_ invoke__">from_array_and_tag</span>(</span><br><span class="line">        Dimensioned::<span class="title function_ invoke__">new</span>(img.<span class="title function_ invoke__">into_dyn</span>(), Unit::<span class="literal">None</span>),</span><br><span class="line">        <span class="title function_ invoke__">Some</span>(<span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;scatter&quot;</span>)), <span class="comment">//タグを付与するよ</span></span><br><span class="line">    )))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="language-Rust">cake_transform!(
+    &quot;Create scatterplots from two 1D lists.&quot;,
+    1, 0, 0,
+    create_scatter&lt;IOValue, IOErr&gt;(xaxis: Image, yaxis: Image) -&gt; Image&#123;
+        vec![run_create_scatter(xaxis, yaxis)]
+    &#125;
+),
+
+fn run_create_scatter(xaxis: &amp;WcsArray, yaxis: &amp;WcsArray) -&gt; Result&lt;IOValue, IOErr&gt; &#123;
+    dim_is!(xaxis, 1)?;
+    dim_is!(yaxis, 1)?;
+    are_same_dim!(xaxis, yaxis)?;
+    let image_val = xaxis.scalar();
+    let width = image_val.len();
+    let mut img = Vec::with_capacity(2 * width);
+    for i in 0..width &#123;
+        for val in image_val.slice(s![i]) &#123;
+            img.push(*val);
+        &#125;
+    &#125;
+    let image_val = yaxis.scalar();
+    for i in 0..width &#123;
+        for val in image_val.slice(s![i]) &#123;
+            img.push(*val);
+        &#125;
+    &#125;
+    let mut datapoints = Vec::new();
+    for i in 0..width &#123;
+        datapoints.push((img[i], img[i + width]));
+    &#125;
+    datapoints.sort_by(|a, b| a.partial_cmp(b).unwrap());
+    let mut res = Vec::with_capacity(2 * width);
+    for i in 0..width &#123;
+        res.push(datapoints[i].0);
+    &#125;
+    for i in 0..width &#123;
+        res.push(datapoints[i].1);
+    &#125;
+    let img = Array::from_shape_vec((2, width), res).unwrap();
+    Ok(IOValue::Image(WcsArray::from_array_and_tag(
+        Dimensioned::new(img.into_dyn(), Unit::None),
+        Some(String::from(&quot;scatter&quot;)), //タグを付与するよ
+    )))
+&#125;
+</code></pre>
 <p>うーん．コードが汚い．ここはなんとかしたいですね…．<br>データポイントをとりあえずソートしています．これは描画を軽くするために必要なのですが，あとあとアルゴリズムを変えるかもしれません．<br>最後に scatterplots を描画してみます．ライブラリは <a target="_blank" rel="noopener" href="https://docs.rs/implot/0.3.0/implot/">implot</a> を利用．</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">Some</span>(tag) =&gt; <span class="keyword">match</span> tag.<span class="title function_ invoke__">as_ref</span>() &#123;</span><br><span class="line">    <span class="string">&quot;scatter&quot;</span> =&gt; <span class="keyword">match</span> <span class="keyword">self</span>.<span class="title function_ invoke__">scalar</span>().<span class="title function_ invoke__">dim</span>().<span class="title function_ invoke__">ndim</span>() &#123; <span class="comment">//タグを認識するよ</span></span><br><span class="line">        <span class="number">2</span> =&gt; &#123; <span class="comment">//データは今のところ2次元に限定</span></span><br><span class="line">            <span class="keyword">let</span> <span class="variable">state</span> = &amp;<span class="keyword">mut</span> ctx.window.scatter_lineplot_state;</span><br><span class="line">            <span class="keyword">let</span> <span class="variable">plot_ui</span> = ctx.plotcontext.<span class="title function_ invoke__">get_plot_ui</span>();</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">let</span> <span class="variable">Err</span>(e) = ui.<span class="title function_ invoke__">scatter</span>(</span><br><span class="line">                &amp;<span class="keyword">self</span>.<span class="title function_ invoke__">scalar2</span>(),</span><br><span class="line">                &amp;plot_ui,</span><br><span class="line">                <span class="title function_ invoke__">Some</span>(&amp;AxisTransform::<span class="title function_ invoke__">new</span>(<span class="string">&quot;Median&quot;</span>, <span class="string">&quot;&quot;</span>, |x| x)),</span><br><span class="line">                <span class="title function_ invoke__">Some</span>(&amp;AxisTransform::<span class="title function_ invoke__">new</span>(<span class="string">&quot;Standard Deviation&quot;</span>, <span class="string">&quot;&quot;</span>, |y| y)),</span><br><span class="line">                state,</span><br><span class="line">            ) &#123;</span><br><span class="line">                ui.<span class="title function_ invoke__">text</span>(<span class="built_in">format!</span>(<span class="string">&quot;Error on drawing plot! &#123;&#125;&quot;</span>, e))</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        _ =&gt; &#123;</span><br><span class="line">            ui.<span class="title function_ invoke__">text</span>(<span class="built_in">format!</span>(</span><br><span class="line">                <span class="string">&quot;Unimplemented for scatter of dimension &#123;&#125;&quot;</span>,</span><br><span class="line">                <span class="keyword">self</span>.<span class="title function_ invoke__">scalar</span>().<span class="title function_ invoke__">ndim</span>()</span><br><span class="line">            ));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">scatter</span>&lt;S, FX, FY&gt;(</span><br><span class="line">    &amp;<span class="keyword">self</span>,</span><br><span class="line">    image: &amp;ArrayBase&lt;S, Ix2&gt;,</span><br><span class="line">    plot_ui: &amp;PlotUi,</span><br><span class="line">    xaxis: <span class="type">Option</span>&lt;&amp;AxisTransform&lt;FX&gt;&gt;,</span><br><span class="line">    yaxis: <span class="type">Option</span>&lt;&amp;AxisTransform&lt;FY&gt;&gt;,</span><br><span class="line">    state: &amp;<span class="keyword">mut</span> State,</span><br><span class="line">) <span class="punctuation">-&gt;</span> <span class="type">Result</span>&lt;(), Error&gt;</span><br><span class="line"><span class="keyword">where</span></span><br><span class="line">    S: Data&lt;Elem = <span class="type">f32</span>&gt;,</span><br><span class="line">    FX: <span class="title function_ invoke__">Fn</span>(<span class="type">f32</span>) <span class="punctuation">-&gt;</span> <span class="type">f32</span>,</span><br><span class="line">    FY: <span class="title function_ invoke__">Fn</span>(<span class="type">f32</span>) <span class="punctuation">-&gt;</span> <span class="type">f32</span>,</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">p</span> = <span class="keyword">self</span>.<span class="title function_ invoke__">cursor_screen_pos</span>();</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">window_pos</span> = <span class="keyword">self</span>.<span class="title function_ invoke__">window_pos</span>();</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">window_size</span> = <span class="keyword">self</span>.<span class="title function_ invoke__">window_size</span>();</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">size</span> = [window_size[<span class="number">0</span>], window_size[<span class="number">1</span>] - (p[<span class="number">1</span>] - window_pos[<span class="number">1</span>])];</span><br><span class="line">    state.<span class="title function_ invoke__">simple_plot</span>(<span class="keyword">self</span>, image, &amp;plot_ui, xaxis, yaxis, size)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_ invoke__">pub</span>(<span class="keyword">crate</span>) <span class="keyword">fn</span> <span class="title function_">simple_plot</span>&lt;S, FX, FY&gt;(</span><br><span class="line">    &amp;<span class="keyword">mut</span> <span class="keyword">self</span>,</span><br><span class="line">    ui: &amp;Ui,</span><br><span class="line">    image: &amp;ArrayBase&lt;S, Ix2&gt;,</span><br><span class="line">    plot_ui: &amp;PlotUi,</span><br><span class="line">    horizontal_axis: <span class="type">Option</span>&lt;&amp;AxisTransform&lt;FX&gt;&gt;,</span><br><span class="line">    vertical_axis: <span class="type">Option</span>&lt;&amp;AxisTransform&lt;FY&gt;&gt;,</span><br><span class="line">    size: [<span class="type">f32</span>; <span class="number">2</span>],</span><br><span class="line">) <span class="punctuation">-&gt;</span> <span class="type">Result</span>&lt;(), Error&gt;</span><br><span class="line"><span class="keyword">where</span></span><br><span class="line">    S: Data&lt;Elem = <span class="type">f32</span>&gt;,</span><br><span class="line">    FX: <span class="title function_ invoke__">Fn</span>(<span class="type">f32</span>) <span class="punctuation">-&gt;</span> <span class="type">f32</span>,</span><br><span class="line">    FY: <span class="title function_ invoke__">Fn</span>(<span class="type">f32</span>) <span class="punctuation">-&gt;</span> <span class="type">f32</span>,</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">haxisname</span> = <span class="string">&quot;&quot;</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">vaxisname</span> = <span class="string">&quot;&quot;</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">haxisunit</span> = <span class="string">&quot;&quot;</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">vaxisunit</span> = <span class="string">&quot;&quot;</span>;</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">let</span> <span class="variable">Some</span>(haxistrans) = horizontal_axis &#123;</span><br><span class="line">        haxisname = haxistrans.<span class="title function_ invoke__">label</span>();</span><br><span class="line">        haxisunit = haxistrans.<span class="title function_ invoke__">unit</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">let</span> <span class="variable">Some</span>(vaxistrans) = vertical_axis &#123;</span><br><span class="line">        vaxisname = vaxistrans.<span class="title function_ invoke__">label</span>();</span><br><span class="line">        vaxisunit = vaxistrans.<span class="title function_ invoke__">unit</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">haxislabel</span> = <span class="built_in">format!</span>(<span class="string">&quot;&#123;&#125; (&#123;&#125;)&quot;</span>, haxisname, haxisunit);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">vaxislabel</span> = <span class="built_in">format!</span>(<span class="string">&quot;&#123;&#125; (&#123;&#125;)&quot;</span>, vaxisname, vaxisunit);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">size</span> = [size[<span class="number">0</span>] - <span class="number">15.0</span>, size[<span class="number">1</span>] - <span class="number">15.0</span>];</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">xaxis</span> = image.<span class="title function_ invoke__">slice</span>(s![<span class="number">0</span>, ..]).<span class="title function_ invoke__">to_vec</span>();</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">yaxis</span> = image.<span class="title function_ invoke__">slice</span>(s![<span class="number">1</span>, ..]).<span class="title function_ invoke__">to_vec</span>();</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">datapoints</span> = <span class="type">Vec</span>::<span class="title function_ invoke__">new</span>();</span><br><span class="line">    <span class="keyword">for</span> <span class="variable">i</span> <span class="keyword">in</span> <span class="number">0</span>..xaxis.<span class="title function_ invoke__">len</span>() &#123;</span><br><span class="line">        datapoints.<span class="title function_ invoke__">push</span>((xaxis[i], yaxis[i]));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">content_width</span> = ui.<span class="title function_ invoke__">window_content_region_width</span>();</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">plot_limits</span>: <span class="type">Option</span>&lt;ImPlotLimits&gt; = <span class="literal">None</span>;</span><br><span class="line"></span><br><span class="line">    Plot::<span class="title function_ invoke__">new</span>(<span class="string">&quot;Noise Analysis of Nikon D3, Median--Standard Deviation&quot;</span>)</span><br><span class="line">        .<span class="title function_ invoke__">size</span>(content_width, size[<span class="number">1</span>])</span><br><span class="line">        .<span class="title function_ invoke__">x_label</span>(&amp;haxislabel)</span><br><span class="line">        .<span class="title function_ invoke__">y_label</span>(&amp;vaxislabel)</span><br><span class="line">        .<span class="title function_ invoke__">x_limits</span>(&amp;ImPlotRange &#123; Min: <span class="number">0.0</span>, Max: <span class="number">4.0</span> &#125;, Condition::FirstUseEver)</span><br><span class="line">        .<span class="title function_ invoke__">y_limits</span>(</span><br><span class="line">            &amp;ImPlotRange &#123; Min: <span class="number">0.0</span>, Max: <span class="number">3.0</span> &#125;,</span><br><span class="line">            YAxisChoice::First,</span><br><span class="line">            Condition::FirstUseEver,</span><br><span class="line">        )</span><br><span class="line">        .<span class="title function_ invoke__">build</span>(plot_ui, || &#123;</span><br><span class="line">            plot_limits = <span class="title function_ invoke__">Some</span>(<span class="title function_ invoke__">get_plot_limits</span>(<span class="literal">None</span>));</span><br><span class="line">            <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">xaxis</span> = <span class="type">Vec</span>::<span class="title function_ invoke__">new</span>();</span><br><span class="line">            <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">yaxis</span> = <span class="type">Vec</span>::<span class="title function_ invoke__">new</span>();</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">let</span> <span class="variable">Some</span>(plot) = plot_limits &#123;</span><br><span class="line">                <span class="keyword">let</span> (xmin, xmax, ymin, ymax) = (plot.X.Min, plot.X.Max, plot.Y.Min, plot.Y.Max);</span><br><span class="line">                datapoints.<span class="title function_ invoke__">retain</span>(|&amp;data| &#123;</span><br><span class="line">                    xmin &lt;= data.<span class="number">0</span> <span class="keyword">as</span> <span class="type">f64</span></span><br><span class="line">                        &amp;&amp; data.<span class="number">0</span> <span class="keyword">as</span> <span class="type">f64</span> &lt;= xmax</span><br><span class="line">                        &amp;&amp; ymin &lt;= data.<span class="number">1</span> <span class="keyword">as</span> <span class="type">f64</span></span><br><span class="line">                        &amp;&amp; data.<span class="number">1</span> <span class="keyword">as</span> <span class="type">f64</span> &lt;= ymax</span><br><span class="line">                &#125;);</span><br><span class="line">                <span class="keyword">let</span> <span class="variable">xstep</span> = (xmax - xmin) / <span class="number">50.0</span>;</span><br><span class="line">                <span class="keyword">let</span> <span class="variable">ystep</span> = (ymax - ymin) / <span class="number">50.0</span>;</span><br><span class="line">                datapoints.<span class="title function_ invoke__">dedup_by</span>(|a, b| &#123;</span><br><span class="line">                    (a.<span class="number">0</span> - b.<span class="number">0</span>).<span class="title function_ invoke__">abs</span>() &lt; xstep <span class="keyword">as</span> <span class="type">f32</span> &amp;&amp; (a.<span class="number">1</span> - b.<span class="number">1</span>).<span class="title function_ invoke__">abs</span>() &lt; ystep <span class="keyword">as</span> <span class="type">f32</span></span><br><span class="line">                &#125;);</span><br><span class="line">                <span class="keyword">for</span> <span class="variable">datapoint</span> <span class="keyword">in</span> datapoints &#123;</span><br><span class="line">                    xaxis.<span class="title function_ invoke__">push</span>(datapoint.<span class="number">0</span> <span class="keyword">as</span> <span class="type">f64</span>);</span><br><span class="line">                    yaxis.<span class="title function_ invoke__">push</span>(datapoint.<span class="number">1</span> <span class="keyword">as</span> <span class="type">f64</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            &#125;</span><br><span class="line">            PlotScatter::<span class="title function_ invoke__">new</span>(<span class="string">&quot;data point&quot;</span>).<span class="title function_ invoke__">plot</span>(&amp;xaxis, &amp;yaxis);</span><br><span class="line">        &#125;);</span><br><span class="line">    <span class="title function_ invoke__">Ok</span>(())</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="language-Rust">Some(tag) =&gt; match tag.as_ref() &#123;
+    &quot;scatter&quot; =&gt; match self.scalar().dim().ndim() &#123; //タグを認識するよ
+        2 =&gt; &#123; //データは今のところ2次元に限定
+            let state = &amp;mut ctx.window.scatter_lineplot_state;
+            let plot_ui = ctx.plotcontext.get_plot_ui();
+            if let Err(e) = ui.scatter(
+                &amp;self.scalar2(),
+                &amp;plot_ui,
+                Some(&amp;AxisTransform::new(&quot;Median&quot;, &quot;&quot;, |x| x)),
+                Some(&amp;AxisTransform::new(&quot;Standard Deviation&quot;, &quot;&quot;, |y| y)),
+                state,
+            ) &#123;
+                ui.text(format!(&quot;Error on drawing plot! &#123;&#125;&quot;, e))
+            &#125;
+        &#125;
+        _ =&gt; &#123;
+            ui.text(format!(
+                &quot;Unimplemented for scatter of dimension &#123;&#125;&quot;,
+                self.scalar().ndim()
+            ));
+        &#125;
+    &#125;,
+&#125;
+
+fn scatter&lt;S, FX, FY&gt;(
+    &amp;self,
+    image: &amp;ArrayBase&lt;S, Ix2&gt;,
+    plot_ui: &amp;PlotUi,
+    xaxis: Option&lt;&amp;AxisTransform&lt;FX&gt;&gt;,
+    yaxis: Option&lt;&amp;AxisTransform&lt;FY&gt;&gt;,
+    state: &amp;mut State,
+) -&gt; Result&lt;(), Error&gt;
+where
+    S: Data&lt;Elem = f32&gt;,
+    FX: Fn(f32) -&gt; f32,
+    FY: Fn(f32) -&gt; f32,
+&#123;
+    let p = self.cursor_screen_pos();
+    let window_pos = self.window_pos();
+    let window_size = self.window_size();
+    let size = [window_size[0], window_size[1] - (p[1] - window_pos[1])];
+    state.simple_plot(self, image, &amp;plot_ui, xaxis, yaxis, size)
+&#125;
+
+pub(crate) fn simple_plot&lt;S, FX, FY&gt;(
+    &amp;mut self,
+    ui: &amp;Ui,
+    image: &amp;ArrayBase&lt;S, Ix2&gt;,
+    plot_ui: &amp;PlotUi,
+    horizontal_axis: Option&lt;&amp;AxisTransform&lt;FX&gt;&gt;,
+    vertical_axis: Option&lt;&amp;AxisTransform&lt;FY&gt;&gt;,
+    size: [f32; 2],
+) -&gt; Result&lt;(), Error&gt;
+where
+    S: Data&lt;Elem = f32&gt;,
+    FX: Fn(f32) -&gt; f32,
+    FY: Fn(f32) -&gt; f32,
+&#123;
+    let mut haxisname = &quot;&quot;;
+    let mut vaxisname = &quot;&quot;;
+    let mut haxisunit = &quot;&quot;;
+    let mut vaxisunit = &quot;&quot;;
+    if let Some(haxistrans) = horizontal_axis &#123;
+        haxisname = haxistrans.label();
+        haxisunit = haxistrans.unit();
+    &#125;
+    if let Some(vaxistrans) = vertical_axis &#123;
+        vaxisname = vaxistrans.label();
+        vaxisunit = vaxistrans.unit();
+    &#125;
+    let haxislabel = format!(&quot;&#123;&#125; (&#123;&#125;)&quot;, haxisname, haxisunit);
+    let vaxislabel = format!(&quot;&#123;&#125; (&#123;&#125;)&quot;, vaxisname, vaxisunit);
+    let size = [size[0] - 15.0, size[1] - 15.0];
+    let xaxis = image.slice(s![0, ..]).to_vec();
+    let yaxis = image.slice(s![1, ..]).to_vec();
+    let mut datapoints = Vec::new();
+    for i in 0..xaxis.len() &#123;
+        datapoints.push((xaxis[i], yaxis[i]));
+    &#125;
+    let content_width = ui.window_content_region_width();
+    let mut plot_limits: Option&lt;ImPlotLimits&gt; = None;
+
+    Plot::new(&quot;Noise Analysis of Nikon D3, Median--Standard Deviation&quot;)
+        .size(content_width, size[1])
+        .x_label(&amp;haxislabel)
+        .y_label(&amp;vaxislabel)
+        .x_limits(&amp;ImPlotRange &#123; Min: 0.0, Max: 4.0 &#125;, Condition::FirstUseEver)
+        .y_limits(
+            &amp;ImPlotRange &#123; Min: 0.0, Max: 3.0 &#125;,
+            YAxisChoice::First,
+            Condition::FirstUseEver,
+        )
+        .build(plot_ui, || &#123;
+            plot_limits = Some(get_plot_limits(None));
+            let mut xaxis = Vec::new();
+            let mut yaxis = Vec::new();
+            if let Some(plot) = plot_limits &#123;
+                let (xmin, xmax, ymin, ymax) = (plot.X.Min, plot.X.Max, plot.Y.Min, plot.Y.Max);
+                datapoints.retain(|&amp;data| &#123;
+                    xmin &lt;= data.0 as f64
+                        &amp;&amp; data.0 as f64 &lt;= xmax
+                        &amp;&amp; ymin &lt;= data.1 as f64
+                        &amp;&amp; data.1 as f64 &lt;= ymax
+                &#125;);
+                let xstep = (xmax - xmin) / 50.0;
+                let ystep = (ymax - ymin) / 50.0;
+                datapoints.dedup_by(|a, b| &#123;
+                    (a.0 - b.0).abs() &lt; xstep as f32 &amp;&amp; (a.1 - b.1).abs() &lt; ystep as f32
+                &#125;);
+                for datapoint in datapoints &#123;
+                    xaxis.push(datapoint.0 as f64);
+                    yaxis.push(datapoint.1 as f64);
+                &#125;
+            &#125; else &#123;
+            &#125;
+            PlotScatter::new(&quot;data point&quot;).plot(&amp;xaxis, &amp;yaxis);
+        &#125;);
+    Ok(())
+&#125;
+</code></pre>
 <p>ソートされているので，dedup関数で近い位置のデータを削除して描画点を減らしているわけですが，dedup関数の仕様上思惑通りにはいきません．<strong>この関数は連続する要素しか見ないので，y軸の値が近いのデータペアを見つけられない</strong>ためです．ここは要改善です．<br>最終的には，こんな感じのデータが見られます．<br><video src="images/00000046-aflak-improc-01/tw03.mp4" width="674" height="360" controls></video><br><img src="/images/00000046-aflak-improc-01/tw01.jpg" alt="今回得られた結果">↑今回得られた散布図．↓あぷらなーとさんの結果<br><img src="/images/00000046-aflak-improc-01/tw02.png" alt="あぷらなーとさんの結果"></p>
 <p>ある程度インタラクティブに拡大したり，移動したりといった操作ができるビューアができましたので今はこれで良しとしておきます．やったぜ．</p>
 <p>全体のビジュアルプログラムはこんな感じ．少し複雑（？）ですが，<strong>上に書いた流れをそのまま表現</strong>しているだけです．<br><img src="/images/00000046-aflak-improc-01/02.jpg" alt="ダークノイズ解析のビジュアルプログラム"><br>例えばこのプログラムで「中央値画像を生成」の部分を「平均値画像を生成」するようなノードに変更すれば，横軸が平均値になったようなプロットを得たりといったことが<strong>誰でもコーディングなしで</strong>できるようになるわけです．どちらかの対数に変換するノードを消せば，片対数のプロットも作れたりします．以上！</p>
 <h4 id="おまけ-Fitsデータのカラー画像解釈"><a href="#おまけ-Fitsデータのカラー画像解釈" class="headerlink" title="おまけ. Fitsデータのカラー画像解釈"></a>おまけ. Fitsデータのカラー画像解釈</h4><p>研究では輝度単一の値をカラーテーブルで変換することでしかデータを見てこなかったので，普通の天体画像のように3チャンネルあるような Fits データをカラー画像解釈できるようにしていきます．つまり，<strong>形状が (3, 画像横幅，画像縦幅) の “color_image” タグがついた三次元データをカラー画像と解釈して描画</strong>することになります．<br>チャンネル取り出しだけですが，<a target="_blank" rel="noopener" href="https://fornax.hateblo.jp/entry/20210103/1609605334">ぐらすのすちさんも似たようなこと</a>をやっています．</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">Some</span>(tag) =&gt; <span class="keyword">match</span> tag.<span class="title function_ invoke__">as_ref</span>() &#123;</span><br><span class="line">    <span class="string">&quot;color_image&quot;</span> =&gt; <span class="keyword">match</span> <span class="keyword">self</span>.<span class="title function_ invoke__">scalar</span>().<span class="title function_ invoke__">dim</span>().<span class="title function_ invoke__">ndim</span>() &#123;</span><br><span class="line">        <span class="number">3</span> =&gt; &#123;</span><br><span class="line">            <span class="comment">/*省略*/</span></span><br><span class="line">            <span class="keyword">if</span> new_incoming_image &#123;</span><br><span class="line">                <span class="comment">/*省略*/</span></span><br><span class="line">                <span class="keyword">if</span> <span class="keyword">let</span> <span class="variable">Err</span>(e) = state.<span class="title function_ invoke__">set_color_image</span>(</span><br><span class="line">                    image_ref,</span><br><span class="line">                    ctx.created_on,</span><br><span class="line">                    ctx.gl_ctx,</span><br><span class="line">                    texture_id,</span><br><span class="line">                    ctx.textures,</span><br><span class="line">                ) &#123;</span><br><span class="line">                    ui.<span class="title function_ invoke__">text</span>(<span class="built_in">format!</span>(<span class="string">&quot;Error on creating image! &#123;&#125;&quot;</span>, e));</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">let</span> <span class="variable">Err</span>(e) = ui.<span class="title function_ invoke__">color_image</span>(</span><br><span class="line">                ctx.gl_ctx,</span><br><span class="line">                ctx.textures,</span><br><span class="line">                texture_id,</span><br><span class="line">                unit,</span><br><span class="line">                x_transform.<span class="title function_ invoke__">as_ref</span>(),</span><br><span class="line">                y_transform.<span class="title function_ invoke__">as_ref</span>(),</span><br><span class="line">                state,</span><br><span class="line">            ) &#123;</span><br><span class="line">                ui.<span class="title function_ invoke__">text</span>(<span class="built_in">format!</span>(<span class="string">&quot;Error on drawing image! &#123;&#125;&quot;</span>, e));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        _ =&gt; &#123;</span><br><span class="line">            ui.<span class="title function_ invoke__">text</span>(<span class="built_in">format!</span>(</span><br><span class="line">                <span class="string">&quot;Unimplemented for color image of dimension &#123;&#125;&quot;</span>,</span><br><span class="line">                <span class="keyword">self</span>.<span class="title function_ invoke__">scalar</span>().<span class="title function_ invoke__">ndim</span>()</span><br><span class="line">            ));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    _ =&gt; &#123;</span><br><span class="line">        ui.<span class="title function_ invoke__">text</span>(<span class="built_in">format!</span>(</span><br><span class="line">            <span class="string">&quot;Unimplemented for visualization tag &#123;&#125;&quot;</span>,</span><br><span class="line">            <span class="keyword">self</span>.<span class="title function_ invoke__">scalar</span>().<span class="title function_ invoke__">ndim</span>()</span><br><span class="line">        ));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;,</span><br><span class="line"></span><br><span class="line"><span class="comment">//state.set_color_image()の中身</span></span><br><span class="line"><span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">set_color_image</span>&lt;F&gt;(</span><br><span class="line">    &amp;<span class="keyword">mut</span> <span class="keyword">self</span>,</span><br><span class="line">    image: I,</span><br><span class="line">    created_on: Instant,</span><br><span class="line">    ctx: &amp;F,</span><br><span class="line">    texture_id: TextureId,</span><br><span class="line">    textures: &amp;<span class="keyword">mut</span> Textures,</span><br><span class="line">) <span class="punctuation">-&gt;</span> <span class="type">Result</span>&lt;(), Error&gt;</span><br><span class="line"><span class="keyword">where</span></span><br><span class="line">    F: Facade,</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">self</span>.image =</span><br><span class="line">        image::Image::<span class="title function_ invoke__">color_new</span>(image, created_on, ctx, texture_id, textures, &amp;<span class="keyword">self</span>.lut)?;</span><br><span class="line">    <span class="title function_ invoke__">Ok</span>(())</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//image::Image::color_new()の中身</span></span><br><span class="line"><span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">color_new</span>&lt;F&gt;(</span><br><span class="line">    image: I,</span><br><span class="line">    created_on: Instant,</span><br><span class="line">    ctx: &amp;F,</span><br><span class="line">    texture_id: TextureId,</span><br><span class="line">    textures: &amp;<span class="keyword">mut</span> Textures,</span><br><span class="line">    lut: &amp;ColorLUT,</span><br><span class="line">) <span class="punctuation">-&gt;</span> <span class="type">Result</span>&lt;Image&lt;I&gt;, Error&gt;</span><br><span class="line"><span class="keyword">where</span></span><br><span class="line">    F: Facade,</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">let</span> (vmin, vmax, tex_size, hist) = &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">image</span> = <span class="title function_ invoke__">coerce_to_array_view3</span>(&amp;image);</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">vmin</span> = lims::<span class="title function_ invoke__">get_vmin</span>(&amp;image)?;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">vmax</span> = lims::<span class="title function_ invoke__">get_vmax</span>(&amp;image)?;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">raw</span> = <span class="title function_ invoke__">make_raw_image_rgb</span>(&amp;image, vmin, vmax, lut)?;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">gl_texture</span> = Texture2d::<span class="title function_ invoke__">new</span>(ctx, raw)?;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">tex_size</span> = gl_texture.<span class="title function_ invoke__">dimensions</span>();</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">tex_size</span> = (tex_size.<span class="number">0</span> <span class="keyword">as</span> <span class="type">f32</span>, tex_size.<span class="number">1</span> <span class="keyword">as</span> <span class="type">f32</span>);</span><br><span class="line">        textures.<span class="title function_ invoke__">replace</span>(</span><br><span class="line">            texture_id,</span><br><span class="line">            Texture &#123;</span><br><span class="line">                texture: Rc::<span class="title function_ invoke__">new</span>(gl_texture),</span><br><span class="line">                sampler: SamplerBehavior &#123;</span><br><span class="line">                    ..<span class="built_in">Default</span>::<span class="title function_ invoke__">default</span>()</span><br><span class="line">                &#125;,</span><br><span class="line">            &#125;,</span><br><span class="line">        );</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">hist</span> = hist::<span class="title function_ invoke__">histogram_color</span>(&amp;image, vmin, vmax);</span><br><span class="line">        (vmin, vmax, tex_size, hist)</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="title function_ invoke__">Ok</span>(Image &#123;</span><br><span class="line">        vmin,</span><br><span class="line">        vmax,</span><br><span class="line">        tex_size,</span><br><span class="line">        created_on: <span class="title function_ invoke__">Some</span>(created_on),</span><br><span class="line">        data: <span class="title function_ invoke__">Some</span>(image),</span><br><span class="line">        hist,</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//make_raw_image_rgb()の中身</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">make_raw_image_rgb</span>&lt;S&gt;(</span><br><span class="line">    image: &amp;ArrayBase&lt;S, Ix3&gt;,</span><br><span class="line">    vmin: <span class="type">f32</span>,</span><br><span class="line">    vmax: <span class="type">f32</span>,</span><br><span class="line">    _lut: &amp;ColorLUT,</span><br><span class="line">) <span class="punctuation">-&gt;</span> <span class="type">Result</span>&lt;RawImage2d&lt;<span class="symbol">&#x27;static</span>, <span class="type">u8</span>&gt;, Error&gt;</span><br><span class="line"><span class="keyword">where</span></span><br><span class="line">    S: Data&lt;Elem = <span class="type">f32</span>&gt;,</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">let</span> (_c, m, n) = image.<span class="title function_ invoke__">dim</span>();</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">data</span> = <span class="type">Vec</span>::<span class="title function_ invoke__">with_capacity</span>(<span class="number">3</span> * n * m);</span><br><span class="line">    <span class="keyword">if</span> !vmin.<span class="title function_ invoke__">is_nan</span>() &amp;&amp; !vmax.<span class="title function_ invoke__">is_nan</span>() &#123;</span><br><span class="line">        <span class="keyword">for</span> (_, slice) <span class="keyword">in</span> image.<span class="title function_ invoke__">axis_iter</span>(<span class="title function_ invoke__">Axis</span>(<span class="number">1</span>)).<span class="title function_ invoke__">enumerate</span>() &#123;</span><br><span class="line">            <span class="keyword">for</span> (_, channel) <span class="keyword">in</span> slice.<span class="title function_ invoke__">axis_iter</span>(<span class="title function_ invoke__">Axis</span>(<span class="number">1</span>)).<span class="title function_ invoke__">enumerate</span>() &#123;</span><br><span class="line">                <span class="keyword">let</span> <span class="variable">r</span> = channel[<span class="number">0</span>] / <span class="number">65535.0</span> * <span class="number">255.0</span>; <span class="comment">//16bit -&gt; 8bit</span></span><br><span class="line">                <span class="keyword">let</span> <span class="variable">g</span> = channel[<span class="number">1</span>] / <span class="number">65535.0</span> * <span class="number">255.0</span>;</span><br><span class="line">                <span class="keyword">let</span> <span class="variable">b</span> = channel[<span class="number">2</span>] / <span class="number">65535.0</span> * <span class="number">255.0</span>;</span><br><span class="line">                data.<span class="title function_ invoke__">push</span>(r <span class="keyword">as</span> <span class="type">u8</span>);</span><br><span class="line">                data.<span class="title function_ invoke__">push</span>(g <span class="keyword">as</span> <span class="type">u8</span>);</span><br><span class="line">                data.<span class="title function_ invoke__">push</span>(b <span class="keyword">as</span> <span class="type">u8</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="title function_ invoke__">Ok</span>(RawImage2d &#123;</span><br><span class="line">            data: Cow::<span class="title function_ invoke__">Owned</span>(data),</span><br><span class="line">            width: n <span class="keyword">as</span> <span class="type">u32</span>,</span><br><span class="line">            height: m <span class="keyword">as</span> <span class="type">u32</span>,</span><br><span class="line">            format: ClientFormat::U8U8U8,</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="title function_ invoke__">Err</span>(Error::<span class="title function_ invoke__">Msg</span>(<span class="string">&quot;vmin, vmax not set&quot;</span>))</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//===============================================================================================================</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//最初のコードのui.color_image()の中身</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">color_image</span>&lt;F, FX, FY, I&gt;(</span><br><span class="line">    &amp;<span class="keyword">self</span>,</span><br><span class="line">    _ctx: &amp;F,</span><br><span class="line">    _textures: &amp;<span class="keyword">mut</span> Textures,</span><br><span class="line">    texture_id: TextureId,</span><br><span class="line">    vunit: &amp;<span class="type">str</span>,</span><br><span class="line">    xaxis: <span class="type">Option</span>&lt;&amp;AxisTransform&lt;FX&gt;&gt;,</span><br><span class="line">    yaxis: <span class="type">Option</span>&lt;&amp;AxisTransform&lt;FY&gt;&gt;,</span><br><span class="line">    state: &amp;<span class="keyword">mut</span> State&lt;I&gt;,</span><br><span class="line">) <span class="punctuation">-&gt;</span> <span class="type">Result</span>&lt;(), Error&gt;</span><br><span class="line"><span class="keyword">where</span></span><br><span class="line">    F: Facade,</span><br><span class="line">    FX: <span class="title function_ invoke__">Fn</span>(<span class="type">f32</span>) <span class="punctuation">-&gt;</span> <span class="type">f32</span>,</span><br><span class="line">    FY: <span class="title function_ invoke__">Fn</span>(<span class="type">f32</span>) <span class="punctuation">-&gt;</span> <span class="type">f32</span>,</span><br><span class="line">    I: Borrow&lt;ArrayD&lt;<span class="type">f32</span>&gt;&gt;,</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">window_pos</span> = <span class="keyword">self</span>.<span class="title function_ invoke__">window_pos</span>();</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">cursor_pos</span> = <span class="keyword">self</span>.<span class="title function_ invoke__">cursor_screen_pos</span>();</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">window_size</span> = <span class="keyword">self</span>.<span class="title function_ invoke__">window_size</span>();</span><br><span class="line">    <span class="keyword">const</span> HIST_WIDTH: <span class="type">f32</span> = <span class="number">40.0</span>;</span><br><span class="line">    <span class="keyword">const</span> BAR_WIDTH: <span class="type">f32</span> = <span class="number">20.0</span>;</span><br><span class="line">    <span class="keyword">const</span> RIGHT_PADDING: <span class="type">f32</span> = <span class="number">100.0</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">image_max_size</span> = (</span><br><span class="line">        window_size[<span class="number">0</span>] - HIST_WIDTH - BAR_WIDTH - RIGHT_PADDING,</span><br><span class="line">        window_size[<span class="number">1</span>] - (cursor_pos[<span class="number">1</span>] - window_pos[<span class="number">1</span>]),</span><br><span class="line">    );</span><br><span class="line">    <span class="keyword">let</span> ([_p, _size], _x_label_height) =</span><br><span class="line">        state.<span class="title function_ invoke__">show_image</span>(<span class="keyword">self</span>, texture_id, vunit, xaxis, yaxis, image_max_size)?;</span><br><span class="line">    <span class="title function_ invoke__">Ok</span>(())</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//state.show_image()の中身</span></span><br><span class="line"><span class="title function_ invoke__">pub</span>(<span class="keyword">crate</span>) <span class="keyword">fn</span> <span class="title function_">show_image</span>&lt;FX, FY&gt;(</span><br><span class="line">    &amp;<span class="keyword">mut</span> <span class="keyword">self</span>,</span><br><span class="line">    ui: &amp;Ui,</span><br><span class="line">    texture_id: TextureId,</span><br><span class="line">    vunit: &amp;<span class="type">str</span>,</span><br><span class="line">    xaxis: <span class="type">Option</span>&lt;&amp;AxisTransform&lt;FX&gt;&gt;,</span><br><span class="line">    yaxis: <span class="type">Option</span>&lt;&amp;AxisTransform&lt;FY&gt;&gt;,</span><br><span class="line">    max_size: (<span class="type">f32</span>, <span class="type">f32</span>),</span><br><span class="line">) <span class="punctuation">-&gt;</span> <span class="type">Result</span>&lt;([[<span class="type">f32</span>; <span class="number">2</span>]; <span class="number">2</span>], <span class="type">f32</span>), Error&gt;</span><br><span class="line"><span class="keyword">where</span></span><br><span class="line">    FX: <span class="title function_ invoke__">Fn</span>(<span class="type">f32</span>) <span class="punctuation">-&gt;</span> <span class="type">f32</span>,</span><br><span class="line">    FY: <span class="title function_ invoke__">Fn</span>(<span class="type">f32</span>) <span class="punctuation">-&gt;</span> <span class="type">f32</span>,</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">/*省略*/</span></span><br><span class="line">    ChildWindow::<span class="title function_ invoke__">new</span>(im_str!(<span class="string">&quot;scrolling_region&quot;</span>))</span><br><span class="line">        .<span class="title function_ invoke__">border</span>(<span class="literal">false</span>)</span><br><span class="line">        .<span class="title function_ invoke__">scroll_bar</span>(<span class="literal">false</span>)</span><br><span class="line">        .<span class="title function_ invoke__">movable</span>(<span class="literal">false</span>)</span><br><span class="line">        .<span class="title function_ invoke__">scrollable</span>(<span class="literal">false</span>)</span><br><span class="line">        .<span class="title function_ invoke__">horizontal_scrollbar</span>(<span class="literal">false</span>)</span><br><span class="line">        .<span class="title function_ invoke__">build</span>(ui, || &#123;</span><br><span class="line">            <span class="comment">/*省略*/</span></span><br><span class="line">            Image::<span class="title function_ invoke__">new</span>(texture_id, size).<span class="title function_ invoke__">build</span>(ui);</span><br><span class="line">            <span class="comment">/*1000行くらい省略…*/</span></span><br><span class="line">        &#125;);</span><br><span class="line">    <span class="comment">/*省略*/</span></span><br><span class="line">    <span class="title function_ invoke__">Ok</span>(([p, size], x_labels_height))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="language-Rust">Some(tag) =&gt; match tag.as_ref() &#123;
+    &quot;color_image&quot; =&gt; match self.scalar().dim().ndim() &#123;
+        3 =&gt; &#123;
+            /*省略*/
+            if new_incoming_image &#123;
+                /*省略*/
+                if let Err(e) = state.set_color_image(
+                    image_ref,
+                    ctx.created_on,
+                    ctx.gl_ctx,
+                    texture_id,
+                    ctx.textures,
+                ) &#123;
+                    ui.text(format!(&quot;Error on creating image! &#123;&#125;&quot;, e));
+                &#125;
+            &#125;
+            if let Err(e) = ui.color_image(
+                ctx.gl_ctx,
+                ctx.textures,
+                texture_id,
+                unit,
+                x_transform.as_ref(),
+                y_transform.as_ref(),
+                state,
+            ) &#123;
+                ui.text(format!(&quot;Error on drawing image! &#123;&#125;&quot;, e));
+            &#125;
+        &#125;
+        _ =&gt; &#123;
+            ui.text(format!(
+                &quot;Unimplemented for color image of dimension &#123;&#125;&quot;,
+                self.scalar().ndim()
+            ));
+        &#125;
+    &#125;,
+    _ =&gt; &#123;
+        ui.text(format!(
+            &quot;Unimplemented for visualization tag &#123;&#125;&quot;,
+            self.scalar().ndim()
+        ));
+    &#125;
+&#125;,
+
+//state.set_color_image()の中身
+pub fn set_color_image&lt;F&gt;(
+    &amp;mut self,
+    image: I,
+    created_on: Instant,
+    ctx: &amp;F,
+    texture_id: TextureId,
+    textures: &amp;mut Textures,
+) -&gt; Result&lt;(), Error&gt;
+where
+    F: Facade,
+&#123;
+    self.image =
+        image::Image::color_new(image, created_on, ctx, texture_id, textures, &amp;self.lut)?;
+    Ok(())
+&#125;
+
+//image::Image::color_new()の中身
+pub fn color_new&lt;F&gt;(
+    image: I,
+    created_on: Instant,
+    ctx: &amp;F,
+    texture_id: TextureId,
+    textures: &amp;mut Textures,
+    lut: &amp;ColorLUT,
+) -&gt; Result&lt;Image&lt;I&gt;, Error&gt;
+where
+    F: Facade,
+&#123;
+    let (vmin, vmax, tex_size, hist) = &#123;
+        let image = coerce_to_array_view3(&amp;image);
+        let vmin = lims::get_vmin(&amp;image)?;
+        let vmax = lims::get_vmax(&amp;image)?;
+        let raw = make_raw_image_rgb(&amp;image, vmin, vmax, lut)?;
+        let gl_texture = Texture2d::new(ctx, raw)?;
+        let tex_size = gl_texture.dimensions();
+        let tex_size = (tex_size.0 as f32, tex_size.1 as f32);
+        textures.replace(
+            texture_id,
+            Texture &#123;
+                texture: Rc::new(gl_texture),
+                sampler: SamplerBehavior &#123;
+                    ..Default::default()
+                &#125;,
+            &#125;,
+        );
+        let hist = hist::histogram_color(&amp;image, vmin, vmax);
+        (vmin, vmax, tex_size, hist)
+    &#125;;
+
+    Ok(Image &#123;
+        vmin,
+        vmax,
+        tex_size,
+        created_on: Some(created_on),
+        data: Some(image),
+        hist,
+    &#125;)
+&#125;
+
+//make_raw_image_rgb()の中身
+fn make_raw_image_rgb&lt;S&gt;(
+    image: &amp;ArrayBase&lt;S, Ix3&gt;,
+    vmin: f32,
+    vmax: f32,
+    _lut: &amp;ColorLUT,
+) -&gt; Result&lt;RawImage2d&lt;&#39;static, u8&gt;, Error&gt;
+where
+    S: Data&lt;Elem = f32&gt;,
+&#123;
+    let (_c, m, n) = image.dim();
+    let mut data = Vec::with_capacity(3 * n * m);
+    if !vmin.is_nan() &amp;&amp; !vmax.is_nan() &#123;
+        for (_, slice) in image.axis_iter(Axis(1)).enumerate() &#123;
+            for (_, channel) in slice.axis_iter(Axis(1)).enumerate() &#123;
+                let r = channel[0] / 65535.0 * 255.0; //16bit -&gt; 8bit
+                let g = channel[1] / 65535.0 * 255.0;
+                let b = channel[2] / 65535.0 * 255.0;
+                data.push(r as u8);
+                data.push(g as u8);
+                data.push(b as u8);
+            &#125;
+        &#125;
+        Ok(RawImage2d &#123;
+            data: Cow::Owned(data),
+            width: n as u32,
+            height: m as u32,
+            format: ClientFormat::U8U8U8,
+        &#125;)
+    &#125; else &#123;
+        Err(Error::Msg(&quot;vmin, vmax not set&quot;))
+    &#125;
+&#125;
+//===============================================================================================================
+
+//最初のコードのui.color_image()の中身
+fn color_image&lt;F, FX, FY, I&gt;(
+    &amp;self,
+    _ctx: &amp;F,
+    _textures: &amp;mut Textures,
+    texture_id: TextureId,
+    vunit: &amp;str,
+    xaxis: Option&lt;&amp;AxisTransform&lt;FX&gt;&gt;,
+    yaxis: Option&lt;&amp;AxisTransform&lt;FY&gt;&gt;,
+    state: &amp;mut State&lt;I&gt;,
+) -&gt; Result&lt;(), Error&gt;
+where
+    F: Facade,
+    FX: Fn(f32) -&gt; f32,
+    FY: Fn(f32) -&gt; f32,
+    I: Borrow&lt;ArrayD&lt;f32&gt;&gt;,
+&#123;
+    let window_pos = self.window_pos();
+    let cursor_pos = self.cursor_screen_pos();
+    let window_size = self.window_size();
+    const HIST_WIDTH: f32 = 40.0;
+    const BAR_WIDTH: f32 = 20.0;
+    const RIGHT_PADDING: f32 = 100.0;
+    let image_max_size = (
+        window_size[0] - HIST_WIDTH - BAR_WIDTH - RIGHT_PADDING,
+        window_size[1] - (cursor_pos[1] - window_pos[1]),
+    );
+    let ([_p, _size], _x_label_height) =
+        state.show_image(self, texture_id, vunit, xaxis, yaxis, image_max_size)?;
+    Ok(())
+&#125;
+
+//state.show_image()の中身
+pub(crate) fn show_image&lt;FX, FY&gt;(
+    &amp;mut self,
+    ui: &amp;Ui,
+    texture_id: TextureId,
+    vunit: &amp;str,
+    xaxis: Option&lt;&amp;AxisTransform&lt;FX&gt;&gt;,
+    yaxis: Option&lt;&amp;AxisTransform&lt;FY&gt;&gt;,
+    max_size: (f32, f32),
+) -&gt; Result&lt;([[f32; 2]; 2], f32), Error&gt;
+where
+    FX: Fn(f32) -&gt; f32,
+    FY: Fn(f32) -&gt; f32,
+&#123;
+    /*省略*/
+    ChildWindow::new(im_str!(&quot;scrolling_region&quot;))
+        .border(false)
+        .scroll_bar(false)
+        .movable(false)
+        .scrollable(false)
+        .horizontal_scrollbar(false)
+        .build(ui, || &#123;
+            /*省略*/
+            Image::new(texture_id, size).build(ui);
+            /*1000行くらい省略…*/
+        &#125;);
+    /*省略*/
+    Ok(([p, size], x_labels_height))
+&#125;
+</code></pre>
 <p><img src="/images/00000046-aflak-improc-01/tw03.jpg" alt="カラー画像の表示"><br>カラー画像がでました！めでたしめでたし．</p>
 <h3 id="おわりに"><a href="#おわりに" class="headerlink" title="おわりに"></a>おわりに</h3><p>とりあえず三が日を使って Raw データ処理のスタートアップができました．今後は<strong>位置合わせコンポジットやコンポジット後の単一画像の画像処理など，PixInsight も導入したのでアルゴリズムを勉強しながら実装</strong>していく予定です．モジュールを分割して具体例と一緒に提供することで，僕以外の方にも使っていただけるようなものが作れたらいいなあと思っています．また何か成果が出たら記事にしたいと思います．<br>それでは．</p>
 </article><section class="jump-container is-flex is-justify-content-space-between my-6"><!-- em is empty placeholder--><a class="button is-default" href="/2021/01/14/00000047-aflak-improc-02/" title="自作プログラムで画像処理（カラーヒストグラム表示～トーンカーブ作成まで）"><i class="iconfont icon-prev mr-2 has-text-grey"></i><span class="has-text-weight-semibold">Previous: 自作プログラムで画像処理（カラーヒストグラム表示～トーンカーブ作成まで）</span></a><a class="button is-default" href="/2020/12/29/00000045-2020-goals/" title="2020年の目標を振り返る"><span class="has-text-weight-semibold">Next: 2020年の目標を振り返る</span><i class="iconfont icon-next ml-2 has-text-grey"></i></a></section><article class="mt-6 comment-container"><script async repo="dabokun/dabokun.github.io" src="https://utteranc.es/client.js" issue-term="pathname" theme="preferred-color-scheme"></script></article></div></div></main></main><footer class="is-flex is-flex-direction-column is-align-items-center is-flex-shrink-0 is-family-serif"><section class="sns-container"><a title="twitter" target="_blank" rel="noopener nofollow" href="//twitter.com/astrodabo"><i class="iconfont icon-twitter"></i></a><!-- Github--><a title="github" target="_blank" rel="noopener nofollow" href="//github.com/dabokun"><i class="iconfont icon-github"></i></a><!-- Ins--><!-- RSS--><!-- 知乎--><!-- 领英--><!-- 脸书--></section><p><span>Copyright ©</span><span> dabokun 2025</span></p><div class="is-flex is-justify-content-center is-flex-wrap-wrap"><p>Powered by Hexo &verbar;&nbsp;</p><p class="is-flex is-justify-content-center"><a title="Hexo theme author" target="_blank" rel="noopener" href="//github.com/haojen">Theme by Haojen&nbsp;</a></p><div style="margin-top: 2px"><a class="github-button" title="github-button" target="_blank" rel="noopener" href="https://github.com/haojen/hexo-theme-Claudia" data-color-scheme="no-preference: light; light: light; dark: dark;" data-show-count="true"></a></div></div><div><span></span></div></footer><script async defer src="https://buttons.github.io/buttons.js"></script><script src="/js/jquery-3.6.1.min.js"></script><script src="/js/jquery-fancybox.min.js"></script><script src="/js/img_zoom.js"></script><script src="/js/post.js"></script></body></html>
