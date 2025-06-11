@@ -31,94 +31,94 @@ STFScreenTransferFunction（STF）は，PI をお使いの方であればお馴�
 <li>背景を元画像から引く（または割る）</li>
 </ol>
 <p>となります．<br>フィッティングはシンプルに最小二乗法を使っています．<a target="_blank" rel="noopener" href="https://inak-eng.jp/2020/06/04/%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%97%E6%B3%95%E3%81%AB%E3%82%88%E3%82%8B2%E6%AC%A1%E5%85%83%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E6%9B%B2%E9%9D%A2%E8%BF%91%E4%BC%BC/">こちらのブログ</a>が詳しいです．<br>以下のようなコードで実装しました．</p>
-<pre><code class="language-Rust">dynamic_background_extraction&lt;IOValue, IOErr&gt;(
+<pre><code class="hljs Rust">dynamic_background_extraction&lt;IOValue, IOErr&gt;(
     image: Image, points: Roi,
-    function_degree: Integer = 1
-) -&gt; Image, Image &#123;
-    let tag = image.tag();
-    let dim = image.scalar().dim();
-    let dim = dim.as_array_view();
-    let func_plus_one = (*function_degree + 1) as usize;
-    let params_right_num = func_plus_one * func_plus_one;
-    let mut params_right = Vec::&lt;f32&gt;::with_capacity(params_right_num * dim[0]);
-    params_right.resize(params_right_num * dim[0], 0.0);
-    let mut params_right = Array::from_vec(params_right).into_shape(
-      (dim[0], func_plus_one, func_plus_one)).unwrap();
-    let params_left_num = params_right_num * params_right_num;
-    let mut params_left = Vec::&lt;f32&gt;::with_capacity(params_left_num * dim[0]);
-    params_left.resize(params_left_num * dim[0], 0.0);
-    let mut params_left = Array::from_vec(params_left).into_shape(
-      (dim[0], func_plus_one, func_plus_one, func_plus_one, func_plus_one)).unwrap();
-    let mut model = image.scalar().clone();
-    let mut out = image.scalar().clone();
-    for i in 0..dim[0] &#123;
-        for takes_y in 0..func_plus_one &#123;
-            for takes_x in 0..func_plus_one &#123;
-                for inner_takes_y in 0..func_plus_one &#123;
-                    for inner_takes_x in 0..func_plus_one &#123;
-                        let data = points.filterx(image.scalar().slice(s![i, .., ..]));
-                        for ((x, y), _) in data &#123;
-                            let x = x as f32 / dim[2] as f32;
-                            let y = y as f32 / dim[1] as f32;
+    function_degree: Integer = <span class="hljs-number">1</span>
+) <span class="hljs-punctuation">-&gt;</span> Image, Image &#123;
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">tag</span> = image.<span class="hljs-title function_ invoke__">tag</span>();
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">dim</span> = image.<span class="hljs-title function_ invoke__">scalar</span>().<span class="hljs-title function_ invoke__">dim</span>();
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">dim</span> = dim.<span class="hljs-title function_ invoke__">as_array_view</span>();
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">func_plus_one</span> = (*function_degree + <span class="hljs-number">1</span>) <span class="hljs-keyword">as</span> <span class="hljs-type">usize</span>;
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">params_right_num</span> = func_plus_one * func_plus_one;
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">params_right</span> = <span class="hljs-type">Vec</span>::&lt;<span class="hljs-type">f32</span>&gt;::<span class="hljs-title function_ invoke__">with_capacity</span>(params_right_num * dim[<span class="hljs-number">0</span>]);
+    params_right.<span class="hljs-title function_ invoke__">resize</span>(params_right_num * dim[<span class="hljs-number">0</span>], <span class="hljs-number">0.0</span>);
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">params_right</span> = Array::<span class="hljs-title function_ invoke__">from_vec</span>(params_right).<span class="hljs-title function_ invoke__">into_shape</span>(
+      (dim[<span class="hljs-number">0</span>], func_plus_one, func_plus_one)).<span class="hljs-title function_ invoke__">unwrap</span>();
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">params_left_num</span> = params_right_num * params_right_num;
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">params_left</span> = <span class="hljs-type">Vec</span>::&lt;<span class="hljs-type">f32</span>&gt;::<span class="hljs-title function_ invoke__">with_capacity</span>(params_left_num * dim[<span class="hljs-number">0</span>]);
+    params_left.<span class="hljs-title function_ invoke__">resize</span>(params_left_num * dim[<span class="hljs-number">0</span>], <span class="hljs-number">0.0</span>);
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">params_left</span> = Array::<span class="hljs-title function_ invoke__">from_vec</span>(params_left).<span class="hljs-title function_ invoke__">into_shape</span>(
+      (dim[<span class="hljs-number">0</span>], func_plus_one, func_plus_one, func_plus_one, func_plus_one)).<span class="hljs-title function_ invoke__">unwrap</span>();
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">model</span> = image.<span class="hljs-title function_ invoke__">scalar</span>().<span class="hljs-title function_ invoke__">clone</span>();
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">out</span> = image.<span class="hljs-title function_ invoke__">scalar</span>().<span class="hljs-title function_ invoke__">clone</span>();
+    <span class="hljs-keyword">for</span> <span class="hljs-variable">i</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..dim[<span class="hljs-number">0</span>] &#123;
+        <span class="hljs-keyword">for</span> <span class="hljs-variable">takes_y</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..func_plus_one &#123;
+            <span class="hljs-keyword">for</span> <span class="hljs-variable">takes_x</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..func_plus_one &#123;
+                <span class="hljs-keyword">for</span> <span class="hljs-variable">inner_takes_y</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..func_plus_one &#123;
+                    <span class="hljs-keyword">for</span> <span class="hljs-variable">inner_takes_x</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..func_plus_one &#123;
+                        <span class="hljs-keyword">let</span> <span class="hljs-variable">data</span> = points.<span class="hljs-title function_ invoke__">filterx</span>(image.<span class="hljs-title function_ invoke__">scalar</span>().<span class="hljs-title function_ invoke__">slice</span>(s![i, .., ..]));
+                        <span class="hljs-keyword">for</span> ((x, y), _) <span class="hljs-keyword">in</span> data &#123;
+                            <span class="hljs-keyword">let</span> <span class="hljs-variable">x</span> = x <span class="hljs-keyword">as</span> <span class="hljs-type">f32</span> / dim[<span class="hljs-number">2</span>] <span class="hljs-keyword">as</span> <span class="hljs-type">f32</span>;
+                            <span class="hljs-keyword">let</span> <span class="hljs-variable">y</span> = y <span class="hljs-keyword">as</span> <span class="hljs-type">f32</span> / dim[<span class="hljs-number">1</span>] <span class="hljs-keyword">as</span> <span class="hljs-type">f32</span>;
                             params_left[[i, takes_y, takes_x, 
                               inner_takes_y, inner_takes_x]] += 
-                              1.0 
-                              * (x as f32).powf((takes_x + inner_takes_x) as f32)
-                              * (y as f32).powf((takes_y + inner_takes_y) as f32);
+                              <span class="hljs-number">1.0</span> 
+                              * (x <span class="hljs-keyword">as</span> <span class="hljs-type">f32</span>).<span class="hljs-title function_ invoke__">powf</span>((takes_x + inner_takes_x) <span class="hljs-keyword">as</span> <span class="hljs-type">f32</span>)
+                              * (y <span class="hljs-keyword">as</span> <span class="hljs-type">f32</span>).<span class="hljs-title function_ invoke__">powf</span>((takes_y + inner_takes_y) <span class="hljs-keyword">as</span> <span class="hljs-type">f32</span>);
                         &#125;
                     &#125;
                 &#125;
-                let data = points.filterx(image.scalar().slice(s![i, .., ..]));
-                for ((x, y), _) in data &#123;
-                    let mut boxdata = Vec::new();
-                    for xx in (x-10).max(0)..(x+10).min(dim[2]) &#123;
-                        for yy in (y-10).max(0)..(y+10).min(dim[1]) &#123;
-                            boxdata.push(model[[i, yy, xx]]);
+                <span class="hljs-keyword">let</span> <span class="hljs-variable">data</span> = points.<span class="hljs-title function_ invoke__">filterx</span>(image.<span class="hljs-title function_ invoke__">scalar</span>().<span class="hljs-title function_ invoke__">slice</span>(s![i, .., ..]));
+                <span class="hljs-keyword">for</span> ((x, y), _) <span class="hljs-keyword">in</span> data &#123;
+                    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">boxdata</span> = <span class="hljs-type">Vec</span>::<span class="hljs-title function_ invoke__">new</span>();
+                    <span class="hljs-keyword">for</span> <span class="hljs-variable">xx</span> <span class="hljs-keyword">in</span> (x-<span class="hljs-number">10</span>).<span class="hljs-title function_ invoke__">max</span>(<span class="hljs-number">0</span>)..(x+<span class="hljs-number">10</span>).<span class="hljs-title function_ invoke__">min</span>(dim[<span class="hljs-number">2</span>]) &#123;
+                        <span class="hljs-keyword">for</span> <span class="hljs-variable">yy</span> <span class="hljs-keyword">in</span> (y-<span class="hljs-number">10</span>).<span class="hljs-title function_ invoke__">max</span>(<span class="hljs-number">0</span>)..(y+<span class="hljs-number">10</span>).<span class="hljs-title function_ invoke__">min</span>(dim[<span class="hljs-number">1</span>]) &#123;
+                            boxdata.<span class="hljs-title function_ invoke__">push</span>(model[[i, yy, xx]]);
                         &#125;
                     &#125;
-                    boxdata.sort_by(|a, b| a.partial_cmp(b).unwrap());
-                    let mid = boxdata.len() / 2;
-                    let med = if boxdata.len() % 2 == 0 &#123;
-                        (boxdata[mid] + boxdata[mid - 1]) / 2.0
-                    &#125; else &#123;
+                    boxdata.<span class="hljs-title function_ invoke__">sort_by</span>(|a, b| a.<span class="hljs-title function_ invoke__">partial_cmp</span>(b).<span class="hljs-title function_ invoke__">unwrap</span>());
+                    <span class="hljs-keyword">let</span> <span class="hljs-variable">mid</span> = boxdata.<span class="hljs-title function_ invoke__">len</span>() / <span class="hljs-number">2</span>;
+                    <span class="hljs-keyword">let</span> <span class="hljs-variable">med</span> = <span class="hljs-keyword">if</span> boxdata.<span class="hljs-title function_ invoke__">len</span>() % <span class="hljs-number">2</span> == <span class="hljs-number">0</span> &#123;
+                        (boxdata[mid] + boxdata[mid - <span class="hljs-number">1</span>]) / <span class="hljs-number">2.0</span>
+                    &#125; <span class="hljs-keyword">else</span> &#123;
                         boxdata[mid]
                     &#125;;
-                    boxdata.clear();
-                    let x = x as f32 / dim[2] as f32;
-                    let y = y as f32 / dim[1] as f32;
+                    boxdata.<span class="hljs-title function_ invoke__">clear</span>();
+                    <span class="hljs-keyword">let</span> <span class="hljs-variable">x</span> = x <span class="hljs-keyword">as</span> <span class="hljs-type">f32</span> / dim[<span class="hljs-number">2</span>] <span class="hljs-keyword">as</span> <span class="hljs-type">f32</span>;
+                    <span class="hljs-keyword">let</span> <span class="hljs-variable">y</span> = y <span class="hljs-keyword">as</span> <span class="hljs-type">f32</span> / dim[<span class="hljs-number">1</span>] <span class="hljs-keyword">as</span> <span class="hljs-type">f32</span>;
                     params_right[[i, takes_y, takes_x]] += 
                       med 
-                      * (x as f32).powf(takes_x as f32)
-                      * (y as f32).powf(takes_y as f32);
+                      * (x <span class="hljs-keyword">as</span> <span class="hljs-type">f32</span>).<span class="hljs-title function_ invoke__">powf</span>(takes_x <span class="hljs-keyword">as</span> <span class="hljs-type">f32</span>)
+                      * (y <span class="hljs-keyword">as</span> <span class="hljs-type">f32</span>).<span class="hljs-title function_ invoke__">powf</span>(takes_y <span class="hljs-keyword">as</span> <span class="hljs-type">f32</span>);
                 &#125;
             &#125;
         &#125;
-        let params_left_vec = params_left.index_axis(Axis(0), i)
-                                          .to_owned().into_raw_vec();
-        let params_right_vec = params_right.index_axis(Axis(0), i)
-                                          .to_owned().into_raw_vec();
-        let a = DMatrix::from_vec(params_right_num, params_right_num, params_left_vec);
-        let b = DVector::from(params_right_vec.clone());
-        let decomp = a.lu();
-        let x = decomp.solve(&amp;b);
-        let mut sol = DVector::from(params_right_vec);
-        match x &#123;
-            Some(vector) =&gt; sol = vector,
-            None =&gt; &#123;
-                println!(&quot;failure&quot;);
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">params_left_vec</span> = params_left.<span class="hljs-title function_ invoke__">index_axis</span>(<span class="hljs-title function_ invoke__">Axis</span>(<span class="hljs-number">0</span>), i)
+                                          .<span class="hljs-title function_ invoke__">to_owned</span>().<span class="hljs-title function_ invoke__">into_raw_vec</span>();
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">params_right_vec</span> = params_right.<span class="hljs-title function_ invoke__">index_axis</span>(<span class="hljs-title function_ invoke__">Axis</span>(<span class="hljs-number">0</span>), i)
+                                          .<span class="hljs-title function_ invoke__">to_owned</span>().<span class="hljs-title function_ invoke__">into_raw_vec</span>();
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">a</span> = DMatrix::<span class="hljs-title function_ invoke__">from_vec</span>(params_right_num, params_right_num, params_left_vec);
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">b</span> = DVector::<span class="hljs-title function_ invoke__">from</span>(params_right_vec.<span class="hljs-title function_ invoke__">clone</span>());
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">decomp</span> = a.<span class="hljs-title function_ invoke__">lu</span>();
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">x</span> = decomp.<span class="hljs-title function_ invoke__">solve</span>(&amp;b);
+        <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">sol</span> = DVector::<span class="hljs-title function_ invoke__">from</span>(params_right_vec);
+        <span class="hljs-keyword">match</span> x &#123;
+            <span class="hljs-title function_ invoke__">Some</span>(vector) =&gt; sol = vector,
+            <span class="hljs-literal">None</span> =&gt; &#123;
+                <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;failure&quot;</span>);
             &#125;,
         &#125;;
-        for y in 0..dim[1] &#123;
-            for x in 0..dim[2] &#123;
-                let xx = x as f32 / dim[2] as f32;
-                let yy = y as f32 / dim[1] as f32;
-                model[[i, y, x]] = 0.0;
-                for takes_x in 0..func_plus_one &#123;
-                    for takes_y in 0..func_plus_one &#123;
+        <span class="hljs-keyword">for</span> <span class="hljs-variable">y</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..dim[<span class="hljs-number">1</span>] &#123;
+            <span class="hljs-keyword">for</span> <span class="hljs-variable">x</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..dim[<span class="hljs-number">2</span>] &#123;
+                <span class="hljs-keyword">let</span> <span class="hljs-variable">xx</span> = x <span class="hljs-keyword">as</span> <span class="hljs-type">f32</span> / dim[<span class="hljs-number">2</span>] <span class="hljs-keyword">as</span> <span class="hljs-type">f32</span>;
+                <span class="hljs-keyword">let</span> <span class="hljs-variable">yy</span> = y <span class="hljs-keyword">as</span> <span class="hljs-type">f32</span> / dim[<span class="hljs-number">1</span>] <span class="hljs-keyword">as</span> <span class="hljs-type">f32</span>;
+                model[[i, y, x]] = <span class="hljs-number">0.0</span>;
+                <span class="hljs-keyword">for</span> <span class="hljs-variable">takes_x</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..func_plus_one &#123;
+                    <span class="hljs-keyword">for</span> <span class="hljs-variable">takes_y</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..func_plus_one &#123;
                         model[[i, y, x]] += 
                           sol[takes_y * func_plus_one + takes_x]
-                          * (xx.powf(takes_x as f32))
-                          * yy.powf(takes_y as f32);
+                          * (xx.<span class="hljs-title function_ invoke__">powf</span>(takes_x <span class="hljs-keyword">as</span> <span class="hljs-type">f32</span>))
+                          * yy.<span class="hljs-title function_ invoke__">powf</span>(takes_y <span class="hljs-keyword">as</span> <span class="hljs-type">f32</span>);
                     &#125;
                 &#125;
                 out[[i, y, x]] -= model[[i, y, x]];
@@ -126,16 +126,15 @@ STFScreenTransferFunction（STF）は，PI をお使いの方であればお馴�
         &#125;
     &#125;
                     
-    vec![Ok(IOValue::Image(WcsArray::from_array_and_tag(Dimensioned::new(
+    <span class="hljs-built_in">vec!</span>[<span class="hljs-title function_ invoke__">Ok</span>(IOValue::<span class="hljs-title function_ invoke__">Image</span>(WcsArray::<span class="hljs-title function_ invoke__">from_array_and_tag</span>(Dimensioned::<span class="hljs-title function_ invoke__">new</span>(
         out,
-        Unit::None,
-    ), tag.clone()))), 
-        Ok(IOValue::Image(WcsArray::from_array_and_tag(Dimensioned::new(
+        Unit::<span class="hljs-literal">None</span>,
+    ), tag.<span class="hljs-title function_ invoke__">clone</span>()))), 
+        <span class="hljs-title function_ invoke__">Ok</span>(IOValue::<span class="hljs-title function_ invoke__">Image</span>(WcsArray::<span class="hljs-title function_ invoke__">from_array_and_tag</span>(Dimensioned::<span class="hljs-title function_ invoke__">new</span>(
         model,
-        Unit::None,
-    ), tag.clone())))]
-&#125;
-</code></pre>
+        Unit::<span class="hljs-literal">None</span>,
+    ), tag.<span class="hljs-title function_ invoke__">clone</span>())))]
+&#125;</code></pre>
 <p>実際に動かしてみると以下のようになります．</p>
 <p><img src="/images/00000060-stf-ht-dbe/dbe.png" alt="DBE"></p>
 <p>画像は <a target="_blank" rel="noopener" href="https://github.com/takashi-154/DynamicBackgroundEstimation/blob/8720542afcc79cf825d3869f4d1c750d3a3215f1/image.fts">takashi さんのデータ</a>を無許可でお借りしています．ごめんなさいm(_ _)m（Github で MIT ライセンスで公開されているデータなのできっと許してくれるはず）まだビジュアルプログラムのノードにオーサーシップを明示することはしていないのですが，その暁には彼の名前は必ず含めるつもりです．他にもテスト用の、被りがあるデータを提供してくださる方を募集しております。^^<br>上の例では点群は <a target="_blank" rel="noopener" href="https://github.com/takashi-154/DynamicBackgroundEstimation/blob/5a59a2e52de35ae9c99caf73b484a0c82f791bbf/pointlist.npy">takashi さんのもの</a>と同様で，二次曲面でフィッティングしています．左下が元画像，右上が推定されたバックグラウンドモデル，右下がモデルを引き算した結果です．元画像よりも強調していますが，明るさの勾配は除去できているのではないでしょうか．</p>

@@ -1,7 +1,5 @@
 <!DOCTYPE html><html class="appearance-auto" lang="en"><head><meta charset="UTF-8"><title>ほしよみ社会塵のブログ</title><meta name="description" content="やっていきます"><meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, initial-scale=1"><!-- Google Analytics --><!-- End Google Analytics -->
-<!-- Baidu Analytics --><!-- End Baidu Analytics --><link rel="icon" href="/images/favicon.ico"><link rel="stylesheet" href="/style/common/bulma.css"><link rel="stylesheet" href="/style/base.css"><link rel="stylesheet" href="/style/common/helper.css"><script src="/js/common.js"></script><link rel="stylesheet" href="/style/post.css"><link rel="stylesheet" href="/style/themes/highlight-theme-light.css"><link rel="stylesheet" href="/style/common/jquery.fancybox.min.css"><script src="/js/highlight.pack.js"></script><meta name="description" content="
-
-はじめにこんにちは．あけましておめでとうございます．今年は自作プログラムの天体画像処理機能を充実させたいという思いがあったので，年末から三が日にかけて，少しだけ進めていました．
+<!-- Baidu Analytics --><!-- End Baidu Analytics --><link rel="icon" href="/images/favicon.ico"><link rel="stylesheet" href="/style/common/bulma.css"><link rel="stylesheet" href="/style/base.css"><link rel="stylesheet" href="/style/common/helper.css"><script src="/js/common.js"></script><link rel="stylesheet" href="/style/post.css"><link rel="stylesheet" href="/style/themes/highlight-theme-light.css"><link rel="stylesheet" href="/style/common/jquery.fancybox.min.css"><script src="/js/highlight.pack.js"></script><meta name="description" content="はじめにこんにちは．あけましておめでとうございます．今年は自作プログラムの天体画像処理機能を充実させたいという思いがあったので，年末から三が日にかけて，少しだけ進めていました．
 
 
 やっていくぞまだ特に「天体写真の画像処理用途」の機能を実装していなかった私の研究用プログラムということで，初回である今回の目標は
@@ -10,14 +8,8 @@
 位置合わせなしコンポジット（平均値，中央値，分散，標準偏差などの統計値計算）
 （主にダークデータの）ノイズ解析用 scatterplots 生成
 
-となります．特にノイズ解析ではあぷらなーとさんがよくダークデータのノイズ解析をしてらっしゃいますので，あんな感じのことができればいいかなということになります．プログラムの全般的な詳しい機能の紹介は，以前書いたコンセプト.."><meta property="og:url" content="http://dabokun.github.io/2021/01/04/00000046-aflak-improc-01/"><meta property="og:title" content="ほしよみ社会塵のブログ"><meta property="og:type" content="article"><meta property="og:description" content="
-
-はじめにこんにちは．あけましておめでとうございます．今年は自作プログラムの天体画像処理機能を充実させたいという思いがあったので，年末から三が日にかけて，少しだけ進めていました．"><meta property="name" content="
-
-はじめにこんにちは．あけましておめでとうございます．今年は自作プログラムの天体画像処理機能を充実させたいという思いがあったので，年末から三が日にかけて，少しだけ進めていま..."><meta property="og:image" content="http://dabokun.github.io/null"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@astrodabo"><meta property="og:site_name" content="ほしよみ社会塵のブログ"><meta property="og:locale" content="ja_JP"><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="ほしよみ社会塵のブログ" type="application/atom+xml">
-</head><body class="is-flex is-flex-direction-column"><header class="header-widget is-flex-shrink-0 is-hidden-mobile"><div class="container is-fullhd is-flex is-justify-content-space-between is-align-items-center is-full-height"><section class="is-hidden-mobile is-flex-shrink-0"><h2><a href="/">ほしよみ社会塵のブログ</a></h2></section><h3 class="is-hidden-mobile is-family-serif is-full-height is-flex is-align-items-center is-flex-shrink-0"><div class="is-full-height" id="postTopic"><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">自作プログラムで画像処理（Raw展開～ノイズ解析まで）</p><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">Click back to the top</p></div></h3><aside class="is-flex-shrink-0"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/null">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></aside></div></header><header class="is-flex header-widget is-flex-shrink-0 is-align-items-center is-justify-content-center is-hidden-tablet"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/null">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></header><main><main class="container is-max-widescreen content section post-page pt-4 px-4"><div class="columns is-flex-desktop is-justify-content-center is-flex-direction-row-reverse"><div class="column is-3 is-hidden-mobile"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E3%81%AF%E3%81%98%E3%82%81%E3%81%AB"><span class="toc-text">はじめに</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E3%82%84%E3%81%A3%E3%81%A6%E3%81%84%E3%81%8F%E3%81%9E"><span class="toc-text">やっていくぞ</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E3%81%9D%E3%81%AE1-Raw%E3%82%92%E9%96%8B%E3%81%8F%EF%BC%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%83%91%E3%82%B9%E7%BE%A4%E2%86%92%E4%B8%89%E6%AC%A1%E5%85%83%E3%83%87%E3%83%BC%E3%82%BF%EF%BC%89"><span class="toc-text">その1. Rawを開く（ファイルパス群→三次元データ）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E3%81%9D%E3%81%AE2-%E7%B5%B1%E8%A8%88%E5%80%A4%E8%A8%88%E7%AE%97%EF%BC%88%E4%B8%89%E6%AC%A1%E5%85%83%E3%83%87%E3%83%BC%E3%82%BF%E2%86%92%E4%BA%8C%E6%AC%A1%E5%85%83%E3%83%87%E3%83%BC%E3%82%BF%EF%BC%89"><span class="toc-text">その2. 統計値計算（三次元データ→二次元データ）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E3%81%9D%E3%81%AE3-%E3%83%AA%E3%82%B9%E3%83%88%E3%81%B8%E5%A4%89%E6%8F%9B"><span class="toc-text">その3. リストへ変換</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E3%81%9D%E3%81%AE4-scatterplots-%E3%81%AE%E6%8F%8F%E7%94%BB"><span class="toc-text">その4. scatterplots の描画</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E3%81%8A%E3%81%BE%E3%81%91-Fits%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E3%82%AB%E3%83%A9%E3%83%BC%E7%94%BB%E5%83%8F%E8%A7%A3%E9%87%88"><span class="toc-text">おまけ. Fitsデータのカラー画像解釈</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E3%81%8A%E3%82%8F%E3%82%8A%E3%81%AB"><span class="toc-text">おわりに</span></a></li></ol></div><div class="column is-9"><header class="my-4"><a href="/tags/Rust"><i class="tag post-item-tag">Rust</i></a></header><h1 class="mt-0 mb-1 is-family-serif" id="postTitle">自作プログラムで画像処理（Raw展開～ノイズ解析まで）</h1><time class="has-text-grey" datetime="2021-01-04T10:16:24.000Z">2021-01-04</time><article class="mt-2 post-content"><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js"></script>
-
-<h3 id="はじめに"><a href="#はじめに" class="headerlink" title="はじめに"></a>はじめに</h3><p>こんにちは．あけましておめでとうございます．今年は自作プログラムの天体画像処理機能を充実させたいという思いがあったので，年末から三が日にかけて，少しだけ進めていました．</p>
+となります．特にノイズ解析ではあぷらなーとさんがよくダークデータのノイズ解析をしてらっしゃいますので，あんな感じのことができればいいかなということになります．プログラムの全般的な詳しい機能の紹介は，以前書いたコンセプトの記.."><meta property="og:url" content="http://dabokun.github.io/2021/01/04/00000046-aflak-improc-01/"><meta property="og:title" content="ほしよみ社会塵のブログ"><meta property="og:type" content="article"><meta property="og:description" content="はじめにこんにちは．あけましておめでとうございます．今年は自作プログラムの天体画像処理機能を充実させたいという思いがあったので，年末から三が日にかけて，少しだけ進めていました．"><meta property="name" content="はじめにこんにちは．あけましておめでとうございます．今年は自作プログラムの天体画像処理機能を充実させたいという思いがあったので，年末から三が日にかけて，少しだけ進めていました．"><meta property="og:image" content="http://dabokun.github.io/null"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@astrodabo"><meta property="og:site_name" content="ほしよみ社会塵のブログ"><meta property="og:locale" content="ja_JP"><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="ほしよみ社会塵のブログ" type="application/atom+xml">
+</head><body class="is-flex is-flex-direction-column"><header class="header-widget is-flex-shrink-0 is-hidden-mobile"><div class="container is-fullhd is-flex is-justify-content-space-between is-align-items-center is-full-height"><section class="is-hidden-mobile is-flex-shrink-0"><h2><a href="/">ほしよみ社会塵のブログ</a></h2></section><h3 class="is-hidden-mobile is-family-serif is-full-height is-flex is-align-items-center is-flex-shrink-0"><div class="is-full-height" id="postTopic"><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">自作プログラムで画像処理（Raw展開～ノイズ解析まで）</p><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">Click back to the top</p></div></h3><aside class="is-flex-shrink-0"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/null">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></aside></div></header><header class="is-flex header-widget is-flex-shrink-0 is-align-items-center is-justify-content-center is-hidden-tablet"><h3 class="is-inline-block"><a href="/">Home</a></h3><h3 class="is-inline-block"><a href="/null">About</a></h3><h3 class="is-inline-block"><a href="/archives">Archives</a></h3></header><main><main class="container is-max-widescreen content section post-page pt-4 px-4"><div class="columns is-flex-desktop is-justify-content-center is-flex-direction-row-reverse"><div class="column is-3 is-hidden-mobile"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E3%81%AF%E3%81%98%E3%82%81%E3%81%AB"><span class="toc-text">はじめに</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E3%82%84%E3%81%A3%E3%81%A6%E3%81%84%E3%81%8F%E3%81%9E"><span class="toc-text">やっていくぞ</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E3%81%9D%E3%81%AE1-Raw%E3%82%92%E9%96%8B%E3%81%8F%EF%BC%88%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%83%91%E3%82%B9%E7%BE%A4%E2%86%92%E4%B8%89%E6%AC%A1%E5%85%83%E3%83%87%E3%83%BC%E3%82%BF%EF%BC%89"><span class="toc-text">その1. Rawを開く（ファイルパス群→三次元データ）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E3%81%9D%E3%81%AE2-%E7%B5%B1%E8%A8%88%E5%80%A4%E8%A8%88%E7%AE%97%EF%BC%88%E4%B8%89%E6%AC%A1%E5%85%83%E3%83%87%E3%83%BC%E3%82%BF%E2%86%92%E4%BA%8C%E6%AC%A1%E5%85%83%E3%83%87%E3%83%BC%E3%82%BF%EF%BC%89"><span class="toc-text">その2. 統計値計算（三次元データ→二次元データ）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E3%81%9D%E3%81%AE3-%E3%83%AA%E3%82%B9%E3%83%88%E3%81%B8%E5%A4%89%E6%8F%9B"><span class="toc-text">その3. リストへ変換</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E3%81%9D%E3%81%AE4-scatterplots-%E3%81%AE%E6%8F%8F%E7%94%BB"><span class="toc-text">その4. scatterplots の描画</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E3%81%8A%E3%81%BE%E3%81%91-Fits%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E3%82%AB%E3%83%A9%E3%83%BC%E7%94%BB%E5%83%8F%E8%A7%A3%E9%87%88"><span class="toc-text">おまけ. Fitsデータのカラー画像解釈</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E3%81%8A%E3%82%8F%E3%82%8A%E3%81%AB"><span class="toc-text">おわりに</span></a></li></ol></div><div class="column is-9"><header class="my-4"><a href="/tags/Rust"><i class="tag post-item-tag">Rust</i></a></header><h1 class="mt-0 mb-1 is-family-serif" id="postTitle">自作プログラムで画像処理（Raw展開～ノイズ解析まで）</h1><time class="has-text-grey" datetime="2021-01-04T10:16:24.000Z">2021-01-04</time><article class="mt-2 post-content"><h3 id="はじめに"><a href="#はじめに" class="headerlink" title="はじめに"></a>はじめに</h3><p>こんにちは．あけましておめでとうございます．今年は自作プログラムの天体画像処理機能を充実させたいという思いがあったので，年末から三が日にかけて，少しだけ進めていました．</p>
 <span id="more"></span>
 
 <h3 id="やっていくぞ"><a href="#やっていくぞ" class="headerlink" title="やっていくぞ"></a>やっていくぞ</h3><p>まだ特に「天体写真の画像処理用途」の機能を実装していなかった私の研究用プログラムということで，初回である今回の目標は</p>
@@ -29,658 +21,653 @@
 <p>となります．特にノイズ解析では<a target="_blank" rel="noopener" href="https://apranat.exblog.jp/31097570/">あぷらなーとさんがよくダークデータのノイズ解析をしてらっしゃいます</a>ので，あんな感じのことができればいいかなということになります．<br>プログラムの全般的な詳しい機能の紹介は，<a href="/2019/03/15/00000005-astrophoto-and-processing-2/">以前書いたコンセプトの記事</a>をご覧ください．</p>
 <h4 id="その1-Rawを開く（ファイルパス群→三次元データ）"><a href="#その1-Rawを開く（ファイルパス群→三次元データ）" class="headerlink" title="その1. Rawを開く（ファイルパス群→三次元データ）"></a>その1. Rawを開く（ファイルパス群→三次元データ）</h4><p>まず，Raw を開くだけなら簡単です．<a href="/2019/06/04/00000009-rust-raw-loader-crate/">以前紹介した rawloader crate</a> を使用すれば開けます．<br>が，今回はコンポジットやノイズ解析をしたいので，複数枚の Raw 画像を読む必要があります．<br>これまでは一つの Path というノードで単一のデータファイルパスを表現していましたが，これを一つのノードで複数枚のリストが表現できるように改造する必要がありました．</p>
 <p><strong><font color="red">これからコードをドバドバ貼っていきますが，自分のメモ代わりなので読み飛ばしてください．</font></strong></p>
-<pre><code class="language-Rust">pub enum PATHS &#123;
+<pre><code class="hljs Rust"><span class="hljs-keyword">pub</span> <span class="hljs-keyword">enum</span> <span class="hljs-title class_">PATHS</span> &#123;
     Nothing,
-    FileList(Vec&lt;PathBuf&gt;),
+    <span class="hljs-title function_ invoke__">FileList</span>(<span class="hljs-type">Vec</span>&lt;PathBuf&gt;),
 &#125;
-impl MenuBar for PATHS &#123;
-    fn visualize&lt;F&gt;(&amp;self, ctx: OutputWindowCtx&lt;&#39;_, &#39;_, &#39;_, &#39;_, &#39;_, &#39;_, &#39;_, F&gt;)
-    where
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">MenuBar</span> <span class="hljs-keyword">for</span> <span class="hljs-title class_">PATHS</span> &#123;
+    <span class="hljs-keyword">fn</span> <span class="hljs-title function_">visualize</span>&lt;F&gt;(&amp;<span class="hljs-keyword">self</span>, ctx: OutputWindowCtx&lt;<span class="hljs-symbol">&#x27;_</span>, <span class="hljs-symbol">&#x27;_</span>, <span class="hljs-symbol">&#x27;_</span>, <span class="hljs-symbol">&#x27;_</span>, <span class="hljs-symbol">&#x27;_</span>, <span class="hljs-symbol">&#x27;_</span>, <span class="hljs-symbol">&#x27;_</span>, F&gt;)
+    <span class="hljs-keyword">where</span>
         F: glium::backend::Facade,
     &#123;
-        ctx.ui.text_wrapped(&amp;im_str!(&quot;&#123;:?&#125;&quot;, self));
+        ctx.ui.<span class="hljs-title function_ invoke__">text_wrapped</span>(&amp;im_str!(<span class="hljs-string">&quot;&#123;:?&#125;&quot;</span>, <span class="hljs-keyword">self</span>));
     &#125;
-    /*省略*/
+    <span class="hljs-comment">/*省略*/</span>
 &#125;
-IOValue::Paths(ref file) =&gt; &#123;
-    match file &#123;
-        primitives::PATHS::Nothing =&gt; None,
-        primitives::PATHS::FileList(file) =&gt; &#123;
-            if read_only &#123;
-                None
-            &#125; else &#123;
-                let size = ui.item_rect_size();
-                let mut ret = Ok(None);
-                ChildWindow::new(im_str!(&quot;edit&quot;))
-                    .size([size[0].max(400.0), 150.0])
-                    .horizontal_scrollbar(true)
-                    .build(ui, || &#123;
-                        let mut hoge = false;
-                        ret = ui.file_explorer(
+IOValue::<span class="hljs-title function_ invoke__">Paths</span>(<span class="hljs-keyword">ref</span> file) =&gt; &#123;
+    <span class="hljs-keyword">match</span> file &#123;
+        primitives::PATHS::Nothing =&gt; <span class="hljs-literal">None</span>,
+        primitives::PATHS::<span class="hljs-title function_ invoke__">FileList</span>(file) =&gt; &#123;
+            <span class="hljs-keyword">if</span> read_only &#123;
+                <span class="hljs-literal">None</span>
+            &#125; <span class="hljs-keyword">else</span> &#123;
+                <span class="hljs-keyword">let</span> <span class="hljs-variable">size</span> = ui.<span class="hljs-title function_ invoke__">item_rect_size</span>();
+                <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">ret</span> = <span class="hljs-title function_ invoke__">Ok</span>(<span class="hljs-literal">None</span>);
+                ChildWindow::<span class="hljs-title function_ invoke__">new</span>(im_str!(<span class="hljs-string">&quot;edit&quot;</span>))
+                    .<span class="hljs-title function_ invoke__">size</span>([size[<span class="hljs-number">0</span>].<span class="hljs-title function_ invoke__">max</span>(<span class="hljs-number">400.0</span>), <span class="hljs-number">150.0</span>])
+                    .<span class="hljs-title function_ invoke__">horizontal_scrollbar</span>(<span class="hljs-literal">true</span>)
+                    .<span class="hljs-title function_ invoke__">build</span>(ui, || &#123;
+                        <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">hoge</span> = <span class="hljs-literal">false</span>;
+                        ret = ui.<span class="hljs-title function_ invoke__">file_explorer</span>(
                             TOP_FOLDER,
                             &amp;[
-                                &quot;fits&quot;, &quot;fit&quot;, &quot;fts&quot;, &quot;cr2&quot;, &quot;CR2&quot;, &quot;RW2&quot;, &quot;rw2&quot;, &quot;nef&quot;, &quot;NEF&quot;,
+                                <span class="hljs-string">&quot;fits&quot;</span>, <span class="hljs-string">&quot;fit&quot;</span>, <span class="hljs-string">&quot;fts&quot;</span>, <span class="hljs-string">&quot;cr2&quot;</span>, <span class="hljs-string">&quot;CR2&quot;</span>, <span class="hljs-string">&quot;RW2&quot;</span>, <span class="hljs-string">&quot;rw2&quot;</span>, <span class="hljs-string">&quot;nef&quot;</span>, <span class="hljs-string">&quot;NEF&quot;</span>,
                             ],
-                            &amp;mut hoge,
+                            &amp;<span class="hljs-keyword">mut</span> hoge,
                         );
                     &#125;);
-                ui.text(im_str!(&quot;Selected Files:&quot;));
-                for single_file in file &#123;
-                    ui.text(single_file.to_str().unwrap_or(&quot;Unrepresentable path&quot;));
+                ui.<span class="hljs-title function_ invoke__">text</span>(im_str!(<span class="hljs-string">&quot;Selected Files:&quot;</span>));
+                <span class="hljs-keyword">for</span> <span class="hljs-variable">single_file</span> <span class="hljs-keyword">in</span> file &#123;
+                    ui.<span class="hljs-title function_ invoke__">text</span>(single_file.<span class="hljs-title function_ invoke__">to_str</span>().<span class="hljs-title function_ invoke__">unwrap_or</span>(<span class="hljs-string">&quot;Unrepresentable path&quot;</span>));
                 &#125;
-                if let Ok(Some(new_file)) = ret &#123;
-                    let mut already_exist = false;
-                    let mut key = 0;
-                    for single_file in file &#123;
-                        if *single_file == new_file &#123;
-                            already_exist = true;
-                            break;
+                <span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> <span class="hljs-variable">Ok</span>(<span class="hljs-title function_ invoke__">Some</span>(new_file)) = ret &#123;
+                    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">already_exist</span> = <span class="hljs-literal">false</span>;
+                    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">key</span> = <span class="hljs-number">0</span>;
+                    <span class="hljs-keyword">for</span> <span class="hljs-variable">single_file</span> <span class="hljs-keyword">in</span> file &#123;
+                        <span class="hljs-keyword">if</span> *single_file == new_file &#123;
+                            already_exist = <span class="hljs-literal">true</span>;
+                            <span class="hljs-keyword">break</span>;
                         &#125;
-                        key += 1;
+                        key += <span class="hljs-number">1</span>;
                     &#125;
-                    if already_exist &#123;
-                        let mut new_files = file.clone();
-                        new_files.remove(key);
-                        Some(IOValue::Paths(primitives::PATHS::FileList(
-                            new_files.to_vec(),
+                    <span class="hljs-keyword">if</span> already_exist &#123;
+                        <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">new_files</span> = file.<span class="hljs-title function_ invoke__">clone</span>();
+                        new_files.<span class="hljs-title function_ invoke__">remove</span>(key);
+                        <span class="hljs-title function_ invoke__">Some</span>(IOValue::<span class="hljs-title function_ invoke__">Paths</span>(primitives::PATHS::<span class="hljs-title function_ invoke__">FileList</span>(
+                            new_files.<span class="hljs-title function_ invoke__">to_vec</span>(),
                         )))
-                    &#125; else &#123;
-                        let mut new_files = file.clone();
-                        new_files.push(new_file);
-                        Some(IOValue::Paths(primitives::PATHS::FileList(
-                            new_files.to_vec(),
+                    &#125; <span class="hljs-keyword">else</span> &#123;
+                        <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">new_files</span> = file.<span class="hljs-title function_ invoke__">clone</span>();
+                        new_files.<span class="hljs-title function_ invoke__">push</span>(new_file);
+                        <span class="hljs-title function_ invoke__">Some</span>(IOValue::<span class="hljs-title function_ invoke__">Paths</span>(primitives::PATHS::<span class="hljs-title function_ invoke__">FileList</span>(
+                            new_files.<span class="hljs-title function_ invoke__">to_vec</span>(),
                         )))
                     &#125;
-                &#125; else &#123;
-                    None
+                &#125; <span class="hljs-keyword">else</span> &#123;
+                    <span class="hljs-literal">None</span>
                 &#125;
             &#125;
         &#125;
     &#125;
-&#125;
-</code></pre>
+&#125;</code></pre>
 <p>するとこんな感じに↓<br><img src="/images/00000046-aflak-improc-01/01.jpg" alt="Paths ノードでファイル複数のファイルを開く"><br>なんかカレントディレクトリの表示がおかしいですが，ちゃんと動作するので今はキニシナイ．</p>
 <p>次に，この Path 改め Paths を受け取り，画像を展開して**三次元データ（0番目の軸で何枚目かというインデックス，1番目と2番目の軸で画像の輝度にアクセスできる）**を生成するノードを作ります．</p>
-<pre><code class="language-Rust">cake_transform!(
-    &quot;Open RAW file from a Paths.&quot;,
-    0, 1, 0,
-    open_raw&lt;IOValue, IOErr&gt;(path: Paths, n: Integer = 0) -&gt; Image &#123;
-        if let PATHS::FileList(path) = path &#123;
-            vec![run_open_raw(path.to_vec(), *n)]
-        &#125; else &#123;
-            vec![] //エラーを返そう
+<pre><code class="hljs Rust">cake_transform!(
+    <span class="hljs-string">&quot;Open RAW file from a Paths.&quot;</span>,
+    <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>,
+    open_raw&lt;IOValue, IOErr&gt;(path: Paths, n: Integer = <span class="hljs-number">0</span>) <span class="hljs-punctuation">-&gt;</span> Image &#123;
+        <span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> <span class="hljs-variable">PATHS</span>::<span class="hljs-title function_ invoke__">FileList</span>(path) = path &#123;
+            <span class="hljs-built_in">vec!</span>[<span class="hljs-title function_ invoke__">run_open_raw</span>(path.<span class="hljs-title function_ invoke__">to_vec</span>(), *n)]
+        &#125; <span class="hljs-keyword">else</span> &#123;
+            <span class="hljs-built_in">vec!</span>[] <span class="hljs-comment">//エラーを返そう</span>
         &#125;
     &#125;
 ),
 
-fn run_open_raw&lt;P: AsRef&lt;Path&gt;&gt;(path: Vec&lt;P&gt;, n: i64) -&gt; Result&lt;IOValue, IOErr&gt; &#123;
-    let pathlist_len = path.len();
-    let n = n as usize;
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">run_open_raw</span>&lt;P: <span class="hljs-built_in">AsRef</span>&lt;Path&gt;&gt;(path: <span class="hljs-type">Vec</span>&lt;P&gt;, n: <span class="hljs-type">i64</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Result</span>&lt;IOValue, IOErr&gt; &#123;
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">pathlist_len</span> = path.<span class="hljs-title function_ invoke__">len</span>();
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">n</span> = n <span class="hljs-keyword">as</span> <span class="hljs-type">usize</span>;
     precheck!(pathlist_len &gt; n)?;
-    let mut imagecount = 0;
-    let mut width = 0;
-    let mut height = 0;
-    let mut img = Vec::new();
-    let mut openresult: Result&lt;IOValue, IOErr&gt; = Ok(IOValue::Integer(0));
-    for single_path in path &#123;
-        let image = rawloader::decode_file(single_path);
-        match image &#123;
-            Ok(image) =&gt; &#123;
-                if imagecount == 0 &#123;
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">imagecount</span> = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">width</span> = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">height</span> = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">img</span> = <span class="hljs-type">Vec</span>::<span class="hljs-title function_ invoke__">new</span>();
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">openresult</span>: <span class="hljs-type">Result</span>&lt;IOValue, IOErr&gt; = <span class="hljs-title function_ invoke__">Ok</span>(IOValue::<span class="hljs-title function_ invoke__">Integer</span>(<span class="hljs-number">0</span>));
+    <span class="hljs-keyword">for</span> <span class="hljs-variable">single_path</span> <span class="hljs-keyword">in</span> path &#123;
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">image</span> = rawloader::<span class="hljs-title function_ invoke__">decode_file</span>(single_path);
+        <span class="hljs-keyword">match</span> image &#123;
+            <span class="hljs-title function_ invoke__">Ok</span>(image) =&gt; &#123;
+                <span class="hljs-keyword">if</span> imagecount == <span class="hljs-number">0</span> &#123;
                     width = image.width;
                     height = image.height;
-                &#125; else if width != image.width || height != image.height &#123;
-                    eprintln!(&quot;Couldn&#39;t load images with different size images.\n&quot;); //エラーを返そう
-                    break;
+                &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> width != image.width || height != image.height &#123;
+                    <span class="hljs-built_in">eprintln!</span>(<span class="hljs-string">&quot;Couldn&#x27;t load images with different size images.\n&quot;</span>); <span class="hljs-comment">//エラーを返そう</span>
+                    <span class="hljs-keyword">break</span>;
                 &#125;
-                if let rawloader::RawImageData::Integer(data) = image.data &#123;
-                    for pix in data &#123;
-                        img.push(pix as f32);
+                <span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> <span class="hljs-variable">rawloader</span>::RawImageData::<span class="hljs-title function_ invoke__">Integer</span>(data) = image.data &#123;
+                    <span class="hljs-keyword">for</span> <span class="hljs-variable">pix</span> <span class="hljs-keyword">in</span> data &#123;
+                        img.<span class="hljs-title function_ invoke__">push</span>(pix <span class="hljs-keyword">as</span> <span class="hljs-type">f32</span>);
                     &#125;
-                &#125; else &#123;
-                    eprintln!(&quot;Don&#39;t know how to process non-integer raw files&quot;); //エラーを返そう
-                    break;
+                &#125; <span class="hljs-keyword">else</span> &#123;
+                    <span class="hljs-built_in">eprintln!</span>(<span class="hljs-string">&quot;Don&#x27;t know how to process non-integer raw files&quot;</span>); <span class="hljs-comment">//エラーを返そう</span>
+                    <span class="hljs-keyword">break</span>;
                 &#125;
             &#125;
-            Err(err) =&gt; openresult = Err(IOErr::RawLoaderError(format!(&quot;&#123;:?&#125;&quot;, err))),
+            <span class="hljs-title function_ invoke__">Err</span>(err) =&gt; openresult = <span class="hljs-title function_ invoke__">Err</span>(IOErr::<span class="hljs-title function_ invoke__">RawLoaderError</span>(<span class="hljs-built_in">format!</span>(<span class="hljs-string">&quot;&#123;:?&#125;&quot;</span>, err))),
         &#125;
-        imagecount += 1;
+        imagecount += <span class="hljs-number">1</span>;
     &#125;
-    match openresult &#123;
-        Ok(_) =&gt; &#123;
-            let img = Array::from_shape_vec((pathlist_len, height, width), img).unwrap();
-            Ok(IOValue::Image(WcsArray::from_array(Dimensioned::new(
-                img.into_dyn(),
-                Unit::None,
+    <span class="hljs-keyword">match</span> openresult &#123;
+        <span class="hljs-title function_ invoke__">Ok</span>(_) =&gt; &#123;
+            <span class="hljs-keyword">let</span> <span class="hljs-variable">img</span> = Array::<span class="hljs-title function_ invoke__">from_shape_vec</span>((pathlist_len, height, width), img).<span class="hljs-title function_ invoke__">unwrap</span>();
+            <span class="hljs-title function_ invoke__">Ok</span>(IOValue::<span class="hljs-title function_ invoke__">Image</span>(WcsArray::<span class="hljs-title function_ invoke__">from_array</span>(Dimensioned::<span class="hljs-title function_ invoke__">new</span>(
+                img.<span class="hljs-title function_ invoke__">into_dyn</span>(),
+                Unit::<span class="hljs-literal">None</span>,
             ))))
         &#125;
-        Err(_) =&gt; openresult,
+        <span class="hljs-title function_ invoke__">Err</span>(_) =&gt; openresult,
     &#125;
-&#125;
-</code></pre>
+&#125;</code></pre>
 <p>cake_transform!マクロは，ノードを作るためのマクロです．引数で入力の型を指定し，-&gt;以降に出力の型を指定します．複数のデータを出力することも可能です．実際のデータは，<code>Vec&lt;Result&lt;IOValue, IOErr&gt;&gt;</code> という型のベクタで返しています．<br><video src="images/00000046-aflak-improc-01/tw01.mp4" width="674" height="360" controls></video><br>i番目の画像をスライスして取り出して表示できています．</p>
 <p>これで統計値計算への準備が整いましたので，<strong>このタイミングであぷらなーとさんに連絡をし，Nikon D3 と D810A のダークデータをいただきました（妥当性の検証ができるのはとても助かります，ありがたいです）</strong>．とりあえず D3 のダーク Raw データが開けそうなので，こちらを使っていきます．</p>
 <h4 id="その2-統計値計算（三次元データ→二次元データ）"><a href="#その2-統計値計算（三次元データ→二次元データ）" class="headerlink" title="その2. 統計値計算（三次元データ→二次元データ）"></a>その2. 統計値計算（三次元データ→二次元データ）</h4><p>三次元データを生成したら，<strong>各種統計値を計算する</strong>ノードを作っていきます．平均はすでに実装済みでしたし，分散と標準偏差も使っている <a target="_blank" rel="noopener" href="https://docs.rs/ndarray/0.14.0/ndarray/">ndarray</a> ライブラリに<a target="_blank" rel="noopener" href="https://docs.rs/ndarray/0.14.0/ndarray/struct.ArrayBase.html#method.mean_axis">計算するための関数</a>があります．中央値だけは，こちらで実装する必要がありそうだったので用意．</p>
-<pre><code class="language-Rust">cake_transform!(
-    &quot;Average for Image. Parameters: a=start, b=end (a &lt;= b).
-Compute (Sum[k, &#123;a, b&#125;]image[k]) / (b - a). image[k] is k-th slice of image.
-Second output contains (a + b) / 2
-Third output contains (b - a)
-Note: indices for a and b start from 0&quot;,
-    1, 0, 0,
-    average&lt;IOValue, IOErr&gt;(image: Image, start: Integer = 0, end: Integer = 1) -&gt; Image, Float, Float &#123;
-        let middle = (*start as f32 + *end as f32) / 2.0;
-        let width = *end as f32 - *start as f32;
-        vec![run_average(image, *start, *end), Ok(IOValue::Float(middle)), Ok(IOValue::Float(width))]
+<pre><code class="hljs Rust">cake_transform!(
+    <span class="hljs-string">&quot;Average for Image. Parameters: a=start, b=end (a &lt;= b).</span>
+<span class="hljs-string">Compute (Sum[k, &#123;a, b&#125;]image[k]) / (b - a). image[k] is k-th slice of image.</span>
+<span class="hljs-string">Second output contains (a + b) / 2</span>
+<span class="hljs-string">Third output contains (b - a)</span>
+<span class="hljs-string">Note: indices for a and b start from 0&quot;</span>,
+    <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>,
+    average&lt;IOValue, IOErr&gt;(image: Image, start: Integer = <span class="hljs-number">0</span>, end: Integer = <span class="hljs-number">1</span>) <span class="hljs-punctuation">-&gt;</span> Image, Float, Float &#123;
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">middle</span> = (*start <span class="hljs-keyword">as</span> <span class="hljs-type">f32</span> + *end <span class="hljs-keyword">as</span> <span class="hljs-type">f32</span>) / <span class="hljs-number">2.0</span>;
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">width</span> = *end <span class="hljs-keyword">as</span> <span class="hljs-type">f32</span> - *start <span class="hljs-keyword">as</span> <span class="hljs-type">f32</span>;
+        <span class="hljs-built_in">vec!</span>[<span class="hljs-title function_ invoke__">run_average</span>(image, *start, *end), <span class="hljs-title function_ invoke__">Ok</span>(IOValue::<span class="hljs-title function_ invoke__">Float</span>(middle)), <span class="hljs-title function_ invoke__">Ok</span>(IOValue::<span class="hljs-title function_ invoke__">Float</span>(width))]
     &#125;
 ),
 cake_transform!(
-    &quot;Variance for Image. Parameters: a=start, b=end (a &lt;= b).&quot;,
-    1, 0, 0,
-    variance&lt;IOValue, IOErr&gt;(image: Image, start: Integer = 0, end: Integer = 1) -&gt; Image&#123;
-        vec![run_variance(image, *start, *end)]
+    <span class="hljs-string">&quot;Variance for Image. Parameters: a=start, b=end (a &lt;= b).&quot;</span>,
+    <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>,
+    variance&lt;IOValue, IOErr&gt;(image: Image, start: Integer = <span class="hljs-number">0</span>, end: Integer = <span class="hljs-number">1</span>) <span class="hljs-punctuation">-&gt;</span> Image&#123;
+        <span class="hljs-built_in">vec!</span>[<span class="hljs-title function_ invoke__">run_variance</span>(image, *start, *end)]
     &#125;
 ),
 cake_transform!(
-    &quot;Stddev for Image. Parameters: a=start, b=end (a &lt;= b).&quot;,
-    1, 0, 0,
-    stddev&lt;IOValue, IOErr&gt;(image: Image, start: Integer = 0, end: Integer = 1) -&gt; Image&#123;
-        vec![run_stddev(image, *start, *end)]
+    <span class="hljs-string">&quot;Stddev for Image. Parameters: a=start, b=end (a &lt;= b).&quot;</span>,
+    <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>,
+    stddev&lt;IOValue, IOErr&gt;(image: Image, start: Integer = <span class="hljs-number">0</span>, end: Integer = <span class="hljs-number">1</span>) <span class="hljs-punctuation">-&gt;</span> Image&#123;
+        <span class="hljs-built_in">vec!</span>[<span class="hljs-title function_ invoke__">run_stddev</span>(image, *start, *end)]
     &#125;
 ),
 cake_transform!(
-    &quot;Median for Image. Parameters: a=start, b=end (a &lt;= b).&quot;,
-    1, 0, 0,
-    median&lt;IOValue, IOErr&gt;(image: Image, start: Integer = 0, end: Integer = 1) -&gt; Image&#123;
-        vec![run_median(image, *start, *end)]
+    <span class="hljs-string">&quot;Median for Image. Parameters: a=start, b=end (a &lt;= b).&quot;</span>,
+    <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>,
+    median&lt;IOValue, IOErr&gt;(image: Image, start: Integer = <span class="hljs-number">0</span>, end: Integer = <span class="hljs-number">1</span>) <span class="hljs-punctuation">-&gt;</span> Image&#123;
+        <span class="hljs-built_in">vec!</span>[<span class="hljs-title function_ invoke__">run_median</span>(image, *start, *end)]
     &#125;
 ),
 
-fn reduce_array_slice&lt;F&gt;(image: &amp;WcsArray, start: i64, end: i64, f: F) -&gt; Result&lt;IOValue, IOErr&gt;
-where
-    F: Fn(&amp;ArrayViewD&lt;f32&gt;) -&gt; ArrayD&lt;f32&gt;,
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">reduce_array_slice</span>&lt;F&gt;(image: &amp;WcsArray, start: <span class="hljs-type">i64</span>, end: <span class="hljs-type">i64</span>, f: F) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Result</span>&lt;IOValue, IOErr&gt;
+<span class="hljs-keyword">where</span>
+    F: <span class="hljs-title function_ invoke__">Fn</span>(&amp;ArrayViewD&lt;<span class="hljs-type">f32</span>&gt;) <span class="hljs-punctuation">-&gt;</span> ArrayD&lt;<span class="hljs-type">f32</span>&gt;,
 &#123;
-    let start = try_into_unsigned!(start)?;
-    let end = try_into_unsigned!(end)?;
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">start</span> = try_into_unsigned!(start)?;
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">end</span> = try_into_unsigned!(end)?;
     is_sliceable!(image, start, end)?;
 
-    let image_val = image.scalar();
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">image_val</span> = image.<span class="hljs-title function_ invoke__">scalar</span>();
 
-    let slices = image_val.slice_axis(Axis(0), Slice::from(start..end));
-    let raw = f(&amp;slices);
-    let ndim = raw.ndim();
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">slices</span> = image_val.<span class="hljs-title function_ invoke__">slice_axis</span>(<span class="hljs-title function_ invoke__">Axis</span>(<span class="hljs-number">0</span>), Slice::<span class="hljs-title function_ invoke__">from</span>(start..end));
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">raw</span> = <span class="hljs-title function_ invoke__">f</span>(&amp;slices);
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">ndim</span> = raw.<span class="hljs-title function_ invoke__">ndim</span>();
 
-    let wrap_with_unit = image.make_slice(
-        &amp;(0..ndim).map(|i| (i, 0.0, 1.0)).collect::&lt;Vec&lt;_&gt;&gt;(),
-        image.array().with_new_value(raw),
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">wrap_with_unit</span> = image.<span class="hljs-title function_ invoke__">make_slice</span>(
+        &amp;(<span class="hljs-number">0</span>..ndim).<span class="hljs-title function_ invoke__">map</span>(|i| (i, <span class="hljs-number">0.0</span>, <span class="hljs-number">1.0</span>)).collect::&lt;<span class="hljs-type">Vec</span>&lt;_&gt;&gt;(),
+        image.<span class="hljs-title function_ invoke__">array</span>().<span class="hljs-title function_ invoke__">with_new_value</span>(raw),
     );
 
-    Ok(IOValue::Image(wrap_with_unit))
+    <span class="hljs-title function_ invoke__">Ok</span>(IOValue::<span class="hljs-title function_ invoke__">Image</span>(wrap_with_unit))
 &#125;
 
-fn run_average(image: &amp;WcsArray, start: i64, end: i64) -&gt; Result&lt;IOValue, IOErr&gt; &#123;
-    reduce_array_slice(image, start, end, |slices| slices.mean_axis(Axis(0)))
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">run_average</span>(image: &amp;WcsArray, start: <span class="hljs-type">i64</span>, end: <span class="hljs-type">i64</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Result</span>&lt;IOValue, IOErr&gt; &#123;
+    <span class="hljs-title function_ invoke__">reduce_array_slice</span>(image, start, end, |slices| slices.<span class="hljs-title function_ invoke__">mean_axis</span>(<span class="hljs-title function_ invoke__">Axis</span>(<span class="hljs-number">0</span>)))
 &#125;
 
-fn run_variance(image: &amp;WcsArray, start: i64, end: i64) -&gt; Result&lt;IOValue, IOErr&gt; &#123;
-    reduce_array_slice(image, start, end, |slices| slices.var_axis(Axis(0), 1.0))
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">run_variance</span>(image: &amp;WcsArray, start: <span class="hljs-type">i64</span>, end: <span class="hljs-type">i64</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Result</span>&lt;IOValue, IOErr&gt; &#123;
+    <span class="hljs-title function_ invoke__">reduce_array_slice</span>(image, start, end, |slices| slices.<span class="hljs-title function_ invoke__">var_axis</span>(<span class="hljs-title function_ invoke__">Axis</span>(<span class="hljs-number">0</span>), <span class="hljs-number">1.0</span>))
 &#125;
 
-fn run_stddev(image: &amp;WcsArray, start: i64, end: i64) -&gt; Result&lt;IOValue, IOErr&gt; &#123;
-    reduce_array_slice(image, start, end, |slices| slices.std_axis(Axis(0), 1.0))
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">run_stddev</span>(image: &amp;WcsArray, start: <span class="hljs-type">i64</span>, end: <span class="hljs-type">i64</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Result</span>&lt;IOValue, IOErr&gt; &#123;
+    <span class="hljs-title function_ invoke__">reduce_array_slice</span>(image, start, end, |slices| slices.<span class="hljs-title function_ invoke__">std_axis</span>(<span class="hljs-title function_ invoke__">Axis</span>(<span class="hljs-number">0</span>), <span class="hljs-number">1.0</span>))
 &#125;
 
-fn run_median(image: &amp;WcsArray, start: i64, end: i64) -&gt; Result&lt;IOValue, IOErr&gt; &#123;
-    let start = try_into_unsigned!(start)?;
-    let end = try_into_unsigned!(end)?;
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">run_median</span>(image: &amp;WcsArray, start: <span class="hljs-type">i64</span>, end: <span class="hljs-type">i64</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Result</span>&lt;IOValue, IOErr&gt; &#123;
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">start</span> = try_into_unsigned!(start)?;
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">end</span> = try_into_unsigned!(end)?;
     is_sliceable!(image, start, end)?;
 
-    let image_val = image.scalar();
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">image_val</span> = image.<span class="hljs-title function_ invoke__">scalar</span>();
 
-    let slices = image_val.slice_axis(Axis(0), Slice::from(start..end));
-    let dim = slices.dim();
-    let size = dim.as_array_view();
-    let new_size: Vec&lt;_&gt; = size.iter().skip(1).cloned().collect();
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">slices</span> = image_val.<span class="hljs-title function_ invoke__">slice_axis</span>(<span class="hljs-title function_ invoke__">Axis</span>(<span class="hljs-number">0</span>), Slice::<span class="hljs-title function_ invoke__">from</span>(start..end));
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">dim</span> = slices.<span class="hljs-title function_ invoke__">dim</span>();
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">size</span> = dim.<span class="hljs-title function_ invoke__">as_array_view</span>();
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">new_size</span>: <span class="hljs-type">Vec</span>&lt;_&gt; = size.<span class="hljs-title function_ invoke__">iter</span>().<span class="hljs-title function_ invoke__">skip</span>(<span class="hljs-number">1</span>).<span class="hljs-title function_ invoke__">cloned</span>().<span class="hljs-title function_ invoke__">collect</span>();
 
-    let result = ArrayD::from_shape_fn(new_size, |index| &#123;
-        let mut vals = Vec::new();
-        for (_, slice) in slices.axis_iter(Axis(0)).enumerate() &#123;
-            vals.push(slice[&amp;index]);
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">result</span> = ArrayD::<span class="hljs-title function_ invoke__">from_shape_fn</span>(new_size, |index| &#123;
+        <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">vals</span> = <span class="hljs-type">Vec</span>::<span class="hljs-title function_ invoke__">new</span>();
+        <span class="hljs-keyword">for</span> (_, slice) <span class="hljs-keyword">in</span> slices.<span class="hljs-title function_ invoke__">axis_iter</span>(<span class="hljs-title function_ invoke__">Axis</span>(<span class="hljs-number">0</span>)).<span class="hljs-title function_ invoke__">enumerate</span>() &#123;
+            vals.<span class="hljs-title function_ invoke__">push</span>(slice[&amp;index]);
         &#125;
-        //consider NaN!
-        vals.sort_by(|a, b| a.partial_cmp(b).unwrap());
-        let n = vals.len();
-        if n % 2 == 1 &#123;
-            vals[(n - 1) / 2]
-        &#125; else &#123;
-            (vals[n / 2] + vals[n / 2 - 1]) / 2.0
+        <span class="hljs-comment">//consider NaN!</span>
+        vals.<span class="hljs-title function_ invoke__">sort_by</span>(|a, b| a.<span class="hljs-title function_ invoke__">partial_cmp</span>(b).<span class="hljs-title function_ invoke__">unwrap</span>());
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">n</span> = vals.<span class="hljs-title function_ invoke__">len</span>();
+        <span class="hljs-keyword">if</span> n % <span class="hljs-number">2</span> == <span class="hljs-number">1</span> &#123;
+            vals[(n - <span class="hljs-number">1</span>) / <span class="hljs-number">2</span>]
+        &#125; <span class="hljs-keyword">else</span> &#123;
+            (vals[n / <span class="hljs-number">2</span>] + vals[n / <span class="hljs-number">2</span> - <span class="hljs-number">1</span>]) / <span class="hljs-number">2.0</span>
         &#125;
     &#125;);
 
-    Ok(IOValue::Image(WcsArray::from_array(Dimensioned::new(
+    <span class="hljs-title function_ invoke__">Ok</span>(IOValue::<span class="hljs-title function_ invoke__">Image</span>(WcsArray::<span class="hljs-title function_ invoke__">from_array</span>(Dimensioned::<span class="hljs-title function_ invoke__">new</span>(
         result,
-        Unit::None,
+        Unit::<span class="hljs-literal">None</span>,
     ))))
-&#125;
-</code></pre>
+&#125;</code></pre>
+
 <p><video src="images/00000046-aflak-improc-01/tw02.mp4" width="674" height="360" controls></video><br>これは平均を計算するノード（average ノード）を使った例です．3枚のデタラメなライトフレームを単純に加算平均してます．</p>
 <p>これで位置合わせなしコンポジット機構もできましたので，<strong>位置合わせのいらない master dark や master flat をコンポジットするのはこのプログラムだけで完結できる</strong>ということになります．やったー．</p>
 <h4 id="その3-リストへ変換"><a href="#その3-リストへ変換" class="headerlink" title="その3. リストへ変換"></a>その3. リストへ変換</h4><p>統計値計算をして得られるデータは二次元のデータです．各画素に，その位置の画素の統計値が入っています．ノイズ解析用 scatterplots ではこれらの統計値を横軸，縦軸の値として使用するため，<strong>一次元リストへ変換</strong>しておくと便利です．<br>ついでに常用対数を通した値にしておきます．</p>
-<pre><code class="language-Rust">cake_transform!(
-    &quot;Convert 2d image to 1d list.&quot;,
-    1, 0, 0,
-    convert_to_1d_image&lt;IOValue, IOErr&gt;(image: Image) -&gt; Image&#123;
-        vec![run_convert_to_1d(image)]
+<pre><code class="hljs Rust">cake_transform!(
+    <span class="hljs-string">&quot;Convert 2d image to 1d list.&quot;</span>,
+    <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>,
+    convert_to_1d_image&lt;IOValue, IOErr&gt;(image: Image) <span class="hljs-punctuation">-&gt;</span> Image&#123;
+        <span class="hljs-built_in">vec!</span>[<span class="hljs-title function_ invoke__">run_convert_to_1d</span>(image)]
     &#125;
 ),
 cake_transform!(
-    &quot;Convert to log10&quot;,
-    1, 0, 0,
-    log10&lt;IOValue, IOErr&gt;(image: Image) -&gt; Image &#123;
-        vec![run_log10(image)]
+    <span class="hljs-string">&quot;Convert to log10&quot;</span>,
+    <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>,
+    log10&lt;IOValue, IOErr&gt;(image: Image) <span class="hljs-punctuation">-&gt;</span> Image &#123;
+        <span class="hljs-built_in">vec!</span>[<span class="hljs-title function_ invoke__">run_log10</span>(image)]
     &#125;
 ),
 
-fn run_convert_to_1d(image: &amp;WcsArray) -&gt; Result&lt;IOValue, IOErr&gt; &#123;
-    dim_is!(image, 2)?;
-    let image_val = image.scalar();
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">run_convert_to_1d</span>(image: &amp;WcsArray) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Result</span>&lt;IOValue, IOErr&gt; &#123;
+    dim_is!(image, <span class="hljs-number">2</span>)?;
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">image_val</span> = image.<span class="hljs-title function_ invoke__">scalar</span>();
 
-    let list_size = *image_val.dim().as_array_view().first().unwrap();
-    let mut list = Vec::with_capacity(list_size);
-    for i in 0..list_size &#123;
-        for val in image_val.slice(s![i, ..]) &#123;
-            list.push(*val);
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">list_size</span> = *image_val.<span class="hljs-title function_ invoke__">dim</span>().<span class="hljs-title function_ invoke__">as_array_view</span>().<span class="hljs-title function_ invoke__">first</span>().<span class="hljs-title function_ invoke__">unwrap</span>();
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">list</span> = <span class="hljs-type">Vec</span>::<span class="hljs-title function_ invoke__">with_capacity</span>(list_size);
+    <span class="hljs-keyword">for</span> <span class="hljs-variable">i</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..list_size &#123;
+        <span class="hljs-keyword">for</span> <span class="hljs-variable">val</span> <span class="hljs-keyword">in</span> image_val.<span class="hljs-title function_ invoke__">slice</span>(s![i, ..]) &#123;
+            list.<span class="hljs-title function_ invoke__">push</span>(*val);
         &#125;
     &#125;
-    Ok(IOValue::Image(
-        image.make_slice(
-            &amp;[(2, 0.0, 1.0)],
+    <span class="hljs-title function_ invoke__">Ok</span>(IOValue::<span class="hljs-title function_ invoke__">Image</span>(
+        image.<span class="hljs-title function_ invoke__">make_slice</span>(
+            &amp;[(<span class="hljs-number">2</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">1.0</span>)],
             image
-                .array()
-                .with_new_value(Array1::from_vec(list).into_dyn()),
+                .<span class="hljs-title function_ invoke__">array</span>()
+                .<span class="hljs-title function_ invoke__">with_new_value</span>(Array1::<span class="hljs-title function_ invoke__">from_vec</span>(list).<span class="hljs-title function_ invoke__">into_dyn</span>()),
         ),
     ))
 &#125;
 
-fn run_log10(image: &amp;WcsArray) -&gt; Result&lt;IOValue, IOErr&gt; &#123;
-    let mut out = image.clone();
-    for v in out.scalar_mut().iter_mut() &#123;
-        *v = v.log10();
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">run_log10</span>(image: &amp;WcsArray) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Result</span>&lt;IOValue, IOErr&gt; &#123;
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">out</span> = image.<span class="hljs-title function_ invoke__">clone</span>();
+    <span class="hljs-keyword">for</span> <span class="hljs-variable">v</span> <span class="hljs-keyword">in</span> out.<span class="hljs-title function_ invoke__">scalar_mut</span>().<span class="hljs-title function_ invoke__">iter_mut</span>() &#123;
+        *v = v.<span class="hljs-title function_ invoke__">log10</span>();
     &#125;
-    Ok(IOValue::Image(out))
-&#125;
-</code></pre>
+    <span class="hljs-title function_ invoke__">Ok</span>(IOValue::<span class="hljs-title function_ invoke__">Image</span>(out))
+&#125;</code></pre>
+
 <h4 id="その4-scatterplots-の描画"><a href="#その4-scatterplots-の描画" class="headerlink" title="その4. scatterplots の描画"></a>その4. scatterplots の描画</h4><p>これらの2つのリストから，scatterplots データを作っていきます．このプログラムでは<strong>様々な次元のデータを様々な形式で見られるようにしたい</strong>ので，最終データには「タグ文字列」を付加するようにしています．今回の場合，<strong>形状が (2, データ数) の “scatter” タグがついた二次元データをscatterplots と解釈して描画</strong>することになります．</p>
-<pre><code class="language-Rust">cake_transform!(
-    &quot;Create scatterplots from two 1D lists.&quot;,
-    1, 0, 0,
-    create_scatter&lt;IOValue, IOErr&gt;(xaxis: Image, yaxis: Image) -&gt; Image&#123;
-        vec![run_create_scatter(xaxis, yaxis)]
+<pre><code class="hljs Rust">cake_transform!(
+    <span class="hljs-string">&quot;Create scatterplots from two 1D lists.&quot;</span>,
+    <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>,
+    create_scatter&lt;IOValue, IOErr&gt;(xaxis: Image, yaxis: Image) <span class="hljs-punctuation">-&gt;</span> Image&#123;
+        <span class="hljs-built_in">vec!</span>[<span class="hljs-title function_ invoke__">run_create_scatter</span>(xaxis, yaxis)]
     &#125;
 ),
 
-fn run_create_scatter(xaxis: &amp;WcsArray, yaxis: &amp;WcsArray) -&gt; Result&lt;IOValue, IOErr&gt; &#123;
-    dim_is!(xaxis, 1)?;
-    dim_is!(yaxis, 1)?;
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">run_create_scatter</span>(xaxis: &amp;WcsArray, yaxis: &amp;WcsArray) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Result</span>&lt;IOValue, IOErr&gt; &#123;
+    dim_is!(xaxis, <span class="hljs-number">1</span>)?;
+    dim_is!(yaxis, <span class="hljs-number">1</span>)?;
     are_same_dim!(xaxis, yaxis)?;
-    let image_val = xaxis.scalar();
-    let width = image_val.len();
-    let mut img = Vec::with_capacity(2 * width);
-    for i in 0..width &#123;
-        for val in image_val.slice(s![i]) &#123;
-            img.push(*val);
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">image_val</span> = xaxis.<span class="hljs-title function_ invoke__">scalar</span>();
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">width</span> = image_val.<span class="hljs-title function_ invoke__">len</span>();
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">img</span> = <span class="hljs-type">Vec</span>::<span class="hljs-title function_ invoke__">with_capacity</span>(<span class="hljs-number">2</span> * width);
+    <span class="hljs-keyword">for</span> <span class="hljs-variable">i</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..width &#123;
+        <span class="hljs-keyword">for</span> <span class="hljs-variable">val</span> <span class="hljs-keyword">in</span> image_val.<span class="hljs-title function_ invoke__">slice</span>(s![i]) &#123;
+            img.<span class="hljs-title function_ invoke__">push</span>(*val);
         &#125;
     &#125;
-    let image_val = yaxis.scalar();
-    for i in 0..width &#123;
-        for val in image_val.slice(s![i]) &#123;
-            img.push(*val);
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">image_val</span> = yaxis.<span class="hljs-title function_ invoke__">scalar</span>();
+    <span class="hljs-keyword">for</span> <span class="hljs-variable">i</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..width &#123;
+        <span class="hljs-keyword">for</span> <span class="hljs-variable">val</span> <span class="hljs-keyword">in</span> image_val.<span class="hljs-title function_ invoke__">slice</span>(s![i]) &#123;
+            img.<span class="hljs-title function_ invoke__">push</span>(*val);
         &#125;
     &#125;
-    let mut datapoints = Vec::new();
-    for i in 0..width &#123;
-        datapoints.push((img[i], img[i + width]));
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">datapoints</span> = <span class="hljs-type">Vec</span>::<span class="hljs-title function_ invoke__">new</span>();
+    <span class="hljs-keyword">for</span> <span class="hljs-variable">i</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..width &#123;
+        datapoints.<span class="hljs-title function_ invoke__">push</span>((img[i], img[i + width]));
     &#125;
-    datapoints.sort_by(|a, b| a.partial_cmp(b).unwrap());
-    let mut res = Vec::with_capacity(2 * width);
-    for i in 0..width &#123;
-        res.push(datapoints[i].0);
+    datapoints.<span class="hljs-title function_ invoke__">sort_by</span>(|a, b| a.<span class="hljs-title function_ invoke__">partial_cmp</span>(b).<span class="hljs-title function_ invoke__">unwrap</span>());
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">res</span> = <span class="hljs-type">Vec</span>::<span class="hljs-title function_ invoke__">with_capacity</span>(<span class="hljs-number">2</span> * width);
+    <span class="hljs-keyword">for</span> <span class="hljs-variable">i</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..width &#123;
+        res.<span class="hljs-title function_ invoke__">push</span>(datapoints[i].<span class="hljs-number">0</span>);
     &#125;
-    for i in 0..width &#123;
-        res.push(datapoints[i].1);
+    <span class="hljs-keyword">for</span> <span class="hljs-variable">i</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..width &#123;
+        res.<span class="hljs-title function_ invoke__">push</span>(datapoints[i].<span class="hljs-number">1</span>);
     &#125;
-    let img = Array::from_shape_vec((2, width), res).unwrap();
-    Ok(IOValue::Image(WcsArray::from_array_and_tag(
-        Dimensioned::new(img.into_dyn(), Unit::None),
-        Some(String::from(&quot;scatter&quot;)), //タグを付与するよ
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">img</span> = Array::<span class="hljs-title function_ invoke__">from_shape_vec</span>((<span class="hljs-number">2</span>, width), res).<span class="hljs-title function_ invoke__">unwrap</span>();
+    <span class="hljs-title function_ invoke__">Ok</span>(IOValue::<span class="hljs-title function_ invoke__">Image</span>(WcsArray::<span class="hljs-title function_ invoke__">from_array_and_tag</span>(
+        Dimensioned::<span class="hljs-title function_ invoke__">new</span>(img.<span class="hljs-title function_ invoke__">into_dyn</span>(), Unit::<span class="hljs-literal">None</span>),
+        <span class="hljs-title function_ invoke__">Some</span>(<span class="hljs-type">String</span>::<span class="hljs-title function_ invoke__">from</span>(<span class="hljs-string">&quot;scatter&quot;</span>)), <span class="hljs-comment">//タグを付与するよ</span>
     )))
-&#125;
-</code></pre>
+&#125;</code></pre>
 <p>うーん．コードが汚い．ここはなんとかしたいですね…．<br>データポイントをとりあえずソートしています．これは描画を軽くするために必要なのですが，あとあとアルゴリズムを変えるかもしれません．<br>最後に scatterplots を描画してみます．ライブラリは <a target="_blank" rel="noopener" href="https://docs.rs/implot/0.3.0/implot/">implot</a> を利用．</p>
-<pre><code class="language-Rust">Some(tag) =&gt; match tag.as_ref() &#123;
-    &quot;scatter&quot; =&gt; match self.scalar().dim().ndim() &#123; //タグを認識するよ
-        2 =&gt; &#123; //データは今のところ2次元に限定
-            let state = &amp;mut ctx.window.scatter_lineplot_state;
-            let plot_ui = ctx.plotcontext.get_plot_ui();
-            if let Err(e) = ui.scatter(
-                &amp;self.scalar2(),
+<pre><code class="hljs Rust"><span class="hljs-title function_ invoke__">Some</span>(tag) =&gt; <span class="hljs-keyword">match</span> tag.<span class="hljs-title function_ invoke__">as_ref</span>() &#123;
+    <span class="hljs-string">&quot;scatter&quot;</span> =&gt; <span class="hljs-keyword">match</span> <span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">scalar</span>().<span class="hljs-title function_ invoke__">dim</span>().<span class="hljs-title function_ invoke__">ndim</span>() &#123; <span class="hljs-comment">//タグを認識するよ</span>
+        <span class="hljs-number">2</span> =&gt; &#123; <span class="hljs-comment">//データは今のところ2次元に限定</span>
+            <span class="hljs-keyword">let</span> <span class="hljs-variable">state</span> = &amp;<span class="hljs-keyword">mut</span> ctx.window.scatter_lineplot_state;
+            <span class="hljs-keyword">let</span> <span class="hljs-variable">plot_ui</span> = ctx.plotcontext.<span class="hljs-title function_ invoke__">get_plot_ui</span>();
+            <span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> <span class="hljs-variable">Err</span>(e) = ui.<span class="hljs-title function_ invoke__">scatter</span>(
+                &amp;<span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">scalar2</span>(),
                 &amp;plot_ui,
-                Some(&amp;AxisTransform::new(&quot;Median&quot;, &quot;&quot;, |x| x)),
-                Some(&amp;AxisTransform::new(&quot;Standard Deviation&quot;, &quot;&quot;, |y| y)),
+                <span class="hljs-title function_ invoke__">Some</span>(&amp;AxisTransform::<span class="hljs-title function_ invoke__">new</span>(<span class="hljs-string">&quot;Median&quot;</span>, <span class="hljs-string">&quot;&quot;</span>, |x| x)),
+                <span class="hljs-title function_ invoke__">Some</span>(&amp;AxisTransform::<span class="hljs-title function_ invoke__">new</span>(<span class="hljs-string">&quot;Standard Deviation&quot;</span>, <span class="hljs-string">&quot;&quot;</span>, |y| y)),
                 state,
             ) &#123;
-                ui.text(format!(&quot;Error on drawing plot! &#123;&#125;&quot;, e))
+                ui.<span class="hljs-title function_ invoke__">text</span>(<span class="hljs-built_in">format!</span>(<span class="hljs-string">&quot;Error on drawing plot! &#123;&#125;&quot;</span>, e))
             &#125;
         &#125;
         _ =&gt; &#123;
-            ui.text(format!(
-                &quot;Unimplemented for scatter of dimension &#123;&#125;&quot;,
-                self.scalar().ndim()
+            ui.<span class="hljs-title function_ invoke__">text</span>(<span class="hljs-built_in">format!</span>(
+                <span class="hljs-string">&quot;Unimplemented for scatter of dimension &#123;&#125;&quot;</span>,
+                <span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">scalar</span>().<span class="hljs-title function_ invoke__">ndim</span>()
             ));
         &#125;
     &#125;,
 &#125;
 
-fn scatter&lt;S, FX, FY&gt;(
-    &amp;self,
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">scatter</span>&lt;S, FX, FY&gt;(
+    &amp;<span class="hljs-keyword">self</span>,
     image: &amp;ArrayBase&lt;S, Ix2&gt;,
     plot_ui: &amp;PlotUi,
-    xaxis: Option&lt;&amp;AxisTransform&lt;FX&gt;&gt;,
-    yaxis: Option&lt;&amp;AxisTransform&lt;FY&gt;&gt;,
-    state: &amp;mut State,
-) -&gt; Result&lt;(), Error&gt;
-where
-    S: Data&lt;Elem = f32&gt;,
-    FX: Fn(f32) -&gt; f32,
-    FY: Fn(f32) -&gt; f32,
+    xaxis: <span class="hljs-type">Option</span>&lt;&amp;AxisTransform&lt;FX&gt;&gt;,
+    yaxis: <span class="hljs-type">Option</span>&lt;&amp;AxisTransform&lt;FY&gt;&gt;,
+    state: &amp;<span class="hljs-keyword">mut</span> State,
+) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Result</span>&lt;(), Error&gt;
+<span class="hljs-keyword">where</span>
+    S: Data&lt;Elem = <span class="hljs-type">f32</span>&gt;,
+    FX: <span class="hljs-title function_ invoke__">Fn</span>(<span class="hljs-type">f32</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">f32</span>,
+    FY: <span class="hljs-title function_ invoke__">Fn</span>(<span class="hljs-type">f32</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">f32</span>,
 &#123;
-    let p = self.cursor_screen_pos();
-    let window_pos = self.window_pos();
-    let window_size = self.window_size();
-    let size = [window_size[0], window_size[1] - (p[1] - window_pos[1])];
-    state.simple_plot(self, image, &amp;plot_ui, xaxis, yaxis, size)
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">p</span> = <span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">cursor_screen_pos</span>();
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">window_pos</span> = <span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">window_pos</span>();
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">window_size</span> = <span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">window_size</span>();
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">size</span> = [window_size[<span class="hljs-number">0</span>], window_size[<span class="hljs-number">1</span>] - (p[<span class="hljs-number">1</span>] - window_pos[<span class="hljs-number">1</span>])];
+    state.<span class="hljs-title function_ invoke__">simple_plot</span>(<span class="hljs-keyword">self</span>, image, &amp;plot_ui, xaxis, yaxis, size)
 &#125;
 
-pub(crate) fn simple_plot&lt;S, FX, FY&gt;(
-    &amp;mut self,
+<span class="hljs-title function_ invoke__">pub</span>(<span class="hljs-keyword">crate</span>) <span class="hljs-keyword">fn</span> <span class="hljs-title function_">simple_plot</span>&lt;S, FX, FY&gt;(
+    &amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>,
     ui: &amp;Ui,
     image: &amp;ArrayBase&lt;S, Ix2&gt;,
     plot_ui: &amp;PlotUi,
-    horizontal_axis: Option&lt;&amp;AxisTransform&lt;FX&gt;&gt;,
-    vertical_axis: Option&lt;&amp;AxisTransform&lt;FY&gt;&gt;,
-    size: [f32; 2],
-) -&gt; Result&lt;(), Error&gt;
-where
-    S: Data&lt;Elem = f32&gt;,
-    FX: Fn(f32) -&gt; f32,
-    FY: Fn(f32) -&gt; f32,
+    horizontal_axis: <span class="hljs-type">Option</span>&lt;&amp;AxisTransform&lt;FX&gt;&gt;,
+    vertical_axis: <span class="hljs-type">Option</span>&lt;&amp;AxisTransform&lt;FY&gt;&gt;,
+    size: [<span class="hljs-type">f32</span>; <span class="hljs-number">2</span>],
+) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Result</span>&lt;(), Error&gt;
+<span class="hljs-keyword">where</span>
+    S: Data&lt;Elem = <span class="hljs-type">f32</span>&gt;,
+    FX: <span class="hljs-title function_ invoke__">Fn</span>(<span class="hljs-type">f32</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">f32</span>,
+    FY: <span class="hljs-title function_ invoke__">Fn</span>(<span class="hljs-type">f32</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">f32</span>,
 &#123;
-    let mut haxisname = &quot;&quot;;
-    let mut vaxisname = &quot;&quot;;
-    let mut haxisunit = &quot;&quot;;
-    let mut vaxisunit = &quot;&quot;;
-    if let Some(haxistrans) = horizontal_axis &#123;
-        haxisname = haxistrans.label();
-        haxisunit = haxistrans.unit();
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">haxisname</span> = <span class="hljs-string">&quot;&quot;</span>;
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">vaxisname</span> = <span class="hljs-string">&quot;&quot;</span>;
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">haxisunit</span> = <span class="hljs-string">&quot;&quot;</span>;
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">vaxisunit</span> = <span class="hljs-string">&quot;&quot;</span>;
+    <span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> <span class="hljs-variable">Some</span>(haxistrans) = horizontal_axis &#123;
+        haxisname = haxistrans.<span class="hljs-title function_ invoke__">label</span>();
+        haxisunit = haxistrans.<span class="hljs-title function_ invoke__">unit</span>();
     &#125;
-    if let Some(vaxistrans) = vertical_axis &#123;
-        vaxisname = vaxistrans.label();
-        vaxisunit = vaxistrans.unit();
+    <span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> <span class="hljs-variable">Some</span>(vaxistrans) = vertical_axis &#123;
+        vaxisname = vaxistrans.<span class="hljs-title function_ invoke__">label</span>();
+        vaxisunit = vaxistrans.<span class="hljs-title function_ invoke__">unit</span>();
     &#125;
-    let haxislabel = format!(&quot;&#123;&#125; (&#123;&#125;)&quot;, haxisname, haxisunit);
-    let vaxislabel = format!(&quot;&#123;&#125; (&#123;&#125;)&quot;, vaxisname, vaxisunit);
-    let size = [size[0] - 15.0, size[1] - 15.0];
-    let xaxis = image.slice(s![0, ..]).to_vec();
-    let yaxis = image.slice(s![1, ..]).to_vec();
-    let mut datapoints = Vec::new();
-    for i in 0..xaxis.len() &#123;
-        datapoints.push((xaxis[i], yaxis[i]));
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">haxislabel</span> = <span class="hljs-built_in">format!</span>(<span class="hljs-string">&quot;&#123;&#125; (&#123;&#125;)&quot;</span>, haxisname, haxisunit);
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">vaxislabel</span> = <span class="hljs-built_in">format!</span>(<span class="hljs-string">&quot;&#123;&#125; (&#123;&#125;)&quot;</span>, vaxisname, vaxisunit);
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">size</span> = [size[<span class="hljs-number">0</span>] - <span class="hljs-number">15.0</span>, size[<span class="hljs-number">1</span>] - <span class="hljs-number">15.0</span>];
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">xaxis</span> = image.<span class="hljs-title function_ invoke__">slice</span>(s![<span class="hljs-number">0</span>, ..]).<span class="hljs-title function_ invoke__">to_vec</span>();
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">yaxis</span> = image.<span class="hljs-title function_ invoke__">slice</span>(s![<span class="hljs-number">1</span>, ..]).<span class="hljs-title function_ invoke__">to_vec</span>();
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">datapoints</span> = <span class="hljs-type">Vec</span>::<span class="hljs-title function_ invoke__">new</span>();
+    <span class="hljs-keyword">for</span> <span class="hljs-variable">i</span> <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..xaxis.<span class="hljs-title function_ invoke__">len</span>() &#123;
+        datapoints.<span class="hljs-title function_ invoke__">push</span>((xaxis[i], yaxis[i]));
     &#125;
-    let content_width = ui.window_content_region_width();
-    let mut plot_limits: Option&lt;ImPlotLimits&gt; = None;
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">content_width</span> = ui.<span class="hljs-title function_ invoke__">window_content_region_width</span>();
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">plot_limits</span>: <span class="hljs-type">Option</span>&lt;ImPlotLimits&gt; = <span class="hljs-literal">None</span>;
 
-    Plot::new(&quot;Noise Analysis of Nikon D3, Median--Standard Deviation&quot;)
-        .size(content_width, size[1])
-        .x_label(&amp;haxislabel)
-        .y_label(&amp;vaxislabel)
-        .x_limits(&amp;ImPlotRange &#123; Min: 0.0, Max: 4.0 &#125;, Condition::FirstUseEver)
-        .y_limits(
-            &amp;ImPlotRange &#123; Min: 0.0, Max: 3.0 &#125;,
+    Plot::<span class="hljs-title function_ invoke__">new</span>(<span class="hljs-string">&quot;Noise Analysis of Nikon D3, Median--Standard Deviation&quot;</span>)
+        .<span class="hljs-title function_ invoke__">size</span>(content_width, size[<span class="hljs-number">1</span>])
+        .<span class="hljs-title function_ invoke__">x_label</span>(&amp;haxislabel)
+        .<span class="hljs-title function_ invoke__">y_label</span>(&amp;vaxislabel)
+        .<span class="hljs-title function_ invoke__">x_limits</span>(&amp;ImPlotRange &#123; Min: <span class="hljs-number">0.0</span>, Max: <span class="hljs-number">4.0</span> &#125;, Condition::FirstUseEver)
+        .<span class="hljs-title function_ invoke__">y_limits</span>(
+            &amp;ImPlotRange &#123; Min: <span class="hljs-number">0.0</span>, Max: <span class="hljs-number">3.0</span> &#125;,
             YAxisChoice::First,
             Condition::FirstUseEver,
         )
-        .build(plot_ui, || &#123;
-            plot_limits = Some(get_plot_limits(None));
-            let mut xaxis = Vec::new();
-            let mut yaxis = Vec::new();
-            if let Some(plot) = plot_limits &#123;
-                let (xmin, xmax, ymin, ymax) = (plot.X.Min, plot.X.Max, plot.Y.Min, plot.Y.Max);
-                datapoints.retain(|&amp;data| &#123;
-                    xmin &lt;= data.0 as f64
-                        &amp;&amp; data.0 as f64 &lt;= xmax
-                        &amp;&amp; ymin &lt;= data.1 as f64
-                        &amp;&amp; data.1 as f64 &lt;= ymax
+        .<span class="hljs-title function_ invoke__">build</span>(plot_ui, || &#123;
+            plot_limits = <span class="hljs-title function_ invoke__">Some</span>(<span class="hljs-title function_ invoke__">get_plot_limits</span>(<span class="hljs-literal">None</span>));
+            <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">xaxis</span> = <span class="hljs-type">Vec</span>::<span class="hljs-title function_ invoke__">new</span>();
+            <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">yaxis</span> = <span class="hljs-type">Vec</span>::<span class="hljs-title function_ invoke__">new</span>();
+            <span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> <span class="hljs-variable">Some</span>(plot) = plot_limits &#123;
+                <span class="hljs-keyword">let</span> (xmin, xmax, ymin, ymax) = (plot.X.Min, plot.X.Max, plot.Y.Min, plot.Y.Max);
+                datapoints.<span class="hljs-title function_ invoke__">retain</span>(|&amp;data| &#123;
+                    xmin &lt;= data.<span class="hljs-number">0</span> <span class="hljs-keyword">as</span> <span class="hljs-type">f64</span>
+                        &amp;&amp; data.<span class="hljs-number">0</span> <span class="hljs-keyword">as</span> <span class="hljs-type">f64</span> &lt;= xmax
+                        &amp;&amp; ymin &lt;= data.<span class="hljs-number">1</span> <span class="hljs-keyword">as</span> <span class="hljs-type">f64</span>
+                        &amp;&amp; data.<span class="hljs-number">1</span> <span class="hljs-keyword">as</span> <span class="hljs-type">f64</span> &lt;= ymax
                 &#125;);
-                let xstep = (xmax - xmin) / 50.0;
-                let ystep = (ymax - ymin) / 50.0;
-                datapoints.dedup_by(|a, b| &#123;
-                    (a.0 - b.0).abs() &lt; xstep as f32 &amp;&amp; (a.1 - b.1).abs() &lt; ystep as f32
+                <span class="hljs-keyword">let</span> <span class="hljs-variable">xstep</span> = (xmax - xmin) / <span class="hljs-number">50.0</span>;
+                <span class="hljs-keyword">let</span> <span class="hljs-variable">ystep</span> = (ymax - ymin) / <span class="hljs-number">50.0</span>;
+                datapoints.<span class="hljs-title function_ invoke__">dedup_by</span>(|a, b| &#123;
+                    (a.<span class="hljs-number">0</span> - b.<span class="hljs-number">0</span>).<span class="hljs-title function_ invoke__">abs</span>() &lt; xstep <span class="hljs-keyword">as</span> <span class="hljs-type">f32</span> &amp;&amp; (a.<span class="hljs-number">1</span> - b.<span class="hljs-number">1</span>).<span class="hljs-title function_ invoke__">abs</span>() &lt; ystep <span class="hljs-keyword">as</span> <span class="hljs-type">f32</span>
                 &#125;);
-                for datapoint in datapoints &#123;
-                    xaxis.push(datapoint.0 as f64);
-                    yaxis.push(datapoint.1 as f64);
+                <span class="hljs-keyword">for</span> <span class="hljs-variable">datapoint</span> <span class="hljs-keyword">in</span> datapoints &#123;
+                    xaxis.<span class="hljs-title function_ invoke__">push</span>(datapoint.<span class="hljs-number">0</span> <span class="hljs-keyword">as</span> <span class="hljs-type">f64</span>);
+                    yaxis.<span class="hljs-title function_ invoke__">push</span>(datapoint.<span class="hljs-number">1</span> <span class="hljs-keyword">as</span> <span class="hljs-type">f64</span>);
                 &#125;
-            &#125; else &#123;
+            &#125; <span class="hljs-keyword">else</span> &#123;
             &#125;
-            PlotScatter::new(&quot;data point&quot;).plot(&amp;xaxis, &amp;yaxis);
+            PlotScatter::<span class="hljs-title function_ invoke__">new</span>(<span class="hljs-string">&quot;data point&quot;</span>).<span class="hljs-title function_ invoke__">plot</span>(&amp;xaxis, &amp;yaxis);
         &#125;);
-    Ok(())
-&#125;
-</code></pre>
+    <span class="hljs-title function_ invoke__">Ok</span>(())
+&#125;</code></pre>
 <p>ソートされているので，dedup関数で近い位置のデータを削除して描画点を減らしているわけですが，dedup関数の仕様上思惑通りにはいきません．<strong>この関数は連続する要素しか見ないので，y軸の値が近いのデータペアを見つけられない</strong>ためです．ここは要改善です．<br>最終的には，こんな感じのデータが見られます．<br><video src="images/00000046-aflak-improc-01/tw03.mp4" width="674" height="360" controls></video><br><img src="/images/00000046-aflak-improc-01/tw01.jpg" alt="今回得られた結果">↑今回得られた散布図．↓あぷらなーとさんの結果<br><img src="/images/00000046-aflak-improc-01/tw02.png" alt="あぷらなーとさんの結果"></p>
 <p>ある程度インタラクティブに拡大したり，移動したりといった操作ができるビューアができましたので今はこれで良しとしておきます．やったぜ．</p>
 <p>全体のビジュアルプログラムはこんな感じ．少し複雑（？）ですが，<strong>上に書いた流れをそのまま表現</strong>しているだけです．<br><img src="/images/00000046-aflak-improc-01/02.jpg" alt="ダークノイズ解析のビジュアルプログラム"><br>例えばこのプログラムで「中央値画像を生成」の部分を「平均値画像を生成」するようなノードに変更すれば，横軸が平均値になったようなプロットを得たりといったことが<strong>誰でもコーディングなしで</strong>できるようになるわけです．どちらかの対数に変換するノードを消せば，片対数のプロットも作れたりします．以上！</p>
 <h4 id="おまけ-Fitsデータのカラー画像解釈"><a href="#おまけ-Fitsデータのカラー画像解釈" class="headerlink" title="おまけ. Fitsデータのカラー画像解釈"></a>おまけ. Fitsデータのカラー画像解釈</h4><p>研究では輝度単一の値をカラーテーブルで変換することでしかデータを見てこなかったので，普通の天体画像のように3チャンネルあるような Fits データをカラー画像解釈できるようにしていきます．つまり，<strong>形状が (3, 画像横幅，画像縦幅) の “color_image” タグがついた三次元データをカラー画像と解釈して描画</strong>することになります．<br>チャンネル取り出しだけですが，<a target="_blank" rel="noopener" href="https://fornax.hateblo.jp/entry/20210103/1609605334">ぐらすのすちさんも似たようなこと</a>をやっています．</p>
-<pre><code class="language-Rust">Some(tag) =&gt; match tag.as_ref() &#123;
-    &quot;color_image&quot; =&gt; match self.scalar().dim().ndim() &#123;
-        3 =&gt; &#123;
-            /*省略*/
-            if new_incoming_image &#123;
-                /*省略*/
-                if let Err(e) = state.set_color_image(
+<pre><code class="hljs Rust"><span class="hljs-title function_ invoke__">Some</span>(tag) =&gt; <span class="hljs-keyword">match</span> tag.<span class="hljs-title function_ invoke__">as_ref</span>() &#123;
+    <span class="hljs-string">&quot;color_image&quot;</span> =&gt; <span class="hljs-keyword">match</span> <span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">scalar</span>().<span class="hljs-title function_ invoke__">dim</span>().<span class="hljs-title function_ invoke__">ndim</span>() &#123;
+        <span class="hljs-number">3</span> =&gt; &#123;
+            <span class="hljs-comment">/*省略*/</span>
+            <span class="hljs-keyword">if</span> new_incoming_image &#123;
+                <span class="hljs-comment">/*省略*/</span>
+                <span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> <span class="hljs-variable">Err</span>(e) = state.<span class="hljs-title function_ invoke__">set_color_image</span>(
                     image_ref,
                     ctx.created_on,
                     ctx.gl_ctx,
                     texture_id,
                     ctx.textures,
                 ) &#123;
-                    ui.text(format!(&quot;Error on creating image! &#123;&#125;&quot;, e));
+                    ui.<span class="hljs-title function_ invoke__">text</span>(<span class="hljs-built_in">format!</span>(<span class="hljs-string">&quot;Error on creating image! &#123;&#125;&quot;</span>, e));
                 &#125;
             &#125;
-            if let Err(e) = ui.color_image(
+            <span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> <span class="hljs-variable">Err</span>(e) = ui.<span class="hljs-title function_ invoke__">color_image</span>(
                 ctx.gl_ctx,
                 ctx.textures,
                 texture_id,
                 unit,
-                x_transform.as_ref(),
-                y_transform.as_ref(),
+                x_transform.<span class="hljs-title function_ invoke__">as_ref</span>(),
+                y_transform.<span class="hljs-title function_ invoke__">as_ref</span>(),
                 state,
             ) &#123;
-                ui.text(format!(&quot;Error on drawing image! &#123;&#125;&quot;, e));
+                ui.<span class="hljs-title function_ invoke__">text</span>(<span class="hljs-built_in">format!</span>(<span class="hljs-string">&quot;Error on drawing image! &#123;&#125;&quot;</span>, e));
             &#125;
         &#125;
         _ =&gt; &#123;
-            ui.text(format!(
-                &quot;Unimplemented for color image of dimension &#123;&#125;&quot;,
-                self.scalar().ndim()
+            ui.<span class="hljs-title function_ invoke__">text</span>(<span class="hljs-built_in">format!</span>(
+                <span class="hljs-string">&quot;Unimplemented for color image of dimension &#123;&#125;&quot;</span>,
+                <span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">scalar</span>().<span class="hljs-title function_ invoke__">ndim</span>()
             ));
         &#125;
     &#125;,
     _ =&gt; &#123;
-        ui.text(format!(
-            &quot;Unimplemented for visualization tag &#123;&#125;&quot;,
-            self.scalar().ndim()
+        ui.<span class="hljs-title function_ invoke__">text</span>(<span class="hljs-built_in">format!</span>(
+            <span class="hljs-string">&quot;Unimplemented for visualization tag &#123;&#125;&quot;</span>,
+            <span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">scalar</span>().<span class="hljs-title function_ invoke__">ndim</span>()
         ));
     &#125;
 &#125;,
 
-//state.set_color_image()の中身
-pub fn set_color_image&lt;F&gt;(
-    &amp;mut self,
+<span class="hljs-comment">//state.set_color_image()の中身</span>
+<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">set_color_image</span>&lt;F&gt;(
+    &amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>,
     image: I,
     created_on: Instant,
     ctx: &amp;F,
     texture_id: TextureId,
-    textures: &amp;mut Textures,
-) -&gt; Result&lt;(), Error&gt;
-where
+    textures: &amp;<span class="hljs-keyword">mut</span> Textures,
+) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Result</span>&lt;(), Error&gt;
+<span class="hljs-keyword">where</span>
     F: Facade,
 &#123;
-    self.image =
-        image::Image::color_new(image, created_on, ctx, texture_id, textures, &amp;self.lut)?;
-    Ok(())
+    <span class="hljs-keyword">self</span>.image =
+        image::Image::<span class="hljs-title function_ invoke__">color_new</span>(image, created_on, ctx, texture_id, textures, &amp;<span class="hljs-keyword">self</span>.lut)?;
+    <span class="hljs-title function_ invoke__">Ok</span>(())
 &#125;
 
-//image::Image::color_new()の中身
-pub fn color_new&lt;F&gt;(
+<span class="hljs-comment">//image::Image::color_new()の中身</span>
+<span class="hljs-keyword">pub</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">color_new</span>&lt;F&gt;(
     image: I,
     created_on: Instant,
     ctx: &amp;F,
     texture_id: TextureId,
-    textures: &amp;mut Textures,
+    textures: &amp;<span class="hljs-keyword">mut</span> Textures,
     lut: &amp;ColorLUT,
-) -&gt; Result&lt;Image&lt;I&gt;, Error&gt;
-where
+) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Result</span>&lt;Image&lt;I&gt;, Error&gt;
+<span class="hljs-keyword">where</span>
     F: Facade,
 &#123;
-    let (vmin, vmax, tex_size, hist) = &#123;
-        let image = coerce_to_array_view3(&amp;image);
-        let vmin = lims::get_vmin(&amp;image)?;
-        let vmax = lims::get_vmax(&amp;image)?;
-        let raw = make_raw_image_rgb(&amp;image, vmin, vmax, lut)?;
-        let gl_texture = Texture2d::new(ctx, raw)?;
-        let tex_size = gl_texture.dimensions();
-        let tex_size = (tex_size.0 as f32, tex_size.1 as f32);
-        textures.replace(
+    <span class="hljs-keyword">let</span> (vmin, vmax, tex_size, hist) = &#123;
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">image</span> = <span class="hljs-title function_ invoke__">coerce_to_array_view3</span>(&amp;image);
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">vmin</span> = lims::<span class="hljs-title function_ invoke__">get_vmin</span>(&amp;image)?;
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">vmax</span> = lims::<span class="hljs-title function_ invoke__">get_vmax</span>(&amp;image)?;
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">raw</span> = <span class="hljs-title function_ invoke__">make_raw_image_rgb</span>(&amp;image, vmin, vmax, lut)?;
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">gl_texture</span> = Texture2d::<span class="hljs-title function_ invoke__">new</span>(ctx, raw)?;
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">tex_size</span> = gl_texture.<span class="hljs-title function_ invoke__">dimensions</span>();
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">tex_size</span> = (tex_size.<span class="hljs-number">0</span> <span class="hljs-keyword">as</span> <span class="hljs-type">f32</span>, tex_size.<span class="hljs-number">1</span> <span class="hljs-keyword">as</span> <span class="hljs-type">f32</span>);
+        textures.<span class="hljs-title function_ invoke__">replace</span>(
             texture_id,
             Texture &#123;
-                texture: Rc::new(gl_texture),
+                texture: Rc::<span class="hljs-title function_ invoke__">new</span>(gl_texture),
                 sampler: SamplerBehavior &#123;
-                    ..Default::default()
+                    ..<span class="hljs-built_in">Default</span>::<span class="hljs-title function_ invoke__">default</span>()
                 &#125;,
             &#125;,
         );
-        let hist = hist::histogram_color(&amp;image, vmin, vmax);
+        <span class="hljs-keyword">let</span> <span class="hljs-variable">hist</span> = hist::<span class="hljs-title function_ invoke__">histogram_color</span>(&amp;image, vmin, vmax);
         (vmin, vmax, tex_size, hist)
     &#125;;
 
-    Ok(Image &#123;
+    <span class="hljs-title function_ invoke__">Ok</span>(Image &#123;
         vmin,
         vmax,
         tex_size,
-        created_on: Some(created_on),
-        data: Some(image),
+        created_on: <span class="hljs-title function_ invoke__">Some</span>(created_on),
+        data: <span class="hljs-title function_ invoke__">Some</span>(image),
         hist,
     &#125;)
 &#125;
 
-//make_raw_image_rgb()の中身
-fn make_raw_image_rgb&lt;S&gt;(
+<span class="hljs-comment">//make_raw_image_rgb()の中身</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">make_raw_image_rgb</span>&lt;S&gt;(
     image: &amp;ArrayBase&lt;S, Ix3&gt;,
-    vmin: f32,
-    vmax: f32,
+    vmin: <span class="hljs-type">f32</span>,
+    vmax: <span class="hljs-type">f32</span>,
     _lut: &amp;ColorLUT,
-) -&gt; Result&lt;RawImage2d&lt;&#39;static, u8&gt;, Error&gt;
-where
-    S: Data&lt;Elem = f32&gt;,
+) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Result</span>&lt;RawImage2d&lt;<span class="hljs-symbol">&#x27;static</span>, <span class="hljs-type">u8</span>&gt;, Error&gt;
+<span class="hljs-keyword">where</span>
+    S: Data&lt;Elem = <span class="hljs-type">f32</span>&gt;,
 &#123;
-    let (_c, m, n) = image.dim();
-    let mut data = Vec::with_capacity(3 * n * m);
-    if !vmin.is_nan() &amp;&amp; !vmax.is_nan() &#123;
-        for (_, slice) in image.axis_iter(Axis(1)).enumerate() &#123;
-            for (_, channel) in slice.axis_iter(Axis(1)).enumerate() &#123;
-                let r = channel[0] / 65535.0 * 255.0; //16bit -&gt; 8bit
-                let g = channel[1] / 65535.0 * 255.0;
-                let b = channel[2] / 65535.0 * 255.0;
-                data.push(r as u8);
-                data.push(g as u8);
-                data.push(b as u8);
+    <span class="hljs-keyword">let</span> (_c, m, n) = image.<span class="hljs-title function_ invoke__">dim</span>();
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">data</span> = <span class="hljs-type">Vec</span>::<span class="hljs-title function_ invoke__">with_capacity</span>(<span class="hljs-number">3</span> * n * m);
+    <span class="hljs-keyword">if</span> !vmin.<span class="hljs-title function_ invoke__">is_nan</span>() &amp;&amp; !vmax.<span class="hljs-title function_ invoke__">is_nan</span>() &#123;
+        <span class="hljs-keyword">for</span> (_, slice) <span class="hljs-keyword">in</span> image.<span class="hljs-title function_ invoke__">axis_iter</span>(<span class="hljs-title function_ invoke__">Axis</span>(<span class="hljs-number">1</span>)).<span class="hljs-title function_ invoke__">enumerate</span>() &#123;
+            <span class="hljs-keyword">for</span> (_, channel) <span class="hljs-keyword">in</span> slice.<span class="hljs-title function_ invoke__">axis_iter</span>(<span class="hljs-title function_ invoke__">Axis</span>(<span class="hljs-number">1</span>)).<span class="hljs-title function_ invoke__">enumerate</span>() &#123;
+                <span class="hljs-keyword">let</span> <span class="hljs-variable">r</span> = channel[<span class="hljs-number">0</span>] / <span class="hljs-number">65535.0</span> * <span class="hljs-number">255.0</span>; <span class="hljs-comment">//16bit -&gt; 8bit</span>
+                <span class="hljs-keyword">let</span> <span class="hljs-variable">g</span> = channel[<span class="hljs-number">1</span>] / <span class="hljs-number">65535.0</span> * <span class="hljs-number">255.0</span>;
+                <span class="hljs-keyword">let</span> <span class="hljs-variable">b</span> = channel[<span class="hljs-number">2</span>] / <span class="hljs-number">65535.0</span> * <span class="hljs-number">255.0</span>;
+                data.<span class="hljs-title function_ invoke__">push</span>(r <span class="hljs-keyword">as</span> <span class="hljs-type">u8</span>);
+                data.<span class="hljs-title function_ invoke__">push</span>(g <span class="hljs-keyword">as</span> <span class="hljs-type">u8</span>);
+                data.<span class="hljs-title function_ invoke__">push</span>(b <span class="hljs-keyword">as</span> <span class="hljs-type">u8</span>);
             &#125;
         &#125;
-        Ok(RawImage2d &#123;
-            data: Cow::Owned(data),
-            width: n as u32,
-            height: m as u32,
+        <span class="hljs-title function_ invoke__">Ok</span>(RawImage2d &#123;
+            data: Cow::<span class="hljs-title function_ invoke__">Owned</span>(data),
+            width: n <span class="hljs-keyword">as</span> <span class="hljs-type">u32</span>,
+            height: m <span class="hljs-keyword">as</span> <span class="hljs-type">u32</span>,
             format: ClientFormat::U8U8U8,
         &#125;)
-    &#125; else &#123;
-        Err(Error::Msg(&quot;vmin, vmax not set&quot;))
+    &#125; <span class="hljs-keyword">else</span> &#123;
+        <span class="hljs-title function_ invoke__">Err</span>(Error::<span class="hljs-title function_ invoke__">Msg</span>(<span class="hljs-string">&quot;vmin, vmax not set&quot;</span>))
     &#125;
 &#125;
-//===============================================================================================================
+<span class="hljs-comment">//===============================================================================================================</span>
 
-//最初のコードのui.color_image()の中身
-fn color_image&lt;F, FX, FY, I&gt;(
-    &amp;self,
+<span class="hljs-comment">//最初のコードのui.color_image()の中身</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">color_image</span>&lt;F, FX, FY, I&gt;(
+    &amp;<span class="hljs-keyword">self</span>,
     _ctx: &amp;F,
-    _textures: &amp;mut Textures,
+    _textures: &amp;<span class="hljs-keyword">mut</span> Textures,
     texture_id: TextureId,
-    vunit: &amp;str,
-    xaxis: Option&lt;&amp;AxisTransform&lt;FX&gt;&gt;,
-    yaxis: Option&lt;&amp;AxisTransform&lt;FY&gt;&gt;,
-    state: &amp;mut State&lt;I&gt;,
-) -&gt; Result&lt;(), Error&gt;
-where
+    vunit: &amp;<span class="hljs-type">str</span>,
+    xaxis: <span class="hljs-type">Option</span>&lt;&amp;AxisTransform&lt;FX&gt;&gt;,
+    yaxis: <span class="hljs-type">Option</span>&lt;&amp;AxisTransform&lt;FY&gt;&gt;,
+    state: &amp;<span class="hljs-keyword">mut</span> State&lt;I&gt;,
+) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Result</span>&lt;(), Error&gt;
+<span class="hljs-keyword">where</span>
     F: Facade,
-    FX: Fn(f32) -&gt; f32,
-    FY: Fn(f32) -&gt; f32,
-    I: Borrow&lt;ArrayD&lt;f32&gt;&gt;,
+    FX: <span class="hljs-title function_ invoke__">Fn</span>(<span class="hljs-type">f32</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">f32</span>,
+    FY: <span class="hljs-title function_ invoke__">Fn</span>(<span class="hljs-type">f32</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">f32</span>,
+    I: Borrow&lt;ArrayD&lt;<span class="hljs-type">f32</span>&gt;&gt;,
 &#123;
-    let window_pos = self.window_pos();
-    let cursor_pos = self.cursor_screen_pos();
-    let window_size = self.window_size();
-    const HIST_WIDTH: f32 = 40.0;
-    const BAR_WIDTH: f32 = 20.0;
-    const RIGHT_PADDING: f32 = 100.0;
-    let image_max_size = (
-        window_size[0] - HIST_WIDTH - BAR_WIDTH - RIGHT_PADDING,
-        window_size[1] - (cursor_pos[1] - window_pos[1]),
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">window_pos</span> = <span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">window_pos</span>();
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">cursor_pos</span> = <span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">cursor_screen_pos</span>();
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">window_size</span> = <span class="hljs-keyword">self</span>.<span class="hljs-title function_ invoke__">window_size</span>();
+    <span class="hljs-keyword">const</span> HIST_WIDTH: <span class="hljs-type">f32</span> = <span class="hljs-number">40.0</span>;
+    <span class="hljs-keyword">const</span> BAR_WIDTH: <span class="hljs-type">f32</span> = <span class="hljs-number">20.0</span>;
+    <span class="hljs-keyword">const</span> RIGHT_PADDING: <span class="hljs-type">f32</span> = <span class="hljs-number">100.0</span>;
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">image_max_size</span> = (
+        window_size[<span class="hljs-number">0</span>] - HIST_WIDTH - BAR_WIDTH - RIGHT_PADDING,
+        window_size[<span class="hljs-number">1</span>] - (cursor_pos[<span class="hljs-number">1</span>] - window_pos[<span class="hljs-number">1</span>]),
     );
-    let ([_p, _size], _x_label_height) =
-        state.show_image(self, texture_id, vunit, xaxis, yaxis, image_max_size)?;
-    Ok(())
+    <span class="hljs-keyword">let</span> ([_p, _size], _x_label_height) =
+        state.<span class="hljs-title function_ invoke__">show_image</span>(<span class="hljs-keyword">self</span>, texture_id, vunit, xaxis, yaxis, image_max_size)?;
+    <span class="hljs-title function_ invoke__">Ok</span>(())
 &#125;
 
-//state.show_image()の中身
-pub(crate) fn show_image&lt;FX, FY&gt;(
-    &amp;mut self,
+<span class="hljs-comment">//state.show_image()の中身</span>
+<span class="hljs-title function_ invoke__">pub</span>(<span class="hljs-keyword">crate</span>) <span class="hljs-keyword">fn</span> <span class="hljs-title function_">show_image</span>&lt;FX, FY&gt;(
+    &amp;<span class="hljs-keyword">mut</span> <span class="hljs-keyword">self</span>,
     ui: &amp;Ui,
     texture_id: TextureId,
-    vunit: &amp;str,
-    xaxis: Option&lt;&amp;AxisTransform&lt;FX&gt;&gt;,
-    yaxis: Option&lt;&amp;AxisTransform&lt;FY&gt;&gt;,
-    max_size: (f32, f32),
-) -&gt; Result&lt;([[f32; 2]; 2], f32), Error&gt;
-where
-    FX: Fn(f32) -&gt; f32,
-    FY: Fn(f32) -&gt; f32,
+    vunit: &amp;<span class="hljs-type">str</span>,
+    xaxis: <span class="hljs-type">Option</span>&lt;&amp;AxisTransform&lt;FX&gt;&gt;,
+    yaxis: <span class="hljs-type">Option</span>&lt;&amp;AxisTransform&lt;FY&gt;&gt;,
+    max_size: (<span class="hljs-type">f32</span>, <span class="hljs-type">f32</span>),
+) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Result</span>&lt;([[<span class="hljs-type">f32</span>; <span class="hljs-number">2</span>]; <span class="hljs-number">2</span>], <span class="hljs-type">f32</span>), Error&gt;
+<span class="hljs-keyword">where</span>
+    FX: <span class="hljs-title function_ invoke__">Fn</span>(<span class="hljs-type">f32</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">f32</span>,
+    FY: <span class="hljs-title function_ invoke__">Fn</span>(<span class="hljs-type">f32</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">f32</span>,
 &#123;
-    /*省略*/
-    ChildWindow::new(im_str!(&quot;scrolling_region&quot;))
-        .border(false)
-        .scroll_bar(false)
-        .movable(false)
-        .scrollable(false)
-        .horizontal_scrollbar(false)
-        .build(ui, || &#123;
-            /*省略*/
-            Image::new(texture_id, size).build(ui);
-            /*1000行くらい省略…*/
+    <span class="hljs-comment">/*省略*/</span>
+    ChildWindow::<span class="hljs-title function_ invoke__">new</span>(im_str!(<span class="hljs-string">&quot;scrolling_region&quot;</span>))
+        .<span class="hljs-title function_ invoke__">border</span>(<span class="hljs-literal">false</span>)
+        .<span class="hljs-title function_ invoke__">scroll_bar</span>(<span class="hljs-literal">false</span>)
+        .<span class="hljs-title function_ invoke__">movable</span>(<span class="hljs-literal">false</span>)
+        .<span class="hljs-title function_ invoke__">scrollable</span>(<span class="hljs-literal">false</span>)
+        .<span class="hljs-title function_ invoke__">horizontal_scrollbar</span>(<span class="hljs-literal">false</span>)
+        .<span class="hljs-title function_ invoke__">build</span>(ui, || &#123;
+            <span class="hljs-comment">/*省略*/</span>
+            Image::<span class="hljs-title function_ invoke__">new</span>(texture_id, size).<span class="hljs-title function_ invoke__">build</span>(ui);
+            <span class="hljs-comment">/*1000行くらい省略…*/</span>
         &#125;);
-    /*省略*/
-    Ok(([p, size], x_labels_height))
-&#125;
-</code></pre>
+    <span class="hljs-comment">/*省略*/</span>
+    <span class="hljs-title function_ invoke__">Ok</span>(([p, size], x_labels_height))
+&#125;</code></pre>
 <p><img src="/images/00000046-aflak-improc-01/tw03.jpg" alt="カラー画像の表示"><br>カラー画像がでました！めでたしめでたし．</p>
 <h3 id="おわりに"><a href="#おわりに" class="headerlink" title="おわりに"></a>おわりに</h3><p>とりあえず三が日を使って Raw データ処理のスタートアップができました．今後は<strong>位置合わせコンポジットやコンポジット後の単一画像の画像処理など，PixInsight も導入したのでアルゴリズムを勉強しながら実装</strong>していく予定です．モジュールを分割して具体例と一緒に提供することで，僕以外の方にも使っていただけるようなものが作れたらいいなあと思っています．また何か成果が出たら記事にしたいと思います．<br>それでは．</p>
 </article><section class="jump-container is-flex is-justify-content-space-between my-6"><!-- em is empty placeholder--><a class="button is-default" href="/2021/01/14/00000047-aflak-improc-02/" title="自作プログラムで画像処理（カラーヒストグラム表示～トーンカーブ作成まで）"><i class="iconfont icon-prev mr-2 has-text-grey"></i><span class="has-text-weight-semibold">Previous: 自作プログラムで画像処理（カラーヒストグラム表示～トーンカーブ作成まで）</span></a><a class="button is-default" href="/2020/12/29/00000045-2020-goals/" title="2020年の目標を振り返る"><span class="has-text-weight-semibold">Next: 2020年の目標を振り返る</span><i class="iconfont icon-next ml-2 has-text-grey"></i></a></section><article class="mt-6 comment-container"><script async repo="dabokun/dabokun.github.io" src="https://utteranc.es/client.js" issue-term="pathname" theme="preferred-color-scheme"></script></article></div></div></main></main><footer class="is-flex is-flex-direction-column is-align-items-center is-flex-shrink-0 is-family-serif"><section class="sns-container"><a title="twitter" target="_blank" rel="noopener nofollow" href="//twitter.com/astrodabo"><i class="iconfont icon-twitter"></i></a><!-- Github--><a title="github" target="_blank" rel="noopener nofollow" href="//github.com/dabokun"><i class="iconfont icon-github"></i></a><!-- Ins--><!-- RSS--><!-- 知乎--><!-- 领英--><!-- 脸书--></section><p><span>Copyright ©</span><span> dabokun 2025</span></p><div class="is-flex is-justify-content-center is-flex-wrap-wrap"><p>Powered by Hexo &verbar;&nbsp;</p><p class="is-flex is-justify-content-center"><a title="Hexo theme author" target="_blank" rel="noopener" href="//github.com/haojen">Theme by Haojen&nbsp;</a></p><div style="margin-top: 2px"><a class="github-button" title="github-button" target="_blank" rel="noopener" href="https://github.com/haojen/hexo-theme-Claudia" data-color-scheme="no-preference: light; light: light; dark: dark;" data-show-count="true"></a></div></div><div><span></span></div></footer><script async defer src="https://buttons.github.io/buttons.js"></script><script src="/js/jquery-3.6.1.min.js"></script><script src="/js/jquery-fancybox.min.js"></script><script src="/js/img_zoom.js"></script><script src="/js/post.js"></script></body></html>

@@ -27,34 +27,162 @@ The PixInsight Class Library (PCL) is a C++ development framework to build PixIn
 </ol>
 <p>みたいな流れになります．<br>2，3については，Rust の build script を使ってビルド時によしなにやってくれるようにします．<br>順番にやっていきましょう．</p>
 <h4 id="呼び出したい機能が格納されたスタティックライブラリを用意"><a href="#呼び出したい機能が格納されたスタティックライブラリを用意" class="headerlink" title="呼び出したい機能が格納されたスタティックライブラリを用意"></a>呼び出したい機能が格納されたスタティックライブラリを用意</h4><p>呼び出したい機能が格納されたスタティックライブラリとは，PCL のことです．ただ，PCL はソースコードの形で提供されているため，頑張ってビルドします．<br>まず PCL リポジトリをクローン（ローカルにダウンロード）</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git clone https://gitlab.com/pixinsight/PCL/</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs plaintext">$ git clone https://gitlab.com/pixinsight/PCL/</code></pre>
 <p>PCLDIR, PCLBINDIR64, PCLLIBDIR64, PCLINCDIR, PCLSRCDIRにパスを設定．（<a target="_blank" rel="noopener" href="https://gitlab.com/pixinsight/PCL/">こちら</a>を参考に）<br>Visual Studio 2019 を開き，\PCL\src\pcl\windows\vc16\PCL.vcxproj を開く．ビルドの設定をRelease, x64にします．そのままやるとこの後エラーが出るので，以下のコードをちょっと修正しました．</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//DrizzleData.cpp 481行目あたり，</span></span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span> ( element.<span class="built_in">Name</span>() == <span class="string">&quot;CFASourceImage&quot;</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="comment">// optional</span></span><br><span class="line">    m_cfaSourceFilePath = element.<span class="built_in">Text</span>().<span class="built_in">Trimmed</span>();</span><br><span class="line">    m_cfaSourcePattern = element.<span class="built_in">AttributeValue</span>( <span class="string">&quot;pattern&quot;</span> );</span><br><span class="line">    String channel = element.<span class="built_in">AttributeValue</span>( <span class="string">&quot;channel&quot;</span> );</span><br><span class="line">    <span class="keyword">if</span> ( !channel.<span class="built_in">IsEmpty</span>() )</span><br><span class="line">      <span class="comment">//intへのキャストを追加，たぶんオーバーロードがうまくいってない</span></span><br><span class="line">      m_cfaSourceChannel = <span class="built_in">Range</span>( (<span class="type">int</span>)channel.<span class="built_in">ToInt</span>(), <span class="number">-1</span>, int32_max );</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs c++"><span class="hljs-comment">//DrizzleData.cpp 481行目あたり，</span>
+  <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> ( element.<span class="hljs-built_in">Name</span>() == <span class="hljs-string">&quot;CFASourceImage&quot;</span> )
+  &#123;
+    <span class="hljs-comment">// optional</span>
+    m_cfaSourceFilePath = element.<span class="hljs-built_in">Text</span>().<span class="hljs-built_in">Trimmed</span>();
+    m_cfaSourcePattern = element.<span class="hljs-built_in">AttributeValue</span>( <span class="hljs-string">&quot;pattern&quot;</span> );
+    String channel = element.<span class="hljs-built_in">AttributeValue</span>( <span class="hljs-string">&quot;channel&quot;</span> );
+    <span class="hljs-keyword">if</span> ( !channel.<span class="hljs-built_in">IsEmpty</span>() )
+      <span class="hljs-comment">//intへのキャストを追加，たぶんオーバーロードがうまくいってない</span>
+      m_cfaSourceChannel = <span class="hljs-built_in">Range</span>( (<span class="hljs-type">int</span>)channel.<span class="hljs-built_in">ToInt</span>(), <span class="hljs-number">-1</span>, int32_max );
+  &#125;</code></pre>
 
 <p>コンパイラによってはうまく動くのかもしれませんが，少なくとも自分の環境では無理でしたので，今のとここのような修正になっています．<br>ビルドすると，PCLLIBDIR64 に設定したパスにスタティックライブラリができます．</p>
 <p><img src="/images/00000058-call-pcl/02.jpg" alt="PCLのスタティックライブラリができた！"></p>
 <h4 id="C-側のインタフェースを用意，PCL-とリンク，Rust-バインディングの自動生成"><a href="#C-側のインタフェースを用意，PCL-とリンク，Rust-バインディングの自動生成" class="headerlink" title="C++ 側のインタフェースを用意，PCL とリンク，Rust バインディングの自動生成"></a>C++ 側のインタフェースを用意，PCL とリンク，Rust バインディングの自動生成</h4><p>次に，C++ 側のインタフェースを用意します．</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//pcl_cpp.hpp</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Pcl_rs</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Pcl_rs</span>();</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">print_pcl_version</span><span class="params">(<span class="type">void</span>)</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//pcl_cpp.cpp</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> __PCL_WINDOWS</span></span><br><span class="line"><span class="comment">// include the local headers</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;pcl/Version.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;pcl_cpp.hpp&quot;</span></span></span><br><span class="line"></span><br><span class="line">Pcl_rs::<span class="built_in">Pcl_rs</span>() &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Pcl_rs::print_pcl_version</span><span class="params">(<span class="type">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="comment">//ここでpclの機能を実際に呼んでます</span></span><br><span class="line">  std::cout &lt;&lt; pcl::Version::<span class="built_in">AsString</span>() &lt;&lt; std::endl;</span><br><span class="line">  <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs c++"><span class="hljs-comment">//pcl_cpp.hpp</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Pcl_rs</span>
+&#123;
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-built_in">Pcl_rs</span>();
+    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">print_pcl_version</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span></span>;
+&#125;;</code></pre>
+<pre><code class="hljs c++"><span class="hljs-comment">//pcl_cpp.cpp</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> __PCL_WINDOWS</span>
+<span class="hljs-comment">// include the local headers</span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;pcl/Version.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;pcl_cpp.hpp&quot;</span></span>
+
+Pcl_rs::<span class="hljs-built_in">Pcl_rs</span>() &#123;&#125;
+
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">Pcl_rs::print_pcl_version</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span></span>
+<span class="hljs-function"></span>&#123;
+  <span class="hljs-comment">//ここでpclの機能を実際に呼んでます</span>
+  std::cout &lt;&lt; pcl::Version::<span class="hljs-built_in">AsString</span>() &lt;&lt; std::endl;
+  <span class="hljs-keyword">return</span>;
+&#125;</code></pre>
 <p>pcl_cpp.cpp は CMake を使ってビルドするので，CMakeList.txtを用意します．</p>
-<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#CMakeList.txt</span></span><br><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.5</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">project</span>(pcl_cpp)</span><br><span class="line"><span class="keyword">set</span>(CMAKE_CXX_STANDARD <span class="number">11</span>)</span><br><span class="line"><span class="keyword">set</span>(<span class="keyword">TARGET</span> pcl_cpp)</span><br><span class="line"></span><br><span class="line"><span class="comment">#自身の環境によって変更してください</span></span><br><span class="line"><span class="keyword">include_directories</span>(/path/to/PCLINCDIR)</span><br><span class="line"></span><br><span class="line"><span class="keyword">add_library</span>(<span class="variable">$&#123;TARGET&#125;</span></span><br><span class="line">  STATIC</span><br><span class="line">    pcl_cpp.cpp</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">target_link_libraries</span>(<span class="variable">$&#123;TARGET&#125;</span></span><br><span class="line">  PRIVATE</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">install</span> (TARGETS <span class="variable">$&#123;TARGET&#125;</span> DESTINATION .)</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs CMake"><span class="hljs-comment">#CMakeList.txt</span>
+<span class="hljs-keyword">cmake_minimum_required</span>(VERSION <span class="hljs-number">3.5</span>)
+
+<span class="hljs-keyword">project</span>(pcl_cpp)
+<span class="hljs-keyword">set</span>(CMAKE_CXX_STANDARD <span class="hljs-number">11</span>)
+<span class="hljs-keyword">set</span>(<span class="hljs-keyword">TARGET</span> pcl_cpp)
+
+<span class="hljs-comment">#自身の環境によって変更してください</span>
+<span class="hljs-keyword">include_directories</span>(/path/to/PCLINCDIR)
+
+<span class="hljs-keyword">add_library</span>(<span class="hljs-variable">$&#123;TARGET&#125;</span>
+  STATIC
+    pcl_cpp.cpp
+)
+
+<span class="hljs-keyword">target_link_libraries</span>(<span class="hljs-variable">$&#123;TARGET&#125;</span>
+  PRIVATE
+)
+
+<span class="hljs-keyword">install</span> (TARGETS <span class="hljs-variable">$&#123;TARGET&#125;</span> DESTINATION .)</code></pre>
 
 <p>Rust の ライブラリプロジェクトを用意します．これが本番アプリケーションという体です．<br>ライブラリプロジェクトなので，別のプログラムに移植することは簡単です．</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cargo new pcl-rs --lib //ライブラリプロジェクトを作る</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs plaintext">$ cargo new pcl-rs --lib //ライブラリプロジェクトを作る</code></pre>
 
 <p>上に書いた3つを以下のように配置します．</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">├─pcl-rs</span><br><span class="line">│  │  build.rs</span><br><span class="line">│  │  Cargo.toml</span><br><span class="line">│  │</span><br><span class="line">│  ├─src</span><br><span class="line">│  │  │  lib.rs</span><br><span class="line">│  │  │  main.rs</span><br><span class="line">│  │  │  </span><br><span class="line">│  │  └─pcl_cpp</span><br><span class="line">│  │          CMakeLists.txt</span><br><span class="line">│  │          pcl_cpp.cpp</span><br><span class="line">│  │          pcl_cpp.hpp</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs plaintext">├─pcl-rs
+│  │  build.rs
+│  │  Cargo.toml
+│  │
+│  ├─src
+│  │  │  lib.rs
+│  │  │  main.rs
+│  │  │  
+│  │  └─pcl_cpp
+│  │          CMakeLists.txt
+│  │          pcl_cpp.cpp
+│  │          pcl_cpp.hpp</code></pre>
 <p>触れていないファイルがいつかありますが後述します．<br>build.rs が 本番アプリケーションのビルド時に走るスクリプトです．ここでCMake，bindgenを使って，Rust から pcl_cpp.cpp の機能を使えるようにします．<br>まず Cargo.toml に依存ライブラリを記載．</p>
-<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Cargo.toml</span></span><br><span class="line"><span class="section">[dependencies]</span></span><br><span class="line"><span class="attr">libc</span> = <span class="string">&quot;0.2.51&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="section">[build-dependencies]</span></span><br><span class="line"><span class="attr">cc</span> = <span class="string">&quot;1.0.35&quot;</span></span><br><span class="line"><span class="attr">bindgen</span> = <span class="string">&quot;0.52&quot;</span></span><br><span class="line"><span class="attr">libc</span> = <span class="string">&quot;0.2.51&quot;</span></span><br><span class="line"><span class="attr">cmake</span> = <span class="string">&quot;0.1&quot;</span></span><br></pre></td></tr></table></figure>
+<pre><code class="hljs plaintext"># Cargo.toml
+[dependencies]
+libc = &quot;0.2.51&quot;
+
+[build-dependencies]
+cc = &quot;1.0.35&quot;
+bindgen = &quot;0.52&quot;
+libc = &quot;0.2.51&quot;
+cmake = &quot;0.1&quot;</code></pre>
 
 <p>ビルドスクリプトを書いていきます．</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//build.rs</span></span><br><span class="line"><span class="keyword">extern</span> <span class="keyword">crate</span> bindgen;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> cmake;</span><br><span class="line"><span class="keyword">use</span> std::env;</span><br><span class="line"><span class="keyword">use</span> std::path::PathBuf;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="comment">//pcl_cpp.cppかpcl_hpp.cppが変更された場合に走る</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;cargo:rerun-if-changed=src/pcl_cpp/pcl_cpp.cpp&quot;</span>);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;cargo:rerun-if-changed=src/pcl_cpp/pcl_cpp.hpp&quot;</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">let</span> <span class="variable">out_path</span> = PathBuf::<span class="title function_ invoke__">from</span>(env::<span class="title function_ invoke__">var</span>(<span class="string">&quot;OUT_DIR&quot;</span>).<span class="title function_ invoke__">unwrap</span>());</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">out_path</span> = out_path.<span class="title function_ invoke__">to_str</span>().<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//リンクするライブラリを探すパス</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;cargo:rustc-link-search=&#123;&#125;/build/Release/&quot;</span>, out_path);</span><br><span class="line">    <span class="comment">//自身の環境によって変更してください</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;cargo:rustc-link-search=native=/path/to/PCLLIBDIR64&quot;</span>);</span><br><span class="line">    <span class="comment">//Windows でビルドする場合に必要</span></span><br><span class="line">    <span class="comment">//User32.Lib の場所を指定</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;cargo:rustc-link-search=native=C:/Program Files (x86)/Windows Kits/10/Lib/10.0.19041.0/um/x64&quot;</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//リンクするライブラリ</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;cargo:rustc-link-lib=static=pcl_cpp&quot;</span>);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;cargo:rustc-link-lib=static=PCL-pxi&quot;</span>);</span><br><span class="line">    <span class="comment">//Windows でビルドする場合に必要</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;cargo:rustc-link-lib=static=User32&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">out_path</span> = PathBuf::<span class="title function_ invoke__">from</span>(env::<span class="title function_ invoke__">var</span>(<span class="string">&quot;OUT_DIR&quot;</span>).<span class="title function_ invoke__">unwrap</span>());</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">_dst</span> = cmake::Config::<span class="title function_ invoke__">new</span>(<span class="string">&quot;src/pcl_cpp&quot;</span>).<span class="title function_ invoke__">generator</span>(<span class="string">&quot;Visual Studio 16 2019&quot;</span>).<span class="title function_ invoke__">build</span>(); </span><br><span class="line">    </span><br><span class="line">    <span class="comment">//pcl_cpp.hpp からバインディング生成</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">bindings</span> = bindgen::Builder::<span class="title function_ invoke__">default</span>()</span><br><span class="line">        .<span class="title function_ invoke__">clang_arg</span>(<span class="string">&quot;-x&quot;</span>)</span><br><span class="line">        .<span class="title function_ invoke__">clang_arg</span>(<span class="string">&quot;c++&quot;</span>)</span><br><span class="line">        .<span class="title function_ invoke__">header</span>(<span class="string">&quot;src/pcl_cpp/pcl_cpp.hpp&quot;</span>)</span><br><span class="line">        .<span class="title function_ invoke__">parse_callbacks</span>(<span class="type">Box</span>::<span class="title function_ invoke__">new</span>(bindgen::CargoCallbacks))</span><br><span class="line">        .<span class="title function_ invoke__">generate</span>()</span><br><span class="line">        .<span class="title function_ invoke__">expect</span>(<span class="string">&quot;Unable to generate bindings&quot;</span>);</span><br><span class="line"></span><br><span class="line">    bindings</span><br><span class="line">        .<span class="title function_ invoke__">write_to_file</span>(out_path.<span class="title function_ invoke__">join</span>(<span class="string">&quot;pcl_cpp.rs&quot;</span>))</span><br><span class="line">        .<span class="title function_ invoke__">expect</span>(<span class="string">&quot;Couldn&#x27;t write bindings!&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs Rust"><span class="hljs-comment">//build.rs</span>
+<span class="hljs-keyword">extern</span> <span class="hljs-keyword">crate</span> bindgen;
+
+<span class="hljs-keyword">use</span> cmake;
+<span class="hljs-keyword">use</span> std::env;
+<span class="hljs-keyword">use</span> std::path::PathBuf;
+
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">main</span>() &#123;
+    <span class="hljs-comment">//pcl_cpp.cppかpcl_hpp.cppが変更された場合に走る</span>
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;cargo:rerun-if-changed=src/pcl_cpp/pcl_cpp.cpp&quot;</span>);
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;cargo:rerun-if-changed=src/pcl_cpp/pcl_cpp.hpp&quot;</span>);
+    
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">out_path</span> = PathBuf::<span class="hljs-title function_ invoke__">from</span>(env::<span class="hljs-title function_ invoke__">var</span>(<span class="hljs-string">&quot;OUT_DIR&quot;</span>).<span class="hljs-title function_ invoke__">unwrap</span>());
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">out_path</span> = out_path.<span class="hljs-title function_ invoke__">to_str</span>().<span class="hljs-title function_ invoke__">unwrap</span>();
+
+    <span class="hljs-comment">//リンクするライブラリを探すパス</span>
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;cargo:rustc-link-search=&#123;&#125;/build/Release/&quot;</span>, out_path);
+    <span class="hljs-comment">//自身の環境によって変更してください</span>
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;cargo:rustc-link-search=native=/path/to/PCLLIBDIR64&quot;</span>);
+    <span class="hljs-comment">//Windows でビルドする場合に必要</span>
+    <span class="hljs-comment">//User32.Lib の場所を指定</span>
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;cargo:rustc-link-search=native=C:/Program Files (x86)/Windows Kits/10/Lib/10.0.19041.0/um/x64&quot;</span>);
+    
+    <span class="hljs-comment">//リンクするライブラリ</span>
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;cargo:rustc-link-lib=static=pcl_cpp&quot;</span>);
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;cargo:rustc-link-lib=static=PCL-pxi&quot;</span>);
+    <span class="hljs-comment">//Windows でビルドする場合に必要</span>
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;cargo:rustc-link-lib=static=User32&quot;</span>);
+
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">out_path</span> = PathBuf::<span class="hljs-title function_ invoke__">from</span>(env::<span class="hljs-title function_ invoke__">var</span>(<span class="hljs-string">&quot;OUT_DIR&quot;</span>).<span class="hljs-title function_ invoke__">unwrap</span>());
+
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">_dst</span> = cmake::Config::<span class="hljs-title function_ invoke__">new</span>(<span class="hljs-string">&quot;src/pcl_cpp&quot;</span>).<span class="hljs-title function_ invoke__">generator</span>(<span class="hljs-string">&quot;Visual Studio 16 2019&quot;</span>).<span class="hljs-title function_ invoke__">build</span>(); 
+    
+    <span class="hljs-comment">//pcl_cpp.hpp からバインディング生成</span>
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">bindings</span> = bindgen::Builder::<span class="hljs-title function_ invoke__">default</span>()
+        .<span class="hljs-title function_ invoke__">clang_arg</span>(<span class="hljs-string">&quot;-x&quot;</span>)
+        .<span class="hljs-title function_ invoke__">clang_arg</span>(<span class="hljs-string">&quot;c++&quot;</span>)
+        .<span class="hljs-title function_ invoke__">header</span>(<span class="hljs-string">&quot;src/pcl_cpp/pcl_cpp.hpp&quot;</span>)
+        .<span class="hljs-title function_ invoke__">parse_callbacks</span>(<span class="hljs-type">Box</span>::<span class="hljs-title function_ invoke__">new</span>(bindgen::CargoCallbacks))
+        .<span class="hljs-title function_ invoke__">generate</span>()
+        .<span class="hljs-title function_ invoke__">expect</span>(<span class="hljs-string">&quot;Unable to generate bindings&quot;</span>);
+
+    bindings
+        .<span class="hljs-title function_ invoke__">write_to_file</span>(out_path.<span class="hljs-title function_ invoke__">join</span>(<span class="hljs-string">&quot;pcl_cpp.rs&quot;</span>))
+        .<span class="hljs-title function_ invoke__">expect</span>(<span class="hljs-string">&quot;Couldn&#x27;t write bindings!&quot;</span>);
+&#125;</code></pre>
 <p>スクリプトの細かい説明は省きますが，ビルドスクリプトが走ると，OUT_DIR で設定されたパス以下に pcl_cpp.rs バインディングが自動生成されます．<br>ここに，C++側のクラス，メソッドの情報などが入っています．</p>
 <h4 id="Rust-の本番アプリケーションから呼出し"><a href="#Rust-の本番アプリケーションから呼出し" class="headerlink" title="Rust の本番アプリケーションから呼出し"></a>Rust の本番アプリケーションから呼出し</h4><p>あとは Rust 側のライブラリでこのバインディングを読み込めばOKです．<br>lib.rs に以下を書いて，</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//lib.rs</span></span><br><span class="line"><span class="meta">#![allow(non_upper_case_globals)]</span></span><br><span class="line"><span class="meta">#![allow(non_camel_case_types)]</span></span><br><span class="line"><span class="meta">#![allow(non_snake_case)]</span></span><br><span class="line"><span class="meta">#![allow(dead_code)]</span></span><br><span class="line">include!(<span class="built_in">concat!</span>(<span class="built_in">env!</span>(<span class="string">&quot;OUT_DIR&quot;</span>), <span class="string">&quot;/pcl_cpp.rs&quot;</span>));</span><br><span class="line"><span class="comment">//自動生成されたバインディングを読み込む</span></span><br></pre></td></tr></table></figure>
+<pre><code class="hljs Rust"><span class="hljs-comment">//lib.rs</span>
+<span class="hljs-meta">#![allow(non_upper_case_globals)]</span>
+<span class="hljs-meta">#![allow(non_camel_case_types)]</span>
+<span class="hljs-meta">#![allow(non_snake_case)]</span>
+<span class="hljs-meta">#![allow(dead_code)]</span>
+include!(<span class="hljs-built_in">concat!</span>(<span class="hljs-built_in">env!</span>(<span class="hljs-string">&quot;OUT_DIR&quot;</span>), <span class="hljs-string">&quot;/pcl_cpp.rs&quot;</span>));
+<span class="hljs-comment">//自動生成されたバインディングを読み込む</span></code></pre>
 
 <p>main アプリケーションで実際に使ってみます．</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//main.rs</span></span><br><span class="line"><span class="keyword">use</span> pcl_rs::Pcl_rs;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">  <span class="comment">//本番アプリケーションではこのように unsafe ブロックで囲んで使う</span></span><br><span class="line">  <span class="keyword">unsafe</span> &#123;</span><br><span class="line">      <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">my_pcl</span> = Pcl_rs::<span class="title function_ invoke__">new</span>();</span><br><span class="line">      my_pcl.<span class="title function_ invoke__">print_pcl_version</span>();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs Rust"><span class="hljs-comment">//main.rs</span>
+<span class="hljs-keyword">use</span> pcl_rs::Pcl_rs;
+
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">main</span>() &#123;
+  <span class="hljs-comment">//本番アプリケーションではこのように unsafe ブロックで囲んで使う</span>
+  <span class="hljs-keyword">unsafe</span> &#123;
+      <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut </span><span class="hljs-variable">my_pcl</span> = Pcl_rs::<span class="hljs-title function_ invoke__">new</span>();
+      my_pcl.<span class="hljs-title function_ invoke__">print_pcl_version</span>();
+  &#125;
+&#125;</code></pre>
 <p>Rust でビルドすると…</p>
 <p><img src="/images/00000058-call-pcl/03.jpg" alt="PCL のバージョンが出た！"></p>
 <p>Rust で作ったライブラリから PCL を呼び出して，バージョンが出ました！めでたしめでたし．</p>
