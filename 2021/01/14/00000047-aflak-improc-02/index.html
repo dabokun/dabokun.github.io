@@ -287,7 +287,7 @@ RGB→HSV変換とH..."><meta property="og:image" content="http://dabokun.github
     <span class="hljs-title function_ invoke__">Ok</span>(<span class="hljs-title function_ invoke__">Some</span>(state))
   &#125;
 &#125;</code></pre>
-<p><video src="images/00000047-aflak-improc-02/tw01.mp4" width="674" height="360" controls></video><br>まだハードコードされているところとかがあり，要修正ですが貼っておきます．曲線の計算には現在 <a target="_blank" rel="noopener" href="http://naochang.me/?p=1119">Catmull-Rom Spline 曲線</a>を使っています．state にはコントロールポイントやルックアップテーブルの配列データ（現在大きさは256，0.0～256.0までの値が格納）が入っていて，次のように使います．</p>
+<p><video src="https://dabokun.github.io/images/00000047-aflak-improc-02/tw01.mp4" width="674" height="360" controls></video><br>まだハードコードされているところとかがあり，要修正ですが貼っておきます．曲線の計算には現在 <a target="_blank" rel="noopener" href="http://naochang.me/?p=1119">Catmull-Rom Spline 曲線</a>を使っています．state にはコントロールポイントやルックアップテーブルの配列データ（現在大きさは256，0.0～256.0までの値が格納）が入っていて，次のように使います．</p>
 <pre><code class="hljs Rust"><span class="hljs-keyword">let</span> <span class="hljs-variable">tone_curve_state</span> = ui.<span class="hljs-title function_ invoke__">tone_curve</span>(&amp;<span class="hljs-keyword">mut</span> state, &amp;draw_list);
 <span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> <span class="hljs-variable">Ok</span>(state) = tone_curve_state &#123;
   <span class="hljs-keyword">let</span> <span class="hljs-variable">state</span> = state.<span class="hljs-title function_ invoke__">unwrap</span>();
@@ -309,7 +309,7 @@ RGB→HSV変換とH..."><meta property="og:image" content="http://dabokun.github
     Unit::<span class="hljs-literal">None</span>,
   ))))
 &#125;</code></pre>
-<p><video src="images/00000047-aflak-improc-02/tw02.mp4" width="674" height="360" controls></video><br>ちなみに par_map_inplace という関数は ndarray_parallel という crate にあるもので，中の計算を並列処理してくれます．<br>普通に map で計算する場合と時間を比較するとこんな感じです．</p>
+<p><video src="https://dabokun.github.io/images/00000047-aflak-improc-02/tw02.mp4" width="674" height="360" controls></video><br>ちなみに par_map_inplace という関数は ndarray_parallel という crate にあるもので，中の計算を並列処理してくれます．<br>普通に map で計算する場合と時間を比較するとこんな感じです．</p>
 <p><img src="/images/00000047-aflak-improc-02/tw02.png" alt="並列処理のコード">画像にて失礼…．</p>
 <p><img src="/images/00000047-aflak-improc-02/tw03.png" alt="実際にparallelのほうが速くなっている">実行結果はこんな漢字です．<br>結構速くなってますね．他にも直せるところがあると思っています．</p>
 <p>さて，数日かけて色々とやりましたが次は何をしましょうか．悩み中です．しばらくは改善とリファクタリングですかね…．<br>なにか作って欲しいものやアドバイスがありましたらブログや Twitter で募集しております．<br>それでは．</p>

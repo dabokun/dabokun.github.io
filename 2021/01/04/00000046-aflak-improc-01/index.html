@@ -148,7 +148,7 @@ IOValue::<span class="hljs-title function_ invoke__">Paths</span>(<span class="h
         <span class="hljs-title function_ invoke__">Err</span>(_) =&gt; openresult,
     &#125;
 &#125;</code></pre>
-<p>cake_transform!マクロは，ノードを作るためのマクロです．引数で入力の型を指定し，-&gt;以降に出力の型を指定します．複数のデータを出力することも可能です．実際のデータは，<code>Vec&lt;Result&lt;IOValue, IOErr&gt;&gt;</code> という型のベクタで返しています．<br><video src="images/00000046-aflak-improc-01/tw01.mp4" width="674" height="360" controls></video><br>i番目の画像をスライスして取り出して表示できています．</p>
+<p>cake_transform!マクロは，ノードを作るためのマクロです．引数で入力の型を指定し，-&gt;以降に出力の型を指定します．複数のデータを出力することも可能です．実際のデータは，<code>Vec&lt;Result&lt;IOValue, IOErr&gt;&gt;</code> という型のベクタで返しています．<br><video src="https://dabokun.github.io/images/00000046-aflak-improc-01/tw01.mp4" width="674" height="360" controls></video><br>i番目の画像をスライスして取り出して表示できています．</p>
 <p>これで統計値計算への準備が整いましたので，<strong>このタイミングであぷらなーとさんに連絡をし，Nikon D3 と D810A のダークデータをいただきました（妥当性の検証ができるのはとても助かります，ありがたいです）</strong>．とりあえず D3 のダーク Raw データが開けそうなので，こちらを使っていきます．</p>
 <h4 id="その2-統計値計算（三次元データ→二次元データ）"><a href="#その2-統計値計算（三次元データ→二次元データ）" class="headerlink" title="その2. 統計値計算（三次元データ→二次元データ）"></a>その2. 統計値計算（三次元データ→二次元データ）</h4><p>三次元データを生成したら，<strong>各種統計値を計算する</strong>ノードを作っていきます．平均はすでに実装済みでしたし，分散と標準偏差も使っている <a target="_blank" rel="noopener" href="https://docs.rs/ndarray/0.14.0/ndarray/">ndarray</a> ライブラリに<a target="_blank" rel="noopener" href="https://docs.rs/ndarray/0.14.0/ndarray/struct.ArrayBase.html#method.mean_axis">計算するための関数</a>があります．中央値だけは，こちらで実装する必要がありそうだったので用意．</p>
 <pre><code class="hljs Rust">cake_transform!(
@@ -253,7 +253,7 @@ cake_transform!(
     ))))
 &#125;</code></pre>
 
-<p><video src="images/00000046-aflak-improc-01/tw02.mp4" width="674" height="360" controls></video><br>これは平均を計算するノード（average ノード）を使った例です．3枚のデタラメなライトフレームを単純に加算平均してます．</p>
+<p><video src="https://dabokun.github.io/images/00000046-aflak-improc-01/tw02.mp4" width="674" height="360" controls></video><br>これは平均を計算するノード（average ノード）を使った例です．3枚のデタラメなライトフレームを単純に加算平均してます．</p>
 <p>これで位置合わせなしコンポジット機構もできましたので，<strong>位置合わせのいらない master dark や master flat をコンポジットするのはこのプログラムだけで完結できる</strong>ということになります．やったー．</p>
 <h4 id="その3-リストへ変換"><a href="#その3-リストへ変換" class="headerlink" title="その3. リストへ変換"></a>その3. リストへ変換</h4><p>統計値計算をして得られるデータは二次元のデータです．各画素に，その位置の画素の統計値が入っています．ノイズ解析用 scatterplots ではこれらの統計値を横軸，縦軸の値として使用するため，<strong>一次元リストへ変換</strong>しておくと便利です．<br>ついでに常用対数を通した値にしておきます．</p>
 <pre><code class="hljs Rust">cake_transform!(
@@ -465,7 +465,7 @@ cake_transform!(
         &#125;);
     <span class="hljs-title function_ invoke__">Ok</span>(())
 &#125;</code></pre>
-<p>ソートされているので，dedup関数で近い位置のデータを削除して描画点を減らしているわけですが，dedup関数の仕様上思惑通りにはいきません．<strong>この関数は連続する要素しか見ないので，y軸の値が近いのデータペアを見つけられない</strong>ためです．ここは要改善です．<br>最終的には，こんな感じのデータが見られます．<br><video src="images/00000046-aflak-improc-01/tw03.mp4" width="674" height="360" controls></video><br><img src="/images/00000046-aflak-improc-01/tw01.jpg" alt="今回得られた結果">↑今回得られた散布図．↓あぷらなーとさんの結果<br><img src="/images/00000046-aflak-improc-01/tw02.png" alt="あぷらなーとさんの結果"></p>
+<p>ソートされているので，dedup関数で近い位置のデータを削除して描画点を減らしているわけですが，dedup関数の仕様上思惑通りにはいきません．<strong>この関数は連続する要素しか見ないので，y軸の値が近いのデータペアを見つけられない</strong>ためです．ここは要改善です．<br>最終的には，こんな感じのデータが見られます．<br><video src="https://dabokun.github.io/images/00000046-aflak-improc-01/tw03.mp4" width="674" height="360" controls></video><br><img src="/images/00000046-aflak-improc-01/tw01.jpg" alt="今回得られた結果">↑今回得られた散布図．↓あぷらなーとさんの結果<br><img src="/images/00000046-aflak-improc-01/tw02.png" alt="あぷらなーとさんの結果"></p>
 <p>ある程度インタラクティブに拡大したり，移動したりといった操作ができるビューアができましたので今はこれで良しとしておきます．やったぜ．</p>
 <p>全体のビジュアルプログラムはこんな感じ．少し複雑（？）ですが，<strong>上に書いた流れをそのまま表現</strong>しているだけです．<br><img src="/images/00000046-aflak-improc-01/02.jpg" alt="ダークノイズ解析のビジュアルプログラム"><br>例えばこのプログラムで「中央値画像を生成」の部分を「平均値画像を生成」するようなノードに変更すれば，横軸が平均値になったようなプロットを得たりといったことが<strong>誰でもコーディングなしで</strong>できるようになるわけです．どちらかの対数に変換するノードを消せば，片対数のプロットも作れたりします．以上！</p>
 <h4 id="おまけ-Fitsデータのカラー画像解釈"><a href="#おまけ-Fitsデータのカラー画像解釈" class="headerlink" title="おまけ. Fitsデータのカラー画像解釈"></a>おまけ. Fitsデータのカラー画像解釈</h4><p>研究では輝度単一の値をカラーテーブルで変換することでしかデータを見てこなかったので，普通の天体画像のように3チャンネルあるような Fits データをカラー画像解釈できるようにしていきます．つまり，<strong>形状が (3, 画像横幅，画像縦幅) の “color_image” タグがついた三次元データをカラー画像と解釈して描画</strong>することになります．<br>チャンネル取り出しだけですが，<a target="_blank" rel="noopener" href="https://fornax.hateblo.jp/entry/20210103/1609605334">ぐらすのすちさんも似たようなこと</a>をやっています．</p>
