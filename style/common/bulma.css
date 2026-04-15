@@ -289,13 +289,16 @@ html {
 }
 
 img,
-video {
+video{
   height: auto;
   max-width: 100%;
 }
 
-iframe {
-  border: 0;
+iframe[src*="youtube.com"],
+iframe[src*="youtube-nocookie.com"] {
+	aspect-ratio: 16 / 9;
+	width: 100%;
+	height: auto;
 }
 
 table {
