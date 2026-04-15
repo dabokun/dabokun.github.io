@@ -17,6 +17,13 @@
 .js-img-fadeIn {
   opacity: 0;
   will-change: opacity;
+  transition: all 0.3s;
+}
+
+.js-img-fadeIn:hover {
+  opacity: 0;
+  will-change: opacity;
+  content: url("about/hover.png");
 }
 
 .skeleton {
