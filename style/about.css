@@ -7,6 +7,11 @@
   padding: 5px;
   object-fit: cover;
 }
+.about-page aside img:hover {
+  opacity: 0;
+  will-change: opacity;
+  content: url("https://dabokun.github.io/about/hover.png");
+}
 .about-page .about-title {
   font-weight: normal;
 }

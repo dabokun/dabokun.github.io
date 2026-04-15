@@ -20,12 +20,6 @@
   transition: all 0.3s;
 }
 
-.js-img-fadeIn:hover {
-  opacity: 0;
-  will-change: opacity;
-  content: url("https://dabokun.github.io/about/hover.png");
-}
-
 .skeleton {
   position: relative;
   overflow: hidden;
