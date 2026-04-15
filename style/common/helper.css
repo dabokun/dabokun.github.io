@@ -23,7 +23,7 @@
 .js-img-fadeIn:hover {
   opacity: 0;
   will-change: opacity;
-  content: url("about/hover.png");
+  content: url("https://dabokun.github.io/about/hover.png");
 }
 
 .skeleton {
