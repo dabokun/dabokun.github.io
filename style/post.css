@@ -1,3 +1,4 @@
+@charset "UTF-8";
 #postTopic {
   cursor: pointer;
   will-change: transform;
@@ -31,6 +32,10 @@
   transform: translateY(0);
 }
 
+.post-page {
+  /* リンクプレビュー全体 */
+  /* ホバー時の効果 */
+}
 .post-page .post-content code {
   border-radius: 4px;
   background: var(--third-bg-color);
@@ -95,4 +100,43 @@
 .post-page :target {
   padding-top: 60px;
   margin-top: -60px !important;
+}
+.post-page .link-preview {
+  display: flex;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px 0;
+  text-decoration: none;
+  color: #333;
+  transition: all 0.3s;
+  /* 画像部分 */
+  /* ホバー時の効果 */
+  /* テキスト部分 */
+}
+.post-page .link-preview .og-image {
+  max-width: 200px;
+  min-width: 200px;
+  object-fit: cover;
+  margin-right: 15px;
+}
+.post-page .link-preview .descriptions {
+  font-size: 0.9em;
+  color: #aaa;
+}
+.post-page .link-preview .og-title {
+  font-weight: bold;
+  font-size: 1.1em;
+  margin-bottom: 5px;
+}
+.post-page .link-preview .og-title:hover {
+  color: #3273dc;
+  text-decoration: none;
+}
+.post-page .link-preview .og-description {
+  flex: 1;
+}
+.post-page .link-preview:hover {
+  box-shadow: 0 0 5px rgb(255, 255, 255);
+  text-decoration: none;
 }
